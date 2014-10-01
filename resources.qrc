@@ -1,1 +1,16 @@
-<RCC/>
+<RCC>
+    <qresource prefix="/">
+        <file>images/general/checkin.png</file>
+        <file>images/general/delete-line.png</file>
+        <file>images/general/edit-line.png</file>
+        <file>images/general/map.jpeg</file>
+        <file>images/general/navigation_next_item.png</file>
+        <file>images/general/navigation_previous_item.png</file>
+        <file>images/general/order_edit.png</file>
+        <file>images/general/order_new.png</file>
+        <file>images/general/android-add-image.png</file>
+        <file>images/general/android-delete.png</file>
+        <file>images/general/android-edit-image.png</file>
+        <file>images/general/android-search.png</file>
+    </qresource>
+</RCC>

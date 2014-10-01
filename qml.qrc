@@ -1,5 +1,13 @@
 <RCC>
     <qresource prefix="/">
         <file>main.qml</file>
+        <file>SimpleListDelegate.qml</file>
+        <file>DistrictList.qml</file>
+        <file>NavigationBar.qml</file>
+        <file>CustomerList.qml</file>
+        <file>TwoColListDelegate.qml</file>
+        <file>Customer.qml</file>
+        <file>EntityDelegate.qml</file>
+        <file>StringPropertyEdit.qml</file>
     </qresource>
 </RCC>
