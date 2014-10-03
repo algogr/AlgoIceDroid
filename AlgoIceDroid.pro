@@ -28,3 +28,7 @@ HEADERS += \
     entitydisplay.h
 
 OTHER_FILES +=
+
+deployment.files += algoicedroid.db
+deployment.path = /assets/db
+INSTALLS += deployment

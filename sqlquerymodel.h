@@ -23,6 +23,7 @@ public:
     Q_INVOKABLE QList <QObject*> getCustomerListbyDistrict(QString districtid);
     Q_INVOKABLE QList <QObject*> getDistrictList();
     Q_INVOKABLE QList <QObject*> CustomerData(QString cusid);
+    Q_INVOKABLE void updateCustomerField(QString cusid,QString fieldname,QString value);
 
 signals:
 

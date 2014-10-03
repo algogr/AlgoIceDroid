@@ -8,14 +8,23 @@ sqlquerymodel::sqlquerymodel(QObject *parent) :
 }
 
 bool sqlquerymodel::opendb()
+
 {
+    QFile dfile("assets:/db/algoicedroid.db");
+            if (dfile.exists())
+            {
+                dfile.copy("./algoicedroid.db");
+                QFile::setPermissions("./algoicedroid.db",QFile::WriteOwner | QFile::ReadOwner);
+            }
+
     mydb = QSqlDatabase::addDatabase("QSQLITE");
     bool open;
     // Adjust for Windows, OSX or Symbian deploy
     //mydb.setDatabaseName("/home/jim/workspace/HourGlassDroid/hourglass.sqlite");
     QString dbpath = QDir::currentPath()+"/";
     qDebug()<<dbpath+"algoicedroid.db";
-    mydb.setDatabaseName(dbpath+"algoicedroid.db");
+    //mydb.setDatabaseName(dbpath+"algoicedroid.db");
+    mydb.setDatabaseName("./algoicedroid.db");
     //mydb.setDatabaseName("/data/app/hourglass.sqlite");
     open=mydb.open();
     qDebug()<< mydb <<mydb.isOpen();
@@ -104,14 +113,27 @@ QList <QObject*> sqlquerymodel::CustomerData(QString cusid)
     qDebug()<<titles.size()<<titles;
     QList <QString> fieldnames;
     fieldnames<<"name"<<"title"<<"address"<<"district"<<"city"<<"afm"<<"doy"<<"tel1"<<"tel2"<<"fax"<<"email"<<"balance";
+    QList <bool> editable;
+    editable<<true<<true<<true<<true<<false<<true<<true<<true<<true<<true<<true<<false;
     QList <QObject*> custdata;
     for (int i=0;i<titles.size();i++)
     {
         EntityDisplay* field=new EntityDisplay();
         field->setTitle(titles[i]);
         field->setValue(getCustomerField(cusid,fieldnames[i]).toString());
+        field->setFieldname(fieldnames[i]);
+        field->setEditable(editable[i]);
         custdata.append(field);
     }
     return custdata;
+
+}
+
+void sqlquerymodel::updateCustomerField(QString cusid, QString fieldname, QString value)
+{
+    QSqlQuery query;
+    QString querystr="update customer set "+fieldname+"='"+value+"' where id="+cusid;
+    qDebug()<<querystr;
+    query.exec(querystr);
 
 }

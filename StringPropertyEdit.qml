@@ -1,7 +1,9 @@
 import QtQuick 2.0
+import QtQuick.Controls 1.1
+import QtQuick.Dialogs 1.2
 
 
-Rectangle{
+Rectangle {
     id:stringeditbox
     visible: false
     height: parent.height/5
@@ -10,8 +12,10 @@ Rectangle{
     //anchors.verticalCenter: parent.verticalCenter
     border.color: mainwindow.fgcolor
     color:mainwindow.bgcolor
-    property string title: title.text
-    property string value: value.text
+    property alias title: title.text
+    property alias value: value.text
+    signal okclicked
+
 
 
     Text{
@@ -22,7 +26,7 @@ Rectangle{
         //height:parent.height/2
         id:title
         anchors.top: parent.top
-        text:"ldkkewq:"
+
         font.bold: true
         font.pixelSize: 35
         width:parent.width/3
@@ -32,7 +36,7 @@ Rectangle{
         //anchors.horizontalCenter: parent.horizontalCenter
         anchors.left: parent.left
         color:mainwindow.fgcolor
-        horizontalAlignment: Text.AlignCenter
+        //horizontalAlignment: Text.AlignCenter
 
     }
     Rectangle{
@@ -53,11 +57,12 @@ Rectangle{
             id:value
             anchors.fill: parent
             cursorVisible: true
+            textFormat: TextEdit.PlainText
             cursorPosition: 35
             focus: true
             anchors.horizontalCenter: parent.horizontalCenter
             font.pixelSize: 35
-            horizontalAlignment: TextEdit.AlignRight
+            horizontalAlignment: TextEdit.AlignLeft
 
         }
     }
@@ -68,6 +73,7 @@ Rectangle{
         width: parent.width/3
         anchors.bottomMargin: 10
         anchors.horizontalCenter: parent.horizontalCenter
+        anchors.top:value.bottom
         anchors.bottom: parent.bottom
         border.color: mainwindow.bgcolor
         color:mainwindow.buttonbgcolor
@@ -89,10 +95,11 @@ Rectangle{
         }
         MouseArea{
             anchors.fill: parent
-            onClicked: {
-                //model.insertBasket(mainwindow.ordercusid,page.selitemid,te1.text);
-                stringedit.visible=false;
-            }
+            onClicked: stringeditbox.okclicked()
+
+
+
+
         }
 
     }

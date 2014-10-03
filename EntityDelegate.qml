@@ -8,6 +8,7 @@ Item {
     property alias color: textitem.color
     property alias attr1: textitem1.text
     property alias color1: textitem1.color
+    property alias image: img.source
     signal editclicked
 
     Rectangle {
@@ -36,7 +37,7 @@ Item {
         text: modelData
         anchors.verticalCenter: parent.verticalCenter
         anchors.left: textitem.right
-        anchors.right: img.left
+        //anchors.right: img.left
         anchors.leftMargin: 10
     }
 
@@ -56,7 +57,7 @@ Item {
         anchors.right: parent.right
         //anchors.rightMargin: 20
         anchors.verticalCenter: parent.verticalCenter
-        source: "images/general/android-edit-image.png"
+        //source: "images/general/android-edit-image.png"
         fillMode: Image.PreserveAspectFit
         height: parent.height
         width:parent.width
