@@ -12,5 +12,7 @@
         <file>images/general/android-delete.png</file>
         <file>images/general/android-edit-image.png</file>
         <file>images/general/android-search.png</file>
+        <file>images/general/coins.png</file>
+        <file>images/general/invoice.png</file>
     </qresource>
 </RCC>

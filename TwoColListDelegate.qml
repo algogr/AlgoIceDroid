@@ -19,7 +19,7 @@ Item {
     Text {
         id: textitem
         //color: mainwindow.fgcolor
-        font.pixelSize: 25
+        font.pixelSize: parent.width/32
         width:parent.width/2
         text: modelData
         anchors.verticalCenter: parent.verticalCenter
@@ -31,7 +31,7 @@ Item {
     Text {
         id: textitem1
         //color: mainwindow.fgcolor
-        font.pixelSize: 25
+        font.pixelSize: parent.width/32
         text: modelData
         anchors.verticalCenter: parent.verticalCenter
         anchors.left: textitem.right

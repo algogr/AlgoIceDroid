@@ -22,7 +22,7 @@ bool sqlquerymodel::opendb()
     // Adjust for Windows, OSX or Symbian deploy
     //mydb.setDatabaseName("/home/jim/workspace/HourGlassDroid/hourglass.sqlite");
     QString dbpath = QDir::currentPath()+"/";
-    qDebug()<<dbpath+"algoicedroid.db";
+
     //mydb.setDatabaseName(dbpath+"algoicedroid.db");
     mydb.setDatabaseName("./algoicedroid.db");
     //mydb.setDatabaseName("/data/app/hourglass.sqlite");
@@ -43,21 +43,22 @@ QVariant sqlquerymodel::getCustomerField(QString cusid,QString fieldname)
             from customer c,district d,doy dy,occupation o,vatstatus v,\
             custfindata cf where c.districtid=d.id and c.id=cf.cusid \
             and c.doyid=dy.id and c.ocpid=o.id and c.vatstatusid=v.codeid and c.id="+cusid;
-    qDebug()<<querystr;
+    //qDebug()<<querystr;
     query.exec(querystr);
     QSqlRecord rec = query.record();
-    qDebug() << "Number of columns: " << rec.count();
+    //qDebug() << "Number of columns: " << rec.count();
+
     QString Col;
     for (int i=0;i<rec.count();i++)
     {
         Col = rec.fieldName(i);
-        qDebug()<<Col;
+        //qDebug()<<Col;
     }
 
 
     query.next();
     QVariant value = query.value(fieldname);
-    qDebug()<<"descr:"<<value;
+    //qDebug()<<"descr:"<<value;
     return value;
 
 }
@@ -88,7 +89,7 @@ QList <QObject*> sqlquerymodel::getDistrictList()
     opendb();
     QSqlQuery query;
     QString querystr="select d.id,d.description,d.city,d.erpid,d.county from district d order by d.description";
-    qDebug()<<querystr;
+    //qDebug()<<querystr;
     query.exec(querystr);
     QList <QObject*> districts;
     while(query.next())
@@ -110,11 +111,13 @@ QList <QObject*> sqlquerymodel::CustomerData(QString cusid)
     QList <QString> titles;
     titles << "Επωνυμία:"<<"Τίτλος"<<"Διεύθυνση:"<<"Περιοχή:"<<"Πόλη:"<<"ΑΦΜ:"<<"ΔΟΥ:"<<"Τηλ.1:"<<\
               "Τηλ.2:"<<"Fax:"<<"Email:"<<"Yπόλοιπο:";
-    qDebug()<<titles.size()<<titles;
+    //qDebug()<<titles.size()<<titles;
     QList <QString> fieldnames;
     fieldnames<<"name"<<"title"<<"address"<<"district"<<"city"<<"afm"<<"doy"<<"tel1"<<"tel2"<<"fax"<<"email"<<"balance";
     QList <bool> editable;
     editable<<true<<true<<true<<true<<false<<true<<true<<true<<true<<true<<true<<false;
+    QList <QString> relatedentity;
+    relatedentity<<""<<""<<""<<"District"<<""<<""<<"Doy"<<""<<""<<""<<""<<"";
     QList <QObject*> custdata;
     for (int i=0;i<titles.size();i++)
     {
@@ -123,9 +126,13 @@ QList <QObject*> sqlquerymodel::CustomerData(QString cusid)
         field->setValue(getCustomerField(cusid,fieldnames[i]).toString());
         field->setFieldname(fieldnames[i]);
         field->setEditable(editable[i]);
+        field->setRelatedentity(relatedentity[i]);
         custdata.append(field);
     }
+
+    qDebug()<<"CUSTDATA:"<<custdata;
     return custdata;
+
 
 }
 
@@ -133,7 +140,15 @@ void sqlquerymodel::updateCustomerField(QString cusid, QString fieldname, QStrin
 {
     QSqlQuery query;
     QString querystr="update customer set "+fieldname+"='"+value+"' where id="+cusid;
-    qDebug()<<querystr;
+    //qDebug()<<querystr;
     query.exec(querystr);
 
+}
+
+void sqlquerymodel::updateCustomerBalance(QString cusid, QString amount)
+{
+    QSqlQuery query;
+    QString querystr="update custfindata set balance=balance-"+amount+" where cusid="+cusid;
+    qDebug()<<querystr;
+    query.exec(querystr);
 }

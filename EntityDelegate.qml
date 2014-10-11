@@ -9,6 +9,9 @@ Item {
     property alias attr1: textitem1.text
     property alias color1: textitem1.color
     property alias image: img.source
+    property alias imgenabled: img.visible
+    property alias imagebgcolor: bt1.color
+
     signal editclicked
 
     Rectangle {
@@ -20,7 +23,7 @@ Item {
     Text {
         id: textitem
         //color: mainwindow.fgcolor
-        font.pixelSize: 25
+        font.pixelSize: parent.width/32
         width:parent.width/3
         text: modelData
         anchors.verticalCenter: parent.verticalCenter
@@ -32,7 +35,7 @@ Item {
     Text {
         id: textitem1
         //color: mainwindow.fgcolor
-        font.pixelSize: 25
+        font.pixelSize: parent.width/32
         width:parent.width/2
         text: modelData
         anchors.verticalCenter: parent.verticalCenter

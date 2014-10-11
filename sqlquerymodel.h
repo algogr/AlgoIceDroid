@@ -24,6 +24,7 @@ public:
     Q_INVOKABLE QList <QObject*> getDistrictList();
     Q_INVOKABLE QList <QObject*> CustomerData(QString cusid);
     Q_INVOKABLE void updateCustomerField(QString cusid,QString fieldname,QString value);
+    Q_INVOKABLE void updateCustomerBalance(QString cusid,QString amount);
 
 signals:
 

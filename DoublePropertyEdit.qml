@@ -5,7 +5,7 @@ import QtQuick.Dialogs 1.2
 
 
 Rectangle {
-    id:stringeditbox
+    id:doubleeditbox
     visible: false
     height: parent.height/5
     width: parent.width
@@ -65,7 +65,7 @@ Rectangle {
             anchors.horizontalCenter: parent.horizontalCenter
             font.pixelSize: 35
             //horizontalAlignment: TextEdit.AlignLeft
-            //validator: DoubleValidator{bottom: -5.0; top: 5.0; decimals: 1; notation: DoubleValidator.StandardNotation }
+            validator: DoubleValidator{bottom: -0.0; top: 999.0; decimals: 2; notation: DoubleValidator.StandardNotation }
 
 
         }
@@ -102,7 +102,7 @@ Rectangle {
         }
         MouseArea{
             anchors.fill: parent
-            onClicked: stringeditbox.okclicked()
+            onClicked: doubleeditbox.okclicked()
 
 
 
@@ -140,7 +140,7 @@ Rectangle {
         }
         MouseArea{
             anchors.fill: parent
-            onClicked: stringeditbox.cancelclicked()
+            onClicked: doubleeditbox.cancelclicked()
 
 
 

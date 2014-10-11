@@ -20,6 +20,11 @@ QString EntityDisplay::fieldname()
     return mfieldname;
 }
 
+QString EntityDisplay::relatedentity()
+{
+    return mrelatedentity;
+}
+
 bool EntityDisplay::editable()
 {
     return meditable;
@@ -43,4 +48,9 @@ void EntityDisplay::setFieldname(QString fieldname)
 void EntityDisplay::setEditable(bool editable)
 {
     meditable=editable;
+}
+
+void EntityDisplay::setRelatedentity(QString relatedentity)
+{
+    mrelatedentity=relatedentity;
 }

@@ -17,7 +17,7 @@ Item {
     Text {
         id: textitem
         //color: mainwindow.fgcolor
-        font.pixelSize: 32
+        font.pixelSize: parent.width/25
         text: modelData
         anchors.verticalCenter: parent.verticalCenter
         anchors.left: parent.left

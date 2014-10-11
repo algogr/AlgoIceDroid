@@ -9,5 +9,9 @@
         <file>Customer.qml</file>
         <file>EntityDelegate.qml</file>
         <file>StringPropertyEdit.qml</file>
+        <file>DistrictListR.qml</file>
+        <file>SimpleListRDelegate.qml</file>
+        <file>test.qml</file>
+        <file>DoublePropertyEdit.qml</file>
     </qresource>
 </RCC>
