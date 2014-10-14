@@ -2,6 +2,7 @@
 #include <QDir>
 #include "entitydisplay.h"
 
+
 sqlquerymodel::sqlquerymodel(QObject *parent) :
     QObject(parent)
 {

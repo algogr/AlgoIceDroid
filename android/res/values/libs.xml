@@ -230,6 +230,7 @@
         <item>Qt5Sql</item>
         <item>Qt5Qml</item>
         <item>Qt5Widgets</item>
+        <item>Qt5PrintSupport</item>
         <item>Qt5Quick</item>
     </array>
 </resources>

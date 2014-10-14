@@ -1,6 +1,6 @@
 TEMPLATE = app
 
-QT += qml quick widgets sql
+QT += qml quick widgets sql printsupport
 
 SOURCES += main.cpp \
     sqlquerymodel.cpp \

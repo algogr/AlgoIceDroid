@@ -1,6 +1,7 @@
-import QtQuick 2.2
-import QtQuick.Controls 1.1
-// import QtBluetooth 5.2
+import QtQuick 2.0
+import QtQuick.Controls 1.0
+//import QtBluetooth 5.0
+
 
 ApplicationWindow {
     visible: true
