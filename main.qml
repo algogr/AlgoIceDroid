@@ -10,8 +10,11 @@ ApplicationWindow {
     height: 700
     title: qsTr("AlgoIceDroid")
     property string bgcolor:"#000000"
-    property string fgcolor:"#ffffff"
+    property string fgcolor:"#FFFFFF"
     property string buttonbgcolor: "#D8D8D8"
+    property string colorbuttonbgcolor: "#000000"
+    property string captionfgcolor: "#33FF33"
+    property string captionbgcolor: "#333333"
     property string selecteddistrict
     property string selectedcustomer
 /*

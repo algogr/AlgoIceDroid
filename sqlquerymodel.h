@@ -10,6 +10,7 @@
 #include <QtCore/QDebug>
 #include "customer.h"
 #include "district.h"
+#include "item.h"
 
 
 class sqlquerymodel : public QObject
@@ -25,6 +26,8 @@ public:
     Q_INVOKABLE QList <QObject*> CustomerData(QString cusid);
     Q_INVOKABLE void updateCustomerField(QString cusid,QString fieldname,QString value);
     Q_INVOKABLE void updateCustomerBalance(QString cusid,QString amount);
+    Q_INVOKABLE QList <QObject*> getItemList();
+    Q_INVOKABLE QVariant getItemField(QString iteid,QString fieldname);
 
 signals:
 

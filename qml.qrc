@@ -13,5 +13,7 @@
         <file>SimpleListRDelegate.qml</file>
         <file>test.qml</file>
         <file>DoublePropertyEdit.qml</file>
+        <file>Invoice.qml</file>
+        <file>TradeLinesDelegate.qml</file>
     </qresource>
 </RCC>

@@ -14,5 +14,7 @@
         <file>images/general/android-search.png</file>
         <file>images/general/coins.png</file>
         <file>images/general/invoice.png</file>
+        <file>images/general/minus.png</file>
+        <file>images/general/plus.png</file>
     </qresource>
 </RCC>

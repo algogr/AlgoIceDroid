@@ -153,3 +153,29 @@ void sqlquerymodel::updateCustomerBalance(QString cusid, QString amount)
     qDebug()<<querystr;
     query.exec(querystr);
 }
+
+QList<QObject*> sqlquerymodel::getItemList()
+{
+    QSqlQuery query;
+    QString querystr="select id,code,description,price,vatid,maxdiscount from material";
+    query.exec(querystr);
+    QList <QObject*> items;
+    while(query.next())
+    {
+        Item *item=new Item();
+        item->setId(query.value(0).toString());
+        item->setCode(query.value(1).toString());
+        item->setDescription(query.value(2).toString());
+        item->setPrice(query.value(3).toString());
+        item->setVatid(query.value(4).toString());
+        item->setMaxdiscount(query.value(5).toString());
+        items.append(item);
+    }
+
+    return items;
+}
+
+QVariant sqlquerymodel::getItemField(QString iteid, QString fieldname)
+{
+
+}

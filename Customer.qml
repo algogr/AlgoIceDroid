@@ -179,6 +179,7 @@ Rectangle {
                     anchors.fill: parent
                     onClicked: {
 
+                        stackView.push(Qt.resolvedUrl("Invoice.qml"))
 
                             }
 
