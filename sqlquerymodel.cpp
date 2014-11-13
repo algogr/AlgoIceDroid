@@ -172,10 +172,41 @@ QList<QObject*> sqlquerymodel::getItemList()
         items.append(item);
     }
 
+
     return items;
 }
 
 QVariant sqlquerymodel::getItemField(QString iteid, QString fieldname)
 {
 
+}
+
+int sqlquerymodel::insert_invoice(fintrade *fin)
+{
+    QSqlQuery query;
+    QString querystr="INSERT into fintrade (ftrdate,dsrid,dsrnumber,cusid,salesmanid,comments,deliveryaddress,erpupd,netvalue,"\
+                      "vatamount,totamount) VALUES('"+fin->ftrdate()+"','"+fin->dsrid()+"','"+fin->dsrnumber()+"','"+fin->cusid()+"','"\
+                                                  +fin->salesmanid()+"','"+fin->comments()+"','"+fin->deliveryaddress()+"','"+\
+                                                  fin->erpupd()+"','"+fin->netvalue()+"','"+fin->vatamount()+"','"+fin->totamount()+"')";
+
+    qDebug()<<"INSRT INVOICE:"<<querystr;
+    query.exec(querystr);
+    querystr="update docseries set lastno='"+fin->dsrnumber()+"' where codeid='"+fin->dsrid()+"'";
+    query.exec(querystr);
+    querystr="select id from fintrade where ftrdate='"+fin->ftrdate()+"'";
+    query.exec(querystr);
+    query.next();
+    int l=query.value(0).toInt();
+    qDebug()<<"ID:"<<l;
+    return l;
+}
+
+QString sqlquerymodel::get_docseries_lastno(QString type)
+{
+    QSqlQuery query;
+    QString querystr="select lastno from docseries where codeid='"+type+"'";
+    query.exec(querystr);
+    query.next();
+    QVariant lastno=query.value(0).toInt()+1;
+    return lastno.toString();
 }

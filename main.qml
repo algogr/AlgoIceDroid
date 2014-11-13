@@ -15,8 +15,10 @@ ApplicationWindow {
     property string colorbuttonbgcolor: "#000000"
     property string captionfgcolor: "#33FF33"
     property string captionbgcolor: "#333333"
+    //property string radiobgcolor:"#92C591"
     property string selecteddistrict
     property string selectedcustomer
+    property string salesmanid
 /*
     BluetoothDiscoveryModel {
         id: btModel

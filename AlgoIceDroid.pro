@@ -9,7 +9,9 @@ SOURCES += main.cpp \
     doy.cpp \
     occupation.cpp \
     entitydisplay.cpp \
-    item.cpp
+    item.cpp \
+    fintrade.cpp \
+    storetradeline.cpp
 
 RESOURCES += qml.qrc \
     resources.qrc
@@ -27,7 +29,9 @@ HEADERS += \
     doy.h \
     occupation.h \
     entitydisplay.h \
-    item.h
+    item.h \
+    fintrade.h \
+    storetradeline.h
 
 OTHER_FILES += \
     android/version.xml \

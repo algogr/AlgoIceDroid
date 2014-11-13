@@ -16,5 +16,6 @@
         <file>images/general/invoice.png</file>
         <file>images/general/minus.png</file>
         <file>images/general/plus.png</file>
+        <file>images/general/print.png</file>
     </qresource>
 </RCC>

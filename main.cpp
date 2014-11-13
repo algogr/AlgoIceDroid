@@ -5,6 +5,8 @@
 //#include <QDesktopServices>
 //#include <QQuickView>
 #include "sqlquerymodel.h"
+#include "fintrade.h"
+#include "storetradeline.h"
 #include <QPrinterInfo>
 #include <QtPrintSupport/QPrintEngine>
 
@@ -31,6 +33,8 @@ int main(int argc, char *argv[])
     qDebug()<<"PRINTERS:" ;
 */
     qmlRegisterType<sqlquerymodel>("SqlQueryModel", 1, 0, "SqlQueryModel");
+    qmlRegisterType<fintrade>("FinTrade", 1, 0, "FinTrade");
+    qmlRegisterType<storetradeline>("StoreTradeline", 1, 0, "StoreTradeline");
     //QQmlApplicationEngine engine(QUrl("qrc:///main.qml"));
     engine.load(QUrl(QStringLiteral("qrc:///main.qml")));
 

@@ -1,5 +1,6 @@
 import QtQuick 2.0
 import QtQuick.Controls 1.0
+//import StoreTradeline 1.0
 
 Item {
 id: root
@@ -7,7 +8,8 @@ width: parent.width
 height: 58
 
 property alias item: itemdescr.text
-
+property string previousnetvalue
+property string previousvatamount
 Rectangle{
 
     width:parent.width
@@ -61,7 +63,6 @@ Rectangle{
         {
             qty.text=parseInt(qty.text,10)+1
             //var price=parseFloat(modelData.price).toFixed(2)
-            invoice.totalvalue=(parseFloat(invoice.totalvalue,10)+parseFloat(modelData.price)).toFixed(2)
 
         }
 
@@ -98,9 +99,12 @@ Rectangle{
         onClicked: minus_clicked()
         function minus_clicked()
         {
+            if (qty.text=="0")
+                return;
+
             qty.text=parseInt(qty.text,10)-1
             //var linevalue=parseInt(qty.text,10)*modelData.price
-           invoice.totalvalue=(parseFloat(invoice.totalvalue,10)-parseFloat(modelData.price)).toFixed(2)
+
         }
 
 
@@ -133,15 +137,41 @@ Rectangle{
             anchors.horizontalCenter: parent.horizontalCenter
             font.pixelSize: 35
             horizontalAlignment: TextEdit.AlignRight
-            validator: DoubleValidator{bottom: -999; top: 999.0; decimals: 0; notation: DoubleValidator.StandardNotation }
-            //validator:
+            validator: DoubleValidator{bottom: 0; top: 999.0; decimals: 0; notation: DoubleValidator.StandardNotation }
+            onTextChanged: evaluate()
+            function evaluate()
+            {
+                if (qty.text=="")
+
+                    return;
 
 
-        }
+                if(root.previousnetvalue=="")
+                    root.previousnetvalue="0";
+
+                if(root.previousvatamount=="")
+                                    root.previousvatamount="0";
+
+                invoice.netvalue= (parseFloat(invoice.netvalue,10)-parseFloat(root.previousnetvalue,10)+(parseFloat(modelData.price)*parseInt(qty.text))).toFixed(2)
+                //invoice.vatamount= (parseFloat(invoice.vatamount,10)-parseFloat(root.previousvatamount,10)+(parseFloat(modelData.price)*parseInt(qty.text)*parseFloat(modelData.vatid)/100).toFixed(2)
+                invoice.vatamount= (parseFloat(invoice.vatamount,10)-parseFloat(root.previousvatamount,10)+(parseFloat(modelData.price)*parseInt(qty.text)*parseFloat(modelData.vatid)/100)).toFixed(2)
+                invoice.totalvalue=(parseFloat(invoice.netvalue,10)+parseFloat(invoice.vatamount,10)).toFixed(2)
+
+                root.previousnetvalue= (parseFloat(modelData.price)*parseInt(qty.text)).toFixed(2)
+                root.previousvatamount=(parseFloat(modelData.price)*parseInt(qty.text)*parseFloat(modelData.vatid)/100).toFixed(2)
+
+
+
+
+
+
 
 }
 
 
 
 }
+}
+}
+
 }
