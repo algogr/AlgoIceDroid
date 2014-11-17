@@ -4,6 +4,7 @@
 fintrade::fintrade(QObject *parent) :
     QObject(parent)
 {
+    //QList <storetradeline> mtradeline;
 }
 
 
@@ -127,11 +128,17 @@ void fintrade::setTotamount(QString totamount)
     mtotamount=totamount;
 }
 
-int fintrade::insert_db()
+QString fintrade::insert_db()
 {
-    int a=sqlquerymodel::insert_invoice(this);
+    QString a=sqlquerymodel::insert_invoice(this);
     return a;
 
+}
+
+void fintrade::delete_db(QString ftrid)
+{
+    sqlquerymodel::deleteDocument(ftrid);
+    return;
 }
 
 QString fintrade::last_no(QString type)
@@ -139,3 +146,5 @@ QString fintrade::last_no(QString type)
     QString lastno=sqlquerymodel::get_docseries_lastno(type);
     return lastno;
 }
+
+

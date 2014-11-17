@@ -12,6 +12,7 @@
 #include "district.h"
 #include "item.h"
 #include "fintrade.h"
+#include "storetradeline.h"
 
 
 class sqlquerymodel : public QObject
@@ -29,8 +30,11 @@ public:
     Q_INVOKABLE void updateCustomerBalance(QString cusid,QString amount);
     Q_INVOKABLE QList <QObject*> getItemList();
     Q_INVOKABLE QVariant getItemField(QString iteid,QString fieldname);
-    static int insert_invoice(fintrade *fin);
+
+    static QString insert_invoice(fintrade *fin);
+    static void insertStoreTradeline(storetradeline *stl);
     static QString get_docseries_lastno(QString type);
+    static void deleteDocument(QString ftrid);
 
 signals:
 

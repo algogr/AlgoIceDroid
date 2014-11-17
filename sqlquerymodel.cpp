@@ -156,9 +156,12 @@ void sqlquerymodel::updateCustomerBalance(QString cusid, QString amount)
 
 QList<QObject*> sqlquerymodel::getItemList()
 {
+    opendb();
     QSqlQuery query;
-    QString querystr="select id,code,description,price,vatid,maxdiscount from material";
+    QString querystr="select m.id,m.code,m.description,m.price,m.vatid,m.maxdiscount,ifnull(sf.startqty,0)"\
+            ",ifnull(sf.startqty,0)-ifnull(sf.qty,0) from material m,storefindata sf where sf.iteid=m.id";
     query.exec(querystr);
+    qDebug()<<querystr;
     QList <QObject*> items;
     while(query.next())
     {
@@ -169,6 +172,8 @@ QList<QObject*> sqlquerymodel::getItemList()
         item->setPrice(query.value(3).toString());
         item->setVatid(query.value(4).toString());
         item->setMaxdiscount(query.value(5).toString());
+        item->setStartqty(query.value(6).toString());
+        item->setRemainingqty(query.value(7).toString());
         items.append(item);
     }
 
@@ -181,7 +186,7 @@ QVariant sqlquerymodel::getItemField(QString iteid, QString fieldname)
 
 }
 
-int sqlquerymodel::insert_invoice(fintrade *fin)
+QString sqlquerymodel::insert_invoice(fintrade *fin)
 {
     QSqlQuery query;
     QString querystr="INSERT into fintrade (ftrdate,dsrid,dsrnumber,cusid,salesmanid,comments,deliveryaddress,erpupd,netvalue,"\
@@ -195,8 +200,9 @@ int sqlquerymodel::insert_invoice(fintrade *fin)
     query.exec(querystr);
     querystr="select id from fintrade where ftrdate='"+fin->ftrdate()+"'";
     query.exec(querystr);
+    qDebug()<<"GET FTRID:"<<querystr;
     query.next();
-    int l=query.value(0).toInt();
+    QString l=query.value(0).toString();
     qDebug()<<"ID:"<<l;
     return l;
 }
@@ -210,3 +216,43 @@ QString sqlquerymodel::get_docseries_lastno(QString type)
     QVariant lastno=query.value(0).toInt()+1;
     return lastno.toString();
 }
+
+void sqlquerymodel::insertStoreTradeline(storetradeline *stl)
+{
+    QSqlQuery query;
+    QString querystr="INSERT into storetradelines(iteid,ftrid,primaryqty,price,discount,discountpercent,linevalue,vatamount,vatid)"\
+            " VALUES ('"+stl->iteid()+"','"+stl->ftrid()+"','"+stl->primaryqty()+"','"+stl->price()+"','"+stl->discount()+"','"\
+            +stl->discountpercent()+"','"+stl->linevalue()+"','"+stl->vatamount()+"','"+stl->vatid()+"')";
+    qDebug()<<querystr;
+    query.exec(querystr);
+    querystr="UPDATE storefindata set qty=ifnull(qty,0)+(select quantmode from docseries dc,fintrade f where f.dsrid=dc.id and f.id="+stl->ftrid()+\
+            ")*"+stl->primaryqty()+" where iteid="+stl->iteid();
+    query.exec(querystr);
+    qDebug()<<querystr;
+
+}
+
+void sqlquerymodel::deleteDocument(QString ftrid)
+{
+    QSqlQuery query;
+    QString querystr="select iteid,primaryqty from storetradelines where ftrid="+ftrid;
+    query.exec(querystr);
+    while(query.next())
+    {
+        QSqlQuery query1;
+        QString querystr1="UPDATE storefindata set qty=ifnull(qty,0)-(select quantmode from docseries dc,fintrade f where f.dsrid=dc.id and f.id="+ftrid+\
+                ")*"+query.value(0).toString()+" where iteid="+query.value(1).toString();
+        query1.exec(querystr1);
+
+
+    }
+    querystr="DELETE from storetradelines where ftrid='"+ftrid+"'";
+    query.exec(querystr);
+    qDebug()<<querystr;
+    querystr="DELETE from fintrade where id="+ftrid;
+    query.exec(querystr);
+    qDebug()<<querystr;
+
+
+}
+

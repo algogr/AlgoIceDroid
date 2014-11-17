@@ -1,4 +1,7 @@
 #include "storetradeline.h"
+#include "sqlquerymodel.h"
+#include <QDebug>
+
 
 storetradeline::storetradeline(QObject *parent) :
     QObject(parent)
@@ -50,9 +53,9 @@ QString storetradeline::vatamount()
     return mvatamount;
 }
 
-QString storetradeline::vtcid()
+QString storetradeline::vatid()
 {
-    return mvtcid;
+    return mvatid;
 }
 
 void storetradeline::setId(QString id)
@@ -100,7 +103,18 @@ void storetradeline::setVatamount(QString vatamount)
     mvatamount=vatamount;
 }
 
-void storetradeline::setVtcid(QString vtcid)
+void storetradeline::setVatid(QString vatid)
 {
-    mvtcid=vtcid;
+    mvatid=vatid;
+}
+
+void storetradeline::getptr()
+{
+    qDebug()<<this;
+    return;
+}
+
+void storetradeline::insertDb()
+{
+    sqlquerymodel::insertStoreTradeline(this);
 }

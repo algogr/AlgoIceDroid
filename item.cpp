@@ -35,6 +35,23 @@ QString Item::maxdiscount()
     return mmaxdiscount;
 }
 
+QString Item::startqty()
+{
+    return mstartqty;
+}
+
+QString Item::salesqty()
+{
+    return msalesqty;
+}
+
+QString Item::remainingqty()
+{
+    return mremainingqty;
+}
+
+
+
 void Item::setId(QString id)
 {
     mid=id;
@@ -65,4 +82,17 @@ void Item::setMaxdiscount(QString maxdiscount)
     mmaxdiscount=maxdiscount;
 }
 
+void Item::setStartqty(QString startqty)
+{
+    mstartqty=startqty;
+}
 
+void Item::setSalesqty(QString salesqty)
+{
+    msalesqty=salesqty;
+}
+
+void Item::setRemainingqty(QString remainingqty)
+{
+    mremainingqty=remainingqty;
+}

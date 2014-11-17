@@ -1,6 +1,6 @@
 import QtQuick 2.0
 import QtQuick.Controls 1.0
-//import StoreTradeline 1.0
+import StoreTradeline 1.0
 
 Item {
 id: root
@@ -20,6 +20,7 @@ Rectangle{
 
 
 
+
     Text {
         id: itemdescr
         font.pixelSize: parent.width/32
@@ -28,7 +29,7 @@ Rectangle{
         anchors.verticalCenter: parent.verticalCenter
         anchors.left: parent.left
         //anchors.right: textitem1.left
-        anchors.leftMargin: 30
+
         color:mainwindow.fgcolor
     }
 
@@ -159,8 +160,8 @@ Rectangle{
 
                 root.previousnetvalue= (parseFloat(modelData.price)*parseInt(qty.text)).toFixed(2)
                 root.previousvatamount=(parseFloat(modelData.price)*parseInt(qty.text)*parseFloat(modelData.vatid)/100).toFixed(2)
-
-
+                //fintrade.insert_tradelines(strmodel)
+                strmodel.getptr();
 
 
 
@@ -172,6 +173,30 @@ Rectangle{
 
 }
 }
+}
+
+StoreTradeline{
+    id:strmodel
+}
+Component.onCompleted: {
+    invoice.fintrade_inserted.connect(insertHandler)
+
+}
+
+function insertHandler(ftrid) {
+    if (qty.text!="0")
+    {
+    console.log('INSRTENOW  clicked')
+    strmodel.setIteid(modelData.id)
+    strmodel.setPrice(modelData.price)
+    strmodel.setFtrid(ftrid)
+    strmodel.setPrimaryqty(qty.text)
+    strmodel.setLinevalue(root.previousnetvalue)
+    strmodel.setVatamount(root.previousvatamount)
+    strmodel.setVatid(modelData.vatid)
+    strmodel.insertDb();
+    }
+
 }
 
 }

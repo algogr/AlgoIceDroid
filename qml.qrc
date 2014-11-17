@@ -15,5 +15,8 @@
         <file>DoublePropertyEdit.qml</file>
         <file>Invoice.qml</file>
         <file>TradeLinesDelegate.qml</file>
+        <file>Reports.qml</file>
+        <file>Storefindata.qml</file>
+        <file>ThreeColListDelegate.qml</file>
     </qresource>
 </RCC>

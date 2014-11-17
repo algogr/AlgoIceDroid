@@ -20,12 +20,13 @@ Rectangle {
     property alias totalvalue: totalvalue.text
     property string comments
     property string shipaddress
+    property string ftrid
     property int invoicetype: 1 //1-Timologio,2-Pistotiko,3-DA,4-DA
-    signal insert_pressed()
-
+    signal fintrade_inserted(string ftrid)
+    signal fintradedelete(string ftrid)
 
     Component.onCompleted: {
-        invoice.insert_pressed.connect(insert())
+        //invoice.insert_pressed.connect(invoice.insert())
     }
 
     function insert()
@@ -50,14 +51,31 @@ Rectangle {
             fintrade.setVatamount(vatamount.text)
             fintrade.setTotamount(totalvalue.text)
 
-            fintrade.insert_db()
+            var ftrid=fintrade.insert_db()
             console.log(fintrade.ftrdate)
-            var end=tradelines.enabled
-            for (var i = 0; i < tradelines.contentItem.children.length; i++)
+            invoice.ftrid=ftrid
+            invoice.fintrade_inserted(ftrid)
+            //r x= ListView.contentItem.children.length
+
+            //tab1.insert_tradelines()
+
+            //end=tradelines.enabled
+            //for (var i = 0; i < tradelines.contentItem.children.length; i++)
+            /*    for (var i = 0; i < 100; i++)
             {
+
                 var curItem = tradelines.contentItem.children[i];
                 console.log(i,": ", curItem, "=", curItem.previousvatamount);
             }
+            */
+
+
+    }
+
+    function deleteftr()
+    {
+        fintrade.delete_db(invoice.ftrid)
+
     }
 
 
@@ -351,6 +369,8 @@ Rectangle {
         height:parent.height*12/15
         anchors.top:invoicetype.bottom
         anchors.topMargin: 5
+
+
         //height: page.height*5/6
 
         //anchors.top: caption.bottom
@@ -358,10 +378,15 @@ Rectangle {
         //anchors.left: parent.left
         //anchors.right: parent.right
      Tab{
+
          title:"Είδη"
       Rectangle{
           color:mainwindow.bgcolor
           anchors.fill: parent
+
+
+
+
     ListView{
         id: tradelines
         model: model1.getItemList()
@@ -374,6 +399,8 @@ Rectangle {
             item:modelData.description
 
         }
+
+
 
 
     }
@@ -547,172 +574,178 @@ Rectangle {
 
         }
 
-        Rectangle{
-            id:m1
-            width:parent.width
-            height: nv.height*3
-            anchors.bottom: nv.top
-            visible: false
-            color: mainwindow.bgcolor
 
-            Rectangle{
-
-                id:b1
-                color:mainwindow.bgcolor
-                anchors.left: parent.left
-                height:parent.height
-                width:parent.width/3
-                border.color: mainwindow.fgcolor
-                MouseArea{
-                    anchors.fill: parent
-               onClicked: {
-                       invoice.insert_pressed
-                    }
-                }
-                Text{
-                    id:t1
-                    //anchors.top: parent.top
-
-                    //width:parent.width
-                    //height:parent.height/2
-                    text: "Καταχώρηση"
-                    font.bold: true
-                    font.pixelSize: 25
-                    //anchors.verticalCenter: parent.verticalCenter
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    color:mainwindow.fgcolor
-
-                }
-                Image {
-                    id:image1
-                    anchors.bottom: parent.bottom
-                    anchors.top:t1.bottom
-                    anchors.right: parent.right
-
-                    //anchors.rightMargin: 20
-                    anchors.verticalCenter: parent.verticalCenter
-                    width: parent.width
-                    height:parent.height/2
-                    fillMode: Image.PreserveAspectFit
-                    source: "images/general/checkin.png"
-
-
-                }
-            }
-
-
-
-            Rectangle{
-                id:b2
-
-                color:mainwindow.bgcolor
-
-                anchors.left: b1.right
-                height:parent.height
-                width:parent.width/3
-                border.color: mainwindow.fgcolor
-                MouseArea{
-                    anchors.fill: parent
-                    onClicked: {
-
-                        //stackView.push(Qt.resolvedUrl("Invoice.qml"))
-
-                            }
-
-                    }
-
-                Text{
-                    id:t2
-                    //anchors.top: parent.top
-
-                    //width:parent.width
-                    //height:parent.height/2
-                    text: "Εκτύπωση"
-                    font.bold: true
-                    font.pixelSize: 25
-                    //anchors.verticalCenter: parent.verticalCenter
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    color:mainwindow.fgcolor
-
-                }
-                Image {
-                    id:image2
-                    anchors.bottom: parent.bottom
-                    anchors.top:t2.bottom
-                    anchors.right: parent.right
-
-                    //anchors.rightMargin: 20
-                    anchors.verticalCenter: parent.verticalCenter
-                    width: parent.width
-                    height:parent.height/2
-                    fillMode: Image.PreserveAspectFit
-                    source: "images/general/print.png"
-
-
-                }
-
-
-    }
-
-
-            Rectangle{
-                id:b3
-
-                color:mainwindow.bgcolor
-
-                anchors.right: parent.right
-                height:parent.height
-                width:parent.width/3
-                border.color: mainwindow.fgcolor
-                MouseArea{
-                    anchors.fill: parent
-                    onClicked: {
-
-                        //stackView.push(Qt.resolvedUrl("Invoice.qml"))
-
-                            }
-
-                    }
-
-                Text{
-                    id:t3
-                    //anchors.top: parent.top
-
-                    //width:parent.width
-                    //height:parent.height/2
-                    text: "Διαγραφή"
-                    font.bold: true
-                    font.pixelSize: 25
-                    //anchors.verticalCenter: parent.verticalCenter
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    color:mainwindow.fgcolor
-
-                }
-                Image {
-                    id:image3
-                    anchors.bottom: parent.bottom
-                    anchors.top:t3.bottom
-                    anchors.right: parent.right
-
-                    //anchors.rightMargin: 20
-                    anchors.verticalCenter: parent.verticalCenter
-                    width: parent.width
-                    height:parent.height/2
-                    fillMode: Image.PreserveAspectFit
-                    source: "images/general/delete-line.png"
-
-
-                }
-
-
-    }
-
-    }
         FinTrade {
             id: fintrade
         }
 
     }
+
+    Rectangle{
+        id:m1
+        width:parent.width
+        height: nv.height*3
+        anchors.bottom: nv.top
+        visible: false
+        color: mainwindow.bgcolor
+
+        Rectangle{
+
+            id:b1
+            color:mainwindow.bgcolor
+            anchors.left: parent.left
+            height:parent.height
+            width:parent.width/3
+            border.color: mainwindow.fgcolor
+            MouseArea{
+                anchors.fill: parent
+           onClicked: {
+                   invoice.insert()
+                   m1.visible=false
+                   b1.visible=false
+                   b1.enabled=false
+                }
+            }
+            Text{
+                id:t1
+                //anchors.top: parent.top
+
+                //width:parent.width
+                //height:parent.height/2
+                text: "Καταχώρηση"
+                font.bold: true
+                font.pixelSize: 25
+                //anchors.verticalCenter: parent.verticalCenter
+                anchors.horizontalCenter: parent.horizontalCenter
+                color:mainwindow.fgcolor
+
+            }
+            Image {
+                id:image1
+                anchors.bottom: parent.bottom
+                anchors.top:t1.bottom
+                anchors.right: parent.right
+
+                //anchors.rightMargin: 20
+                anchors.verticalCenter: parent.verticalCenter
+                width: parent.width
+                height:parent.height/2
+                fillMode: Image.PreserveAspectFit
+                source: "images/general/checkin.png"
+
+
+            }
+        }
+
+
+
+        Rectangle{
+            id:b2
+
+            color:mainwindow.bgcolor
+
+            anchors.left: b1.right
+            height:parent.height
+            width:parent.width/3
+            border.color: mainwindow.fgcolor
+            MouseArea{
+                anchors.fill: parent
+                onClicked: {
+                        m1.visible=false
+                    //stackView.push(Qt.resolvedUrl("Invoice.qml"))
+
+                        }
+
+                }
+
+            Text{
+                id:t2
+                //anchors.top: parent.top
+
+                //width:parent.width
+                //height:parent.height/2
+                text: "Εκτύπωση"
+                font.bold: true
+                font.pixelSize: 25
+                //anchors.verticalCenter: parent.verticalCenter
+                anchors.horizontalCenter: parent.horizontalCenter
+                color:mainwindow.fgcolor
+
+            }
+            Image {
+                id:image2
+                anchors.bottom: parent.bottom
+                anchors.top:t2.bottom
+                anchors.right: parent.right
+
+                //anchors.rightMargin: 20
+                anchors.verticalCenter: parent.verticalCenter
+                width: parent.width
+                height:parent.height/2
+                fillMode: Image.PreserveAspectFit
+                source: "images/general/print.png"
+
+
+            }
+
+
+}
+
+
+        Rectangle{
+            id:b3
+
+            color:mainwindow.bgcolor
+
+            anchors.right: parent.right
+            height:parent.height
+            width:parent.width/3
+            border.color: mainwindow.fgcolor
+            MouseArea{
+                anchors.fill: parent
+                onClicked: {
+                    m1.visible=false
+                    invoice.deleteftr()
+                    stackView.pop()
+
+                        }
+
+                }
+
+            Text{
+                id:t3
+                //anchors.top: parent.top
+
+                //width:parent.width
+                //height:parent.height/2
+                text: "Διαγραφή"
+                font.bold: true
+                font.pixelSize: 25
+                //anchors.verticalCenter: parent.verticalCenter
+                anchors.horizontalCenter: parent.horizontalCenter
+                color:mainwindow.fgcolor
+
+            }
+            Image {
+                id:image3
+                anchors.bottom: parent.bottom
+                anchors.top:t3.bottom
+                anchors.right: parent.right
+
+                //anchors.rightMargin: 20
+                anchors.verticalCenter: parent.verticalCenter
+                width: parent.width
+                height:parent.height/2
+                fillMode: Image.PreserveAspectFit
+                source: "images/general/delete-line.png"
+
+
+            }
+
+
+}
+
+}
 
 
     SqlQueryModel {

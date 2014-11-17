@@ -3,7 +3,7 @@
 
 #include <QObject>
 #include <QList>
-#include <storetradeline.h>
+#include "storetradeline.h"
 
 class fintrade : public QObject
 {
@@ -26,7 +26,7 @@ class fintrade : public QObject
 public:
     explicit fintrade(QObject *parent = 0);
 
-    QString id();
+    Q_INVOKABLE QString id();
     Q_INVOKABLE QString ftrdate();
     Q_INVOKABLE QString dsrid();
     Q_INVOKABLE QString dsrnumber();
@@ -50,15 +50,16 @@ public:
     Q_INVOKABLE void setNetvalue(QString netvalue);
     Q_INVOKABLE void setVatamount(QString vatamount);
     Q_INVOKABLE void setTotamount(QString totamount);
-    Q_INVOKABLE int insert_db();
+    Q_INVOKABLE QString insert_db();
+    Q_INVOKABLE void delete_db(QString ftrid);
     Q_INVOKABLE QString last_no(QString type);
-    //Q_INVOKABLE void insert_tradelines(storetradeline* tradeline);
+
 
 
 protected:
 
     QString mid,mftrdate,mdsrid,mdsrnumber,mcusid,msalesmanid,mcomments,mdeliveryaddress,merpupd,mnetvalue,mvatamount,mtotamount;
-    QList <storetradeline*> tradelines;
+    QList <const storetradeline*> mtradelines;
 
 
 signals:

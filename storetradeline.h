@@ -3,7 +3,7 @@
 
 #include <QObject>
 
-class storetradeline : public QObject
+class storetradeline: public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QString id READ id WRITE setId )
@@ -15,36 +15,38 @@ class storetradeline : public QObject
     Q_PROPERTY(QString discountpercent READ discountpercent WRITE setDiscountpercent )
     Q_PROPERTY(QString linevalue READ linevalue WRITE setLinevalue )
     Q_PROPERTY(QString vatamount READ vatamount WRITE setVatamount )
-    Q_PROPERTY(QString vtcid READ vtcid WRITE setVtcid )
+    Q_PROPERTY(QString vatid READ vatid WRITE setVatid )
 
 
 
 
 public:
     explicit storetradeline(QObject *parent = 0);
-    QString id();
-    QString iteid();
-    QString ftrid();
-    QString primaryqty();
-    QString price();
-    QString discount();
-    QString discountpercent();
-    QString linevalue();
-    QString vatamount();
-    QString vtcid();
-    void setId(QString id);
-    void setIteid(QString iteid);
-    void setFtrid(QString ftrid);
-    void setPrimaryqty(QString primaryqty);
-    void setPrice(QString price);
-    void setDiscount(QString discount);
-    void setDiscountpercent(QString discountpercent);
-    void setLinevalue(QString linevalue);
-    void setVatamount(QString vatamount);
-    void setVtcid(QString vtcid);
+    Q_INVOKABLE QString id();
+    Q_INVOKABLE QString iteid();
+    Q_INVOKABLE QString ftrid();
+    Q_INVOKABLE QString primaryqty();
+    Q_INVOKABLE QString price();
+    Q_INVOKABLE QString discount();
+    Q_INVOKABLE QString discountpercent();
+    Q_INVOKABLE QString linevalue();
+    Q_INVOKABLE QString vatamount();
+    Q_INVOKABLE QString vatid();
+    Q_INVOKABLE void setId(QString id);
+    Q_INVOKABLE void setIteid(QString iteid);
+    Q_INVOKABLE void setFtrid(QString ftrid);
+    Q_INVOKABLE void setPrimaryqty(QString primaryqty);
+    Q_INVOKABLE void setPrice(QString price);
+    Q_INVOKABLE void setDiscount(QString discount);
+    Q_INVOKABLE void setDiscountpercent(QString discountpercent);
+    Q_INVOKABLE void setLinevalue(QString linevalue);
+    Q_INVOKABLE void setVatamount(QString vatamount);
+    Q_INVOKABLE void setVatid(QString vacid);
+    Q_INVOKABLE void getptr();
+    Q_INVOKABLE void insertDb();
 
 protected:
-    QString mid,miteid,mftrid,mprimaryqty,mprice,mdiscount,mdiscountpercent,mlinevalue,mvatamount,mvtcid;
+    QString mid,miteid,mftrid,mprimaryqty,mprice,mdiscount,mdiscountpercent,mlinevalue,mvatamount,mvatid;
 
 
 signals:

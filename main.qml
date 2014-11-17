@@ -55,6 +55,11 @@ ApplicationWindow {
                 title: "Πωλήσεις"
                 page: "DistrictList.qml"
             }
+
+            ListElement {
+                title: "Αναφορές"
+                page: "Reports.qml"
+            }
             ListElement {
                 title: "Βοηθητικές Εργασίες"
                 //page: "Customers.qml"

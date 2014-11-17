@@ -12,6 +12,9 @@ class Item : public QObject
     Q_PROPERTY(QString price READ price WRITE setPrice)
     Q_PROPERTY(QString vatid READ vatid WRITE setVatid)
     Q_PROPERTY(QString maxdiscount READ maxdiscount WRITE setMaxdiscount)
+    Q_PROPERTY(QString startqty READ startqty WRITE setStartqty)
+    Q_PROPERTY(QString salesqty READ salesqty WRITE setSalesqty)
+    Q_PROPERTY(QString remainingqty READ remainingqty WRITE setRemainingqty)
 
 public:
     explicit Item(QObject *parent = 0);
@@ -21,15 +24,21 @@ public:
     QString price();
     QString vatid();
     QString maxdiscount();
+    QString startqty();
+    QString salesqty();
+    QString remainingqty();
     void setId(QString id);
     void setCode(QString code);
     void setDescription(QString description);
     void setPrice(QString price);
     void setVatid(QString vatid);
     void setMaxdiscount(QString maxdiscount);
+    void setStartqty(QString startqty);
+    void setSalesqty(QString salesqty);
+    void setRemainingqty(QString remainingqty);
 
 protected:
-    QString mid,mcode,mdescription,mprice,mvatid,mmaxdiscount;
+    QString mid,mcode,mdescription,mprice,mvatid,mmaxdiscount,mstartqty,msalesqty,mremainingqty;
 
 
 signals:
