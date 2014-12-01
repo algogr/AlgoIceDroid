@@ -1,11 +1,11 @@
-import QtQuick 2.0
+import QtQuick 2.1
 import SqlQueryModel 1.0
 
 
 Rectangle {
     width: parent.width
     height: parent.height
-    id: routelist
+    id: customerlist
     color: mainwindow.bgcolor
 
     SqlQueryModel {
@@ -24,18 +24,15 @@ Rectangle {
 
 
     ListView {
-        model: model.getRouteList()
+        model: model.getCustomerBalance()
         width:parent.width
         height:parent.height*19/20
-        delegate: SimpleListDelegate{
-            name: modelData.description
+        delegate: TwoColListDelegate{
+            name: modelData.role1
             color:mainwindow.fgcolor
-            onClicked: selectroute()
-            function selectroute(){
-                mainwindow.selectedroute=modelData.erpid
-                stackView.push(Qt.resolvedUrl("CustomerList.qml"));
-
-            }
+            attr1: modelData.role2
+            color1:mainwindow.fgcolor
+            imagevisible: false
         }
     }
 
@@ -45,9 +42,5 @@ Rectangle {
     {
         id:nv
         onClicked: stackView.pop();
-
-
     }
-
-
 }

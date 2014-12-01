@@ -15,10 +15,17 @@ ApplicationWindow {
     property string colorbuttonbgcolor: "#000000"
     property string captionfgcolor: "#33FF33"
     property string captionbgcolor: "#333333"
+    property string columnlistcolor: "red"
+    property string cashopeningcolor:"DarkTurquoise"
+    property string cashincomecolor:"LimeGreen "
+    property string cashexpensescolor:"red"
+
     //property string radiobgcolor:"#92C591"
-    property string selecteddistrict
+    property string selectedroute
     property string selectedcustomer
     property string salesmanid
+    property string selecteditem
+
 /*
     BluetoothDiscoveryModel {
         id: btModel
@@ -53,7 +60,12 @@ ApplicationWindow {
 
             ListElement {
                 title: "Πωλήσεις"
-                page: "DistrictList.qml"
+                page: "RouteList.qml"
+            }
+
+            ListElement {
+                title: "Ταμείο"
+                page: "Cash.qml"
             }
 
             ListElement {

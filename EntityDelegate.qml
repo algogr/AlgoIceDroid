@@ -1,9 +1,11 @@
 import QtQuick 2.1
+import QtQuick.Controls 1.0
 
 Item {
     id: root
     width: parent.width
-    height: 58
+    //height: 58
+    property alias dlgheight: root.height
     property alias name: textitem.text
     property alias color: textitem.color
     property alias attr1: textitem1.text
@@ -11,6 +13,7 @@ Item {
     property alias image: img.source
     property alias imgenabled: img.visible
     property alias imagebgcolor: bt1.color
+
 
     signal editclicked
 
@@ -37,12 +40,17 @@ Item {
         //color: mainwindow.fgcolor
         font.pixelSize: parent.width/32
         width:parent.width/2
+        height: root.height
+        wrapMode: Text.WordWrap
         text: modelData
         anchors.verticalCenter: parent.verticalCenter
         anchors.left: textitem.right
         //anchors.right: img.left
         anchors.leftMargin: 10
     }
+
+
+
 
     Rectangle {
         id: bt1

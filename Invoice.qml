@@ -18,15 +18,19 @@ Rectangle {
     property alias netvalue: netvalue.text
     property alias vatamount: vatamount.text
     property alias totalvalue: totalvalue.text
+    property string vatstatusid
     property string comments
     property string shipaddress
     property string ftrid
+    property string payment: "1" //0-Epi Pistosei,1-Metrhtois
     property int invoicetype: 1 //1-Timologio,2-Pistotiko,3-DA,4-DA
     signal fintrade_inserted(string ftrid)
     signal fintradedelete(string ftrid)
 
+
     Component.onCompleted: {
-        //invoice.insert_pressed.connect(invoice.insert())
+        invoice.vatstatusid=model.getCustomerField(mainwindow.selectedcustomer,"vatstatusid")
+
     }
 
     function insert()
@@ -50,6 +54,7 @@ Rectangle {
             fintrade.setNetvalue(netvalue.text)
             fintrade.setVatamount(vatamount.text)
             fintrade.setTotamount(totalvalue.text)
+            fintrade.setCash(invoice.payment)
 
             var ftrid=fintrade.insert_db()
             console.log(fintrade.ftrdate)
@@ -449,6 +454,7 @@ Rectangle {
 
       }
       Rectangle{
+          id: shippaddressrect
           anchors.top: shipaddressl.bottom
           anchors.topMargin: 5
           anchors.left: parent.left
@@ -473,9 +479,30 @@ Rectangle {
           }
 
       }
-
+        Rectangle{
+            anchors.top:shippaddressrect.bottom
+            anchors.topMargin: 15
+            width:150
+            height: parent.height*1/15
+        CheckBox{
+            text: "Μετρητοίς"
+            anchors.leftMargin: 5
+            anchors.fill: parent
+            checked: true
+            onCheckedChanged: checkchanged()
+            function checkchanged()
+            {
+                if (checked==true)
+                     invoice.payment="1"
+                else
+                    invoice.payment="0"
+            }
+        }
+        }
 
       }
+
+
      }
 
      SqlQueryModel {

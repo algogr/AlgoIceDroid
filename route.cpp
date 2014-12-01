@@ -1,56 +1,40 @@
-#include "district.h"
+#include "route.h"
 
-District::District(QObject *parent) :
+Route::Route(QObject *parent) :
     QObject(parent)
 {
 }
 
-QString District::id()
+QString Route::id()
 {
     return mid;
 }
 
-QString District::description()
+QString Route::description()
 {
     return mdescription;
 }
 
-QString District::city()
-{
-    return mcity;
-}
 
-QString District::erpid()
+QString Route::erpid()
 {
     return merpid;
 }
 
-QString District::county()
-{
-    return mcounty;
-}
 
-void District::setId(QString id)
+void Route::setId(QString id)
 {
     mid=id;
 }
 
-void District::setDescription(QString description)
+void Route::setDescription(QString description)
 {
     mdescription=description;
 }
 
-void District::setCity(QString city)
-{
-    mcity=city;
-}
 
-void District::setErpid(QString erpid)
+void Route::setErpid(QString erpid)
 {
     merpid=erpid;
 }
 
-void District::setCounty(QString county)
-{
-    mcounty=county;
-}

@@ -1,4 +1,5 @@
 #include "customer.h"
+#include "sqlquerymodel.h"
 
 Customer::Customer(QObject *parent) :
     QObject(parent)
@@ -20,9 +21,9 @@ QString Customer::address()
     return maddress;
 }
 
-QString Customer::districtid()
+QString Customer::district()
 {
-    return mdistrictid;
+    return mdistrict;
 }
 
 QString Customer::title()
@@ -45,9 +46,9 @@ QString Customer::erpid()
     return merpid;
 }
 
-QString Customer::ocpid()
+QString Customer::occupation()
 {
-    return mocpid;
+    return moccupation;
 }
 
 QString Customer::tel1()
@@ -75,6 +76,26 @@ QString Customer::vatstatusid()
     return mvatstatusid;
 }
 
+QString Customer::city()
+{
+    return mcity;
+}
+
+QString Customer::comments()
+{
+    return mcomments;
+}
+
+QString Customer::routeid()
+{
+    return mrouteid;
+}
+
+QString Customer::erpupd()
+{
+    return merpupd;
+}
+
 void Customer::setId(QString id)
 {
     mid=id;
@@ -90,9 +111,9 @@ void Customer::setAddress(QString address)
     maddress=address;
 }
 
-void Customer::setDistrictid(QString districtid)
+void Customer::setDistrict(QString district)
 {
-    mdistrictid=districtid;
+    mdistrict=district;
 }
 
 void Customer::setTitle(QString title)
@@ -115,9 +136,9 @@ void Customer::setErpid(QString erpid)
     merpid=erpid;
 }
 
-void Customer::setOcpid(QString ocpid)
+void Customer::setOccupation(QString occupation)
 {
-    mocpid=ocpid;
+    moccupation=occupation;
 }
 
 void Customer::setTel1(QString tel1)
@@ -127,7 +148,7 @@ void Customer::setTel1(QString tel1)
 
 void Customer::setTel2(QString tel2)
 {
-    mtel1=tel2;
+    mtel2=tel2;
 }
 
 void Customer::setFax(QString fax)
@@ -145,3 +166,27 @@ void Customer::setVatstatusid(QString vatstatusid)
     mvatstatusid=vatstatusid;
 }
 
+void Customer::setCity(QString city)
+{
+    mcity=city;
+}
+
+void Customer::setComments(QString comments)
+{
+    mcomments=comments;
+}
+
+void Customer::setRouteid(QString routeid)
+{
+    mrouteid=routeid;
+}
+
+void Customer::setErpupd(QString erpupd)
+{
+    merpupd=erpupd;
+}
+
+void Customer::insert()
+{
+    sqlquerymodel::insert_customer(this);
+}

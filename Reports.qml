@@ -1,4 +1,6 @@
 import QtQuick 2.0
+import SqlQueryModel 1.0
+
 
 Rectangle {
     width: parent.width
@@ -12,15 +14,17 @@ Rectangle {
         ListElement {
             title: "Αποθήκη"
             page: "Storefindata.qml"
+
         }
 
         ListElement {
             title: "Παραστατικά"
-            //page: "Reports.qml"
+            page: "InvoiceList.qml"
+            params:""
         }
         ListElement {
-            title: "Ταμείο"
-            //page: "Customers.qml"
+            title: "Υπόλοιπα"
+            page: "CustomerBalance.qml"
         }
                 }
 
@@ -44,6 +48,10 @@ Rectangle {
         onClicked: stackView.pop();
 
 
+    }
+
+    SqlQueryModel{
+        id:model
     }
 
 }

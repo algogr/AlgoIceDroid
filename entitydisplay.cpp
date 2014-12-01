@@ -30,6 +30,11 @@ bool EntityDisplay::editable()
     return meditable;
 }
 
+bool EntityDisplay::longtext()
+{
+    return mlongtext;
+}
+
 void EntityDisplay::setTitle(QString title)
 {
     mtitle=title;
@@ -54,3 +59,10 @@ void EntityDisplay::setRelatedentity(QString relatedentity)
 {
     mrelatedentity=relatedentity;
 }
+
+void EntityDisplay::setLongtext(bool longtext)
+{
+    mlongtext=longtext;
+}
+
+

@@ -68,6 +68,11 @@ QString fintrade::totamount()
     return mtotamount;
 }
 
+QString fintrade::cash()
+{
+    return mcash;
+}
+
 void fintrade::setId(QString id)
 {
     mid=id;
@@ -126,6 +131,11 @@ void fintrade::setVatamount(QString vatamount)
 void fintrade::setTotamount(QString totamount)
 {
     mtotamount=totamount;
+}
+
+void fintrade::setCash(QString cash)
+{
+    mcash=cash;
 }
 
 QString fintrade::insert_db()

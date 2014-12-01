@@ -8,6 +8,7 @@ Item {
     property alias color: textitem.color
     property alias attr1: textitem1.text
     property alias color1: textitem1.color
+    property alias imagevisible: img.visible
     signal clicked
 
     Rectangle {

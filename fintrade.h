@@ -20,6 +20,7 @@ class fintrade : public QObject
     Q_PROPERTY(QString netvalue READ netvalue WRITE setNetvalue )
     Q_PROPERTY(QString vatamount READ vatamount WRITE setVatamount )
     Q_PROPERTY(QString totamount READ totamount WRITE setTotamount )
+    Q_PROPERTY(QString cash READ cash WRITE setCash )
 
 
 
@@ -38,6 +39,7 @@ public:
     Q_INVOKABLE QString netvalue();
     Q_INVOKABLE QString vatamount();
     Q_INVOKABLE QString totamount();
+    Q_INVOKABLE QString cash();
     Q_INVOKABLE void setId(QString id);
     Q_INVOKABLE void setFtrdate(QString ftrdate);
     Q_INVOKABLE void setDsrid(QString dsrid);
@@ -50,6 +52,7 @@ public:
     Q_INVOKABLE void setNetvalue(QString netvalue);
     Q_INVOKABLE void setVatamount(QString vatamount);
     Q_INVOKABLE void setTotamount(QString totamount);
+    Q_INVOKABLE void setCash(QString cash);
     Q_INVOKABLE QString insert_db();
     Q_INVOKABLE void delete_db(QString ftrid);
     Q_INVOKABLE QString last_no(QString type);
@@ -58,7 +61,7 @@ public:
 
 protected:
 
-    QString mid,mftrdate,mdsrid,mdsrnumber,mcusid,msalesmanid,mcomments,mdeliveryaddress,merpupd,mnetvalue,mvatamount,mtotamount;
+    QString mid,mftrdate,mdsrid,mdsrnumber,mcusid,msalesmanid,mcomments,mdeliveryaddress,merpupd,mnetvalue,mvatamount,mtotamount,mcash;
     QList <const storetradeline*> mtradelines;
 
 

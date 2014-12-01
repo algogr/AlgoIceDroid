@@ -6,7 +6,7 @@ Rectangle {
     height: parent.height
     id: storefindata
     color: mainwindow.bgcolor
-    property string selecteditem
+
 
     SqlQueryModel {
         id: model
@@ -28,13 +28,15 @@ Rectangle {
             name: modelData.description
             color:mainwindow.fgcolor
             attr1: modelData.startqty
-            color1:mainwindow.fgcolor
+            color1:mainwindow.columnlistcolor
+            halign1: Text.AlignRight
             attr2: modelData.remainingqty
-            color2:mainwindow.fgcolor
+            color2:mainwindow.captionfgcolor
+            halign2: Text.AlignRight
             onClicked: selectitem()
             function selectitem(){
-                storefindata.selecteditem=modelData.id
-                //stackView.push(Qt.resolvedUrl("Customer.qml"));
+                mainwindow.selecteditem=modelData.id
+                stackView.push(Qt.resolvedUrl("ItemTrans.qml"));
 
             }
         }

@@ -8,8 +8,11 @@ Item {
     property alias color: textitem.color
     property alias attr1: textitem1.text
     property alias color1: textitem1.color
+    property alias halign1: textitem1.horizontalAlignment
     property alias attr2: textitem2.text
     property alias color2: textitem2.color
+    property alias halign2: textitem2.horizontalAlignment
+
     signal clicked
 
     Rectangle {
@@ -22,7 +25,7 @@ Item {
         id: textitem
         //color: mainwindow.fgcolor
         font.pixelSize: parent.width/25
-        width:parent.width/4
+        width:parent.width/2
         text: modelData
         anchors.verticalCenter: parent.verticalCenter
         anchors.left: parent.left
@@ -34,9 +37,9 @@ Item {
         id: textitem1
         //color: mainwindow.fgcolor
         font.pixelSize: parent.width/25
-        width:parent.width/4
+        width:parent.width/5
         text: modelData
-        horizontalAlignment: Text.AlignRight
+        ///horizontalAlignment: Text.AlignRight
         anchors.verticalCenter: parent.verticalCenter
         anchors.left: textitem.right
         anchors.right: textitem2.left
@@ -48,9 +51,9 @@ Item {
         id: textitem2
         //color: mainwindow.fgcolor
         font.pixelSize: parent.width/25
-        width:parent.width/4
+        width:parent.width/5
         text: modelData
-        horizontalAlignment: Text.AlignRight
+        //horizontalAlignment: Text.AlignRight
         anchors.verticalCenter: parent.verticalCenter
         //anchors.left: textitem1.right
         anchors.right: img.left

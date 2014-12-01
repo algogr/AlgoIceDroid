@@ -35,6 +35,7 @@ int main(int argc, char *argv[])
     qmlRegisterType<sqlquerymodel>("SqlQueryModel", 1, 0, "SqlQueryModel");
     qmlRegisterType<fintrade>("FinTrade", 1, 0, "FinTrade");
     qmlRegisterType<storetradeline>("StoreTradeline", 1, 0, "StoreTradeline");
+    qmlRegisterType<Customer>("Customer", 1, 0, "Customer");
     //QQmlApplicationEngine engine(QUrl("qrc:///main.qml"));
     engine.load(QUrl(QStringLiteral("qrc:///main.qml")));
 

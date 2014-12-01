@@ -2,14 +2,13 @@
     <qresource prefix="/">
         <file>main.qml</file>
         <file>SimpleListDelegate.qml</file>
-        <file>DistrictList.qml</file>
+        <file>RouteList.qml</file>
         <file>NavigationBar.qml</file>
         <file>CustomerList.qml</file>
         <file>TwoColListDelegate.qml</file>
         <file>Customer.qml</file>
         <file>EntityDelegate.qml</file>
         <file>StringPropertyEdit.qml</file>
-        <file>DistrictListR.qml</file>
         <file>SimpleListRDelegate.qml</file>
         <file>test.qml</file>
         <file>DoublePropertyEdit.qml</file>
@@ -18,5 +17,22 @@
         <file>Reports.qml</file>
         <file>Storefindata.qml</file>
         <file>ThreeColListDelegate.qml</file>
+        <file>ItemTrans.qml</file>
+        <file>InvoiceEdit.qml</file>
+        <file>TradeLinesEditDelegate.qml</file>
+        <file>InvoiceList.qml</file>
+        <file>Cash.qml</file>
+        <file>CashOpening.qml</file>
+        <file>ExpenseForm.qml</file>
+        <file>CashStatus.qml</file>
+        <file>IncomeList.qml</file>
+        <file>ReceiptEdit.qml</file>
+        <file>ExpensesList.qml</file>
+        <file>CustomerAdd.qml</file>
+        <file>DoyListR.qml</file>
+        <file>VatStatusListR.qml</file>
+        <file>EntityInsertDelegate.qml</file>
+        <file>CustomerNew.qml</file>
+        <file>CustomerBalance.qml</file>
     </qresource>
 </RCC>

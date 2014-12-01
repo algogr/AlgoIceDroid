@@ -5,13 +5,14 @@ QT += qml quick widgets sql printsupport
 SOURCES += main.cpp \
     sqlquerymodel.cpp \
     customer.cpp \
-    district.cpp \
     doy.cpp \
-    occupation.cpp \
     entitydisplay.cpp \
     item.cpp \
     fintrade.cpp \
-    storetradeline.cpp
+    storetradeline.cpp \
+    presentation.cpp \
+    route.cpp \
+    vatstatus.cpp
 
 RESOURCES += qml.qrc \
     resources.qrc
@@ -25,13 +26,14 @@ include(deployment.pri)
 HEADERS += \
     sqlquerymodel.h \
     customer.h \
-    district.h \
     doy.h \
-    occupation.h \
     entitydisplay.h \
     item.h \
     fintrade.h \
-    storetradeline.h
+    storetradeline.h \
+    presentation.h \
+    route.h \
+    vatstatus.h
 
 OTHER_FILES += \
     android/version.xml \

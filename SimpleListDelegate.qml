@@ -6,6 +6,7 @@ Item {
     height: 88
     property alias name: textitem.text
     property alias color: textitem.color
+    property alias imgvisible: img.visible
     signal clicked
 
     Rectangle {
@@ -33,6 +34,7 @@ Item {
     }
 
     Image {
+        id:img
         anchors.right: parent.right
         anchors.rightMargin: 20
         anchors.verticalCenter: parent.verticalCenter

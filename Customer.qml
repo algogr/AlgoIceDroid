@@ -14,14 +14,26 @@ Rectangle {
     property string updatefield
     property alias amodel:listview.model
 
-
+    //TODO: When insert new customer set routeid=selectedrouteid
+    //TODO: Timologisi vat vatstatus
 
 
     //anchors.fill: parent
+/*
+    TabView{
+        width:parent.width
+        height:parent.height
+        id: tabv1
+        clip: true
+        tabPosition: Qt.TopEdge
+        anchors.top:parent.top
 
+        Tab{
 
+              id:tb1
+              title:"Σταθερά στοιχεία"
 
-
+*/
     ListView {
         id:listview
         model: model.CustomerData(mainwindow.selectedcustomer)
@@ -29,11 +41,35 @@ Rectangle {
         height:parent.height*19/20
         delegate: EntityDelegate{
             id:dlg
+            dlgheight: setheight()
+            function setheight()
+            {
+                if (modelData.longtext==true)
+                {
+                    return 250
+                }
+
+                else
+                    return 58
+
+            }
+
             name: modelData.title
             color:mainwindow.fgcolor
             attr1: modelData.value
-            color1:mainwindow.fgcolor
+            color1:setcolor()
+            function setcolor()
+            {
+                if (modelData.longtext==true)
+                {
+                    return mainwindow.buttonbgcolor
+                }
+                else
+                    return mainwindow.fgcolor
+            }
             image:imgsource()
+
+
             function imgsource()
             {
                 //BUG: On edit a field looses anchors when the above has no image
@@ -67,12 +103,12 @@ Rectangle {
                     }
                     else
                     {
-                        var fieldname=modelData.relatedentity+"id"
-                        var cusid=mainwindow.selectedcustomer
-                        var selectedid=listview.getcusfield(cusid,fieldname)
+                        //var fieldname=modelData.relatedentity+"id"
+                        //var cusid=mainwindow.selectedcustomer
+                        //var selectedid=listview.getcusfield(cusid,fieldname)
 
-                        console.log("FIELDNAME:"+fieldname+"-"+cusid+"-"+selectedid)
-                        stackView.push(Qt.resolvedUrl(modelData.relatedentity+"ListR.qml"),{selected:selectedid})
+                        //console.log("FIELDNAME:"+fieldname+"-"+cusid+"-"+selectedid)
+                        stackView.push(Qt.resolvedUrl(modelData.relatedentity+"ListR.qml"),{selected:selectedcustomer})
 
                     }
 
@@ -87,6 +123,8 @@ Rectangle {
 
 
 }
+//}
+//}
     NavigationBar
     {
         id:nv
@@ -122,7 +160,7 @@ Rectangle {
                     anchors.fill: parent
                     onClicked: {
 
-
+                        m1.visible=false
                         amountbox.visible=true
                         amountbox.title="Ποσό"
                         amountbox.alignment=TextInput.AlignRight
@@ -178,7 +216,7 @@ Rectangle {
                 MouseArea{
                     anchors.fill: parent
                     onClicked: {
-
+                        m1.visible=false
                         stackView.push(Qt.resolvedUrl("Invoice.qml"))
 
                             }

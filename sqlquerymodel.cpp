@@ -1,6 +1,7 @@
 #include "sqlquerymodel.h"
 #include <QDir>
-#include "entitydisplay.h"
+
+
 
 
 sqlquerymodel::sqlquerymodel(QObject *parent) :
@@ -37,13 +38,13 @@ bool sqlquerymodel::opendb()
     return open;
 }
 
-QVariant sqlquerymodel::getCustomerField(QString cusid,QString fieldname)
+QVariant sqlquerymodel::getCustomerField(const QString& cusid,const QString& fieldname)
 {
     QSqlQuery query;
-    QString querystr="SELECT *,d.description as district,dy.description as doy,o.description as occupation \
-            from customer c,district d,doy dy,occupation o,vatstatus v,\
-            custfindata cf where c.districtid=d.id and c.id=cf.cusid \
-            and c.doyid=dy.id and c.ocpid=o.id and c.vatstatusid=v.codeid and c.id="+cusid;
+    QString querystr="SELECT *,r.description as route,dy.description as doy,v.description as vatstatus\
+            from customer c,route r,doy dy,vatstatus v,\
+            custfindata cf where c.routeid=r.erpid and c.id=cf.cusid \
+            and c.doyid=dy.erpid  and c.vatstatusid=v.codeid and c.id="+cusid;
     //qDebug()<<querystr;
     query.exec(querystr);
     QSqlRecord rec = query.record();
@@ -64,11 +65,85 @@ QVariant sqlquerymodel::getCustomerField(QString cusid,QString fieldname)
 
 }
 
-QList <QObject*>  sqlquerymodel::getCustomerListbyDistrict(QString districtid)
+QVariant sqlquerymodel::getFintradeField(const QString& ftrid,const QString& fieldname)
+{
+    QSqlQuery query;
+    QString querystr="SELECT * from fintrade where id="+ftrid;
+    //qDebug()<<querystr;
+    query.exec(querystr);
+    QSqlRecord rec = query.record();
+    //qDebug() << "Number of columns: " << rec.count();
+
+    QString Col;
+    for (int i=0;i<rec.count();i++)
+    {
+        Col = rec.fieldName(i);
+
+    }
+
+
+    query.next();
+    QVariant value = query.value(fieldname);
+
+    return value;
+
+}
+
+
+QVariant sqlquerymodel::getCashtrnField(const QString& id,const QString& fieldname)
+{
+    QSqlQuery query;
+    QString querystr="SELECT * from cashtrn where id="+id;
+
+    query.exec(querystr);
+    QSqlRecord rec = query.record();
+
+
+    QString Col;
+    for (int i=0;i<rec.count();i++)
+    {
+        Col = rec.fieldName(i);
+
+    }
+
+
+    query.next();
+    QVariant value = query.value(fieldname);
+
+    return value;
+
+}
+
+
+QList <QObject*> sqlquerymodel::getCustomerBalance()
+{
+    opendb();
+    QSqlQuery query;
+    QString querystr="select c.name,cf.balance from customer c,custfindata cf where c.id=cf.cusid";
+    query.exec(querystr);
+    qDebug()<<querystr;
+    QList<QObject*> custbalancereport;
+    while(query.next())
+    {
+        Presentation* cust=new Presentation;
+        cust->setRole1(query.value(0).toString());
+        cust->setRole2(query.value(1).toString());
+        custbalancereport.append(cust);
+    }
+
+    return custbalancereport;
+
+}
+
+
+
+
+
+QList <QObject*>  sqlquerymodel::getCustomerListbyRoute(const QString& routeid)
 {
     //opendb();
     QSqlQuery query;
-    QString querystr="select c.id,c.name,c.title from customer c where c.districtid="+districtid;
+    QString querystr="select c.id,c.name,c.title from customer c where c.routeid="+routeid;
     query.exec(querystr);
     QList <QObject*> customers;
     while(query.next())
@@ -85,49 +160,47 @@ QList <QObject*>  sqlquerymodel::getCustomerListbyDistrict(QString districtid)
 }
 
 
-QList <QObject*> sqlquerymodel::getDistrictList()
+QList <QObject*> sqlquerymodel::getRouteList()
 {
     opendb();
     QSqlQuery query;
-    QString querystr="select d.id,d.description,d.city,d.erpid,d.county from district d order by d.description";
-    //qDebug()<<querystr;
+    QString querystr="select r.id,r.description,r.erpid from route r order by r.description";
+    qDebug()<<querystr;
     query.exec(querystr);
-    QList <QObject*> districts;
+    QList <QObject*> routes;
     while(query.next())
     {
-        District* district=new District();
-        district->setId(query.value(0).toString());
-        district->setDescription(query.value(1).toString());
-        district->setCity(query.value(2).toString());
-        district->setErpid(query.value(3).toString());
-        district->setCounty(query.value(4).toString());
-        districts.append(district);
+        Route* route=new Route();
+        route->setId(query.value(0).toString());
+        route->setDescription(query.value(1).toString());
+        route->setErpid(query.value(2).toString());
+        routes.append(route);
     }
-    return districts;
+    return routes;
 
 }
 
-QList <QObject*> sqlquerymodel::CustomerData(QString cusid)
+QList <QObject*> sqlquerymodel::CustomerData()
 {
     QList <QString> titles;
-    titles << "Επωνυμία:"<<"Τίτλος"<<"Διεύθυνση:"<<"Περιοχή:"<<"Πόλη:"<<"ΑΦΜ:"<<"ΔΟΥ:"<<"Τηλ.1:"<<\
-              "Τηλ.2:"<<"Fax:"<<"Email:"<<"Yπόλοιπο:";
-    //qDebug()<<titles.size()<<titles;
+    titles << "Επωνυμία:"<<"Τίτλος"<<"Καθεστώς ΦΠΑ:"<<"Διεύθυνση:"<<"Περιοχή:"<<"Πόλη:"<<"ΑΦΜ:"<<"Επάγγελμα:"<<"ΔΟΥ:"<<"Τηλ.1:"<<\
+              "Τηλ.2:"<<"Fax:"<<"Email:"<<"Παρατήρησεις:";
+    qDebug()<<titles.size()<<titles;
     QList <QString> fieldnames;
-    fieldnames<<"name"<<"title"<<"address"<<"district"<<"city"<<"afm"<<"doy"<<"tel1"<<"tel2"<<"fax"<<"email"<<"balance";
-    QList <bool> editable;
-    editable<<true<<true<<true<<true<<false<<true<<true<<true<<true<<true<<true<<false;
+    fieldnames<<"name"<<"title"<<"vatstatus"<<"address"<<"district"<<"city"<<"afm"<<"occupation"<<"doy"<<"tel1"<<"tel2"<<"fax"<<\
+                "email"<<"comments";
     QList <QString> relatedentity;
-    relatedentity<<""<<""<<""<<"District"<<""<<""<<"Doy"<<""<<""<<""<<""<<"";
+    relatedentity<<""<<""<<"VatStatus"<<""<<""<<""<<""<<""<<"Doy"<<""<<""<<""<<""<<"";
+    QList <bool> longtext;
+    longtext<<false<<false<<false<<false<<false<<false<<false<<false<<false<<false<<false<<false<<false<<true;
     QList <QObject*> custdata;
     for (int i=0;i<titles.size();i++)
     {
         EntityDisplay* field=new EntityDisplay();
         field->setTitle(titles[i]);
-        field->setValue(getCustomerField(cusid,fieldnames[i]).toString());
         field->setFieldname(fieldnames[i]);
-        field->setEditable(editable[i]);
         field->setRelatedentity(relatedentity[i]);
+        field->setLongtext(longtext[i]);
         custdata.append(field);
     }
 
@@ -137,21 +210,62 @@ QList <QObject*> sqlquerymodel::CustomerData(QString cusid)
 
 }
 
-void sqlquerymodel::updateCustomerField(QString cusid, QString fieldname, QString value)
+
+QList <QObject*> sqlquerymodel::CustomerData(const QString& cusid)
 {
-    QSqlQuery query;
-    QString querystr="update customer set "+fieldname+"='"+value+"' where id="+cusid;
-    //qDebug()<<querystr;
-    query.exec(querystr);
+    QList <QString> titles;
+    titles << "Επωνυμία:"<<"Τίτλος"<<"Διεύθυνση:"<<"Περιοχή:"<<"Πόλη:"<<"ΑΦΜ:"<<"Επάγγελμα:"<<"ΔΟΥ:"<<"Τηλ.1:"<<\
+              "Τηλ.2:"<<"Fax:"<<"Email:"<<"Καθεστώς ΦΠΑ:"<<"Παρατήρησεις:"<<"Yπόλοιπο:";
+    //qDebug()<<titles.size()<<titles;
+    QList <QString> fieldnames;
+    fieldnames<<"name"<<"title"<<"address"<<"district"<<"city"<<"afm"<<"occupation"<<"doy"<<"tel1"<<"tel2"<<"fax"<<"email"<<\
+                "vatstatus"<<"comments"<<"balance";
+    QList <bool> editable;
+    editable<<true<<true<<true<<true<<true<<true<<true<<true<<true<<true<<true<<true<<true<<true<<false;
+    QList <QString> relatedentity;
+    relatedentity<<""<<""<<""<<""<<""<<""<<""<<"Doy"<<""<<""<<""<<""<<"VatStatus"<<""<<"";
+    QList <bool> longtext;
+    longtext<<false<<false<<false<<false<<false<<false<<false<<false<<false<<false<<false<<false<<false<<true<<false;
+    QList <QObject*> custdata;
+    for (int i=0;i<titles.size();i++)
+    {
+        EntityDisplay* field=new EntityDisplay();
+        field->setTitle(titles[i]);
+        field->setValue(getCustomerField(cusid,fieldnames[i]).toString());
+        field->setFieldname(fieldnames[i]);
+        field->setEditable(editable[i]);
+        field->setRelatedentity(relatedentity[i]);
+        field->setLongtext(longtext[i]);
+        custdata.append(field);
+    }
+
+    qDebug()<<"CUSTDATA:"<<custdata;
+    return custdata;
+
 
 }
 
-void sqlquerymodel::updateCustomerBalance(QString cusid, QString amount)
+void sqlquerymodel::updateCustomerField(const QString& cusid,const QString& fieldname,const QString& value)
+{
+    QSqlQuery query;
+    QString querystr="update customer set "+fieldname+"='"+value+"' where id="+cusid;
+    qDebug()<<querystr;
+    query.exec(querystr);
+    querystr="update customer set erpupd=0 where id="+cusid;
+    query.exec(querystr);
+}
+
+void sqlquerymodel::updateCustomerBalance(const QString& cusid,const QString& amount)
 {
     QSqlQuery query;
     QString querystr="update custfindata set balance=balance-"+amount+" where cusid="+cusid;
     qDebug()<<querystr;
     query.exec(querystr);
+    QString customer=getCustomerField(cusid,"name").toString();
+    querystr="INSERT INTO cashtrn (trndate,trntype,amount,justification,trncategory,perid) VALUES (date('now'),1,"+amount+",'"\
+                +customer+"',"+"2,"+cusid+")";
+    query.exec(querystr);
+    qDebug()<<querystr;
 }
 
 QList<QObject*> sqlquerymodel::getItemList()
@@ -181,8 +295,9 @@ QList<QObject*> sqlquerymodel::getItemList()
     return items;
 }
 
-QVariant sqlquerymodel::getItemField(QString iteid, QString fieldname)
+QVariant sqlquerymodel::getItemField(const QString& iteid,const QString& fieldname)
 {
+
 
 }
 
@@ -190,24 +305,42 @@ QString sqlquerymodel::insert_invoice(fintrade *fin)
 {
     QSqlQuery query;
     QString querystr="INSERT into fintrade (ftrdate,dsrid,dsrnumber,cusid,salesmanid,comments,deliveryaddress,erpupd,netvalue,"\
-                      "vatamount,totamount) VALUES('"+fin->ftrdate()+"','"+fin->dsrid()+"','"+fin->dsrnumber()+"','"+fin->cusid()+"','"\
+                      "vatamount,totamount,cash) VALUES('"+fin->ftrdate()+"','"+fin->dsrid()+"','"+fin->dsrnumber()+"','"+fin->cusid()+"','"\
                                                   +fin->salesmanid()+"','"+fin->comments()+"','"+fin->deliveryaddress()+"','"+\
-                                                  fin->erpupd()+"','"+fin->netvalue()+"','"+fin->vatamount()+"','"+fin->totamount()+"')";
+                                                  fin->erpupd()+"','"+fin->netvalue()+"','"+fin->vatamount()+"','"+fin->totamount()+"','"+fin->cash()+"')";
 
     qDebug()<<"INSRT INVOICE:"<<querystr;
     query.exec(querystr);
     querystr="update docseries set lastno='"+fin->dsrnumber()+"' where codeid='"+fin->dsrid()+"'";
     query.exec(querystr);
+    if (fin->cash()=="0")
+    {
+        querystr="update custfindata set balance=balance+"+fin->totamount()+"*(select valmode from docseries where codeid='"+fin->dsrid()+"') where cusid="+fin->cusid();
+        query.exec(querystr);
+        qDebug()<<querystr;
+
+    }
+
     querystr="select id from fintrade where ftrdate='"+fin->ftrdate()+"'";
     query.exec(querystr);
     qDebug()<<"GET FTRID:"<<querystr;
     query.next();
     QString l=query.value(0).toString();
     qDebug()<<"ID:"<<l;
+    if (fin->cash()=="1")
+    {
+        QString customer=sqlquerymodel::getCustomerField(fin->cusid(),"name").toString();
+        querystr="INSERT INTO cashtrn (trndate,trntype,amount,justification,trncategory,ftrid,perid) VALUES (date('now'),1,"+fin->totamount()+",'"\
+                    +customer+"',"+"1"+","+l+","+fin->cusid()+")";
+        query.exec(querystr);
+        qDebug()<<querystr;
+
+    }
+
     return l;
 }
 
-QString sqlquerymodel::get_docseries_lastno(QString type)
+QString sqlquerymodel::get_docseries_lastno(const QString& type)
 {
     QSqlQuery query;
     QString querystr="select lastno from docseries where codeid='"+type+"'";
@@ -232,7 +365,7 @@ void sqlquerymodel::insertStoreTradeline(storetradeline *stl)
 
 }
 
-void sqlquerymodel::deleteDocument(QString ftrid)
+void sqlquerymodel::deleteDocument(const QString& ftrid)
 {
     QSqlQuery query;
     QString querystr="select iteid,primaryqty from storetradelines where ftrid="+ftrid;
@@ -253,6 +386,294 @@ void sqlquerymodel::deleteDocument(QString ftrid)
     query.exec(querystr);
     qDebug()<<querystr;
 
+
+}
+
+QList<QObject*> sqlquerymodel::getItemTrans(const QString& iteid)
+{
+    QSqlQuery query;
+    QString querystr="select c.name,doc.shortdescr || f.dsrnumber,stl.primaryqty*doc.quantmode,f.id from customer c,fintrade f,storetradelines stl,"\
+            "docseries doc where c.id=f.cusid and doc.id=f.dsrid and f.id=stl.ftrid and f.erpupd=0 and stl.iteid="+iteid;
+    query.exec(querystr);
+    qDebug()<<querystr;
+    QList<QObject*> transactions;
+    while (query.next())
+    {
+        Presentation* transaction=new Presentation();
+        transaction->setRole1(query.value(0).toString());
+        transaction->setRole2(query.value(1).toString());
+        transaction->setRole3(query.value(2).toString());
+        transaction->setRole4(query.value(3).toString());
+        transactions.append(transaction);
+
+    }
+    return transactions;
+
+}
+
+QList<QObject*> sqlquerymodel::getTradelines(const QString& ftrid)
+{
+    QSqlQuery query;
+    QString querystr="select m.description,st.price,st.primaryqty,st.discount,st.discountpercent,st.linevalue,st.vatamount,st.vatid "\
+            "from material m,storetradelines st where m.id=st.iteid and st.ftrid="+ftrid;
+    query.exec(querystr);
+    qDebug()<<querystr;
+    QList<QObject*> tradelines;
+    while (query.next())
+    {
+        Presentation *tradeline=new Presentation;
+        tradeline->setRole1(query.value(0).toString());
+        tradeline->setRole2(query.value(1).toString());
+        tradeline->setRole3(query.value(2).toString());
+        tradeline->setRole4(query.value(3).toString());
+        tradeline->setRole5(query.value(4).toString());
+        tradeline->setRole6(query.value(5).toString());
+        tradeline->setRole7(query.value(6).toString());
+        tradeline->setRole8(query.value(7).toString());
+        tradelines.append(tradeline);
+    }
+
+        return tradelines;
+}
+
+QList<QObject*> sqlquerymodel::getInvoices()
+{
+    opendb();
+    QSqlQuery query;
+    QString querystr="select c.name,doc.shortdescr || f.dsrnumber,f.totamount,f.id from customer c,fintrade f,"\
+            "docseries doc where c.id=f.cusid and doc.id=f.dsrid and f.erpupd=0";
+    query.exec(querystr);
+    qDebug()<<querystr;
+    QList<QObject*> invoices;
+    while(query.next())
+    {
+        Presentation* invoice=new Presentation;
+        invoice->setRole1(query.value(0).toString());
+        invoice->setRole2(query.value(1).toString());
+        invoice->setRole3(query.value(2).toString());
+        invoice->setRole4(query.value(3).toString());
+        invoices.append(invoice);
+    }
+
+    return invoices;
+}
+
+QList<QObject*> sqlquerymodel::getIncomeList()
+{
+    //opendb();
+    QSqlQuery query;
+    QString querystr="select c.name,case  when ct.ftrid is null then 'Απόδειξη'"\
+                     "else (select doc.shortdescr || f.dsrnumber from fintrade f,docseries doc "\
+            "where f.dsrid=doc.codeid and f.id=ct.ftrid)"\
+             "end,ct.amount,case  when ct.ftrid is null then ct.id else ct.ftrid end from customer c,cashtrn ct where "\
+            "ct.perid=c.id and ct.trntype=1";
+    query.exec(querystr);
+    qDebug()<<querystr;
+    QList<QObject*> invoices;
+    while(query.next())
+    {
+        Presentation* invoice=new Presentation;
+        invoice->setRole1(query.value(0).toString());
+        invoice->setRole2(query.value(1).toString());
+        invoice->setRole3(query.value(2).toString());
+        invoice->setRole4(query.value(3).toString());
+        invoices.append(invoice);
+    }
+
+    return invoices;
+}
+
+QList<QObject*> sqlquerymodel::getExpensesList()
+{
+    QSqlQuery query;
+    QString querystr="select ct.trncategory,ct.justification,ct.amount,ct.id from cashtrn ct where ct.trntype=2";
+    query.exec(querystr);
+    qDebug()<<querystr;
+    QList<QObject*> expenses;
+    while(query.next())
+    {
+        Presentation* expense=new Presentation;
+        expense->setRole1(query.value(0).toString());
+        expense->setRole2(query.value(1).toString());
+        expense->setRole3(query.value(2).toString());
+        expense->setRole4(query.value(3).toString());
+        expenses.append(expense);
+    }
+
+    return expenses;
+}
+
+QString sqlquerymodel::getCashOpening()
+{
+    opendb();
+    QSqlQuery query;
+    QString querystr="select amount from cashtrn where trntype=0";
+    query.exec(querystr);
+    if (!query.next())
+        return "0";
+    else
+        return query.value(0).toString();
+
+
+}
+void sqlquerymodel::setCashOpening(const QString& amount)
+{
+    opendb();
+    QSqlQuery query;
+    QString querystr="select amount from cashtrn where trntype=0";
+    query.exec(querystr);
+    if(! query.next())
+    {
+        querystr="INSERT INTO cashtrn (trndate,trntype,amount,justification) VALUES (date('now'),0,"+amount+",'Άνοιγμα Ταμείου')";
+        qDebug()<<querystr;
+        query.exec(querystr);
+    }
+
+    else
+    {
+        querystr="UPDATE cashtrn set amount="+amount+" where trntype=0";
+        query.exec(querystr);
+        qDebug()<<querystr;
+    }
+
+    return;
+}
+
+void sqlquerymodel::insertExpense(const QString& amount,const QString& justification,const QString& expensetype)
+{
+    opendb();
+    QSqlQuery query;
+    QString querystr="INSERT INTO cashtrn (trndate,trntype,amount,justification,trncategory) VALUES (date('now'),2,"+amount+",'"\
+            +justification+"',"+expensetype+")";
+    query.exec(querystr);
+    qDebug()<<querystr;
+
+}
+
+QString sqlquerymodel::getSumIncome()
+{
+    opendb();
+    QSqlQuery query;
+    QString querystr="SELECT sum(amount) from cashtrn where trntype=1";
+    query.exec(querystr);
+    query.next();
+    QString income=query.value(0).toString();
+    qDebug()<<querystr;
+    return income;
+
+
+}
+
+QString sqlquerymodel::getSumExpenses()
+{
+    opendb();
+    QSqlQuery query;
+    QString querystr="SELECT sum(amount) from cashtrn where trntype=2";
+    query.exec(querystr);
+    query.next();
+    QString expenses=query.value(0).toString();
+    qDebug()<<querystr;
+    return expenses;
+
+
+}
+
+
+
+void sqlquerymodel::updateCashtrnField(const QString& cashtrnid,const QString& fieldname,const QString& value)
+{
+    QSqlQuery query;
+    QString querystr="UPDATE cashtrn set "+fieldname+"="+value+" where id="+cashtrnid;
+    query.exec(querystr);
+    qDebug()<<querystr;
+
+}
+
+void sqlquerymodel::insert_customer(Customer *customer)
+{
+    QSqlQuery query;
+    QString querystr="INSERT INTO customer (name,title,address,district,city,afm,occupation,tel1,tel2,fax,email,comments,doyid,\
+            vatstatusid,routeid,erpupd) VALUES('"\
+            +customer->name()+"','"+customer->title()+"','"+customer->address()+"','"+customer->district()+"','"+customer->city()+"','"\
+            +customer->afm()+"','"+customer->occupation()+"','"+customer->tel1()+"','"+customer->tel2()+"','"+customer->fax()+"','"\
+            +customer->email()+"','"+customer->comments()+"','"+customer->doyid()+"','"+customer->vatstatusid()+"','"\
+            +customer->routeid()+"',0)";
+    query.exec(querystr);
+    qDebug()<<querystr;
+}
+
+QList<QObject*> sqlquerymodel::getDoyList()
+{
+    opendb();
+    QSqlQuery query;
+    QString querystr="select d.erpid,d.description from doy d order by d.description";
+    qDebug()<<querystr;
+    query.exec(querystr);
+    QList <QObject*> doys;
+    while(query.next())
+    {
+        Doy* doy=new Doy();
+        doy->setErpid(query.value(0).toString());
+        doy->setDescription(query.value(1).toString());
+        doys.append(doy);
+    }
+    return doys;
+
+}
+
+QList<QObject*> sqlquerymodel::getVatStatusList()
+{
+    opendb();
+    QSqlQuery query;
+    QString querystr="select v.codeid,v.description,v.vatcodeid from vatstatus v order by v.codeid";
+    qDebug()<<querystr;
+    query.exec(querystr);
+    QList <QObject*> vatstatuses;
+    while(query.next())
+    {
+        vatstatus* vs=new vatstatus();
+        vs->setCodeid(query.value(0).toString());
+        vs->setDescription(query.value(1).toString());
+        vs->setVatcodeid(query.value(2).toString());
+        vatstatuses.append(vs);
+    }
+    return vatstatuses;
+
+}
+
+QString sqlquerymodel::getDoybyDescription(QString doy)
+{
+    QSqlQuery query;
+    QString querystr="select erpid from doy where description='"+doy+"'";
+    query.exec(querystr);
+    query.next();
+    return query.value(0).toString();
+
+
+}
+
+QString sqlquerymodel::getVatStatusbyDescription(QString vatstatus)
+{
+    QSqlQuery query;
+    QString querystr="select codeid from vatstatus where description='"+vatstatus+"'";
+    query.exec(querystr);
+    query.next();
+    return query.value(0).toString();
+
+}
+
+float sqlquerymodel::getVatPercent(QString vatid,QString vatstatusid)
+{
+    QSqlQuery query;
+    QString querystr;
+    if(vatstatusid=="0")
+           querystr="select percent0 from vat where codeid="+vatid;
+        else
+           querystr="select percent1 from vat where codeid="+vatid;
+
+    query.exec(querystr);
+    query.next();
+    return query.value(0).toFloat();
 
 }
 
