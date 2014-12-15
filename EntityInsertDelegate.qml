@@ -55,7 +55,7 @@ Item {
         //color: mainwindow.fgcolor
         font.pixelSize: parent.width/15
          anchors.fill: parent
-
+        verticalAlignment: Text.AlignVCenter
         wrapMode: Text.WordWrap
         onTextChanged: text_values()
 

@@ -28,7 +28,6 @@
         <file>IncomeList.qml</file>
         <file>ReceiptEdit.qml</file>
         <file>ExpensesList.qml</file>
-        <file>CustomerAdd.qml</file>
         <file>DoyListR.qml</file>
         <file>VatStatusListR.qml</file>
         <file>EntityInsertDelegate.qml</file>

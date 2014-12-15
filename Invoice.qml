@@ -18,6 +18,7 @@ Rectangle {
     property alias netvalue: netvalue.text
     property alias vatamount: vatamount.text
     property alias totalvalue: totalvalue.text
+    property alias sqlmodel: model
     property string vatstatusid
     property string comments
     property string shipaddress
@@ -484,6 +485,7 @@ Rectangle {
             anchors.topMargin: 15
             width:150
             height: parent.height*1/15
+            color:mainwindow.cashincomecolor
         CheckBox{
             text: "Μετρητοίς"
             anchors.leftMargin: 5

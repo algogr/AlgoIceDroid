@@ -1,6 +1,9 @@
 import QtQuick 2.0
 import QtQuick.Controls 1.0
-//import QtBluetooth 5.0
+
+
+import QtBluetooth 5.0
+import Btmanage 1.0
 
 
 ApplicationWindow {
@@ -9,6 +12,7 @@ ApplicationWindow {
     width: 1000
     height: 700
     title: qsTr("AlgoIceDroid")
+
     property string bgcolor:"#000000"
     property string fgcolor:"#FFFFFF"
     property string buttonbgcolor: "#D8D8D8"
@@ -26,14 +30,19 @@ ApplicationWindow {
     property string salesmanid
     property string selecteditem
 
-/*
+
+
     BluetoothDiscoveryModel {
         id: btModel
         running: true
         discoveryMode: BluetoothDiscoveryModel.DeviceDiscovery
         onDiscoveryModeChanged: console.log("Discovery mode: " + discoveryMode)
-        onServiceDiscovered: console.log("Found new service " + service.deviceAddress + " " + service.deviceName + " " + service.serviceName);
-        onDeviceDiscovered: console.log("New device: " + device)
+        onServiceDiscovered: console.log("Found new service " + service.deviceAddress + " " + service.deviceName + " " + service.serviceName+ " " + service.uuid);
+        onDeviceDiscovered: {
+                      console.log("New device: " + device)
+
+                      btmgr.connecttoprinter(device)
+        }
         onErrorChanged: {
                 switch (btModel.error) {
                 case BluetoothDiscoveryModel.PoweredOffError:
@@ -48,12 +57,15 @@ ApplicationWindow {
         }
    }
 
-*/
+
     Rectangle{
         anchors.fill: parent
         color: mainwindow.bgcolor
-
-
+        focus:true
+        Keys.onReleased: {
+            //if(event.key == Qt.Key_Back)
+            console.log(event.key)
+        }
         ListModel {
             id: pageModel
 
@@ -103,4 +115,31 @@ ApplicationWindow {
             }
         }
     }
+    onClosing: {
+            console.log("CLOSING")
+           close.accepted = false
+            //mainwindow.showFullScreen()
+
+
+       }
+    onActiveFocusItemChanged: {
+        console.log("ACTIVEFOCUS")
+    }
+
+    onVisibleChanged: {
+        console.log("VISIBLECHANGED")
+    }
+
+    onWindowStateChanged: {
+        console.log("STATECHANGED")
+    }
+
+    Btmanage{
+        id:btmgr
+    }
+
+
+
+
+
 }

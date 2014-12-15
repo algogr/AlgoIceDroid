@@ -295,7 +295,7 @@ Rectangle {
 
     Component.onCompleted: {
       model.opendb();
-
+      //inputMethod.hide()
     }
     }
 

@@ -672,6 +672,7 @@ float sqlquerymodel::getVatPercent(QString vatid,QString vatstatusid)
            querystr="select percent1 from vat where codeid="+vatid;
 
     query.exec(querystr);
+    qDebug()<<querystr;
     query.next();
     return query.value(0).toFloat();
 

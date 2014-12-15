@@ -153,14 +153,14 @@ Rectangle{
 
                 if(root.previousvatamount=="")
                                     root.previousvatamount="0";
-                var vatpercent=invoice.model.gettVatPercent(modelData.vatid,invoice.vatstatusid)
-                console.log(vatpercent)
+                var vatpercent=invoice.sqlmodel.getVatPercent(modelData.vatid,invoice.vatstatusid)
+
                 invoice.netvalue= (parseFloat(invoice.netvalue,10)-parseFloat(root.previousnetvalue,10)+(parseFloat(modelData.price)*parseInt(qty.text))).toFixed(2)
-                invoice.vatamount= (parseFloat(invoice.vatamount,10)-parseFloat(root.previousvatamount,10)+(parseFloat(modelData.price)*parseInt(qty.text)*parseFloat(modelData.vatid)/100)).toFixed(2)
+                invoice.vatamount= (parseFloat(invoice.vatamount,10)-parseFloat(root.previousvatamount,10)+(parseFloat(modelData.price)*parseInt(qty.text)*parseFloat(vatpercent)/100)).toFixed(2)
                 invoice.totalvalue=(parseFloat(invoice.netvalue,10)+parseFloat(invoice.vatamount,10)).toFixed(2)
 
                 root.previousnetvalue= (parseFloat(modelData.price)*parseInt(qty.text)).toFixed(2)
-                root.previousvatamount=(parseFloat(modelData.price)*parseInt(qty.text)*parseFloat(modelData.vatid)/100).toFixed(2)
+                root.previousvatamount=(parseFloat(modelData.price)*parseInt(qty.text)*parseFloat(vatpercent)/100).toFixed(2)
                 strmodel.getptr();
 
 
