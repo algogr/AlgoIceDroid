@@ -297,6 +297,25 @@ QList<QObject*> sqlquerymodel::getItemList()
 
 QVariant sqlquerymodel::getItemField(const QString& iteid,const QString& fieldname)
 {
+    QSqlQuery query;
+    QString querystr="SELECT * from material where id="+iteid;
+    //qDebug()<<querystr;
+    query.exec(querystr);
+    QSqlRecord rec = query.record();
+    //qDebug() << "Number of columns: " << rec.count();
+
+    QString Col;
+    for (int i=0;i<rec.count();i++)
+    {
+        Col = rec.fieldName(i);
+
+    }
+
+
+    query.next();
+    QVariant value = query.value(fieldname);
+
+    return value;
 
 
 }
@@ -417,7 +436,7 @@ QList<QObject*> sqlquerymodel::getTradelines(const QString& ftrid)
     QString querystr="select m.description,st.price,st.primaryqty,st.discount,st.discountpercent,st.linevalue,st.vatamount,st.vatid "\
             "from material m,storetradelines st where m.id=st.iteid and st.ftrid="+ftrid;
     query.exec(querystr);
-    qDebug()<<querystr;
+    //qDebug()<<querystr;
     QList<QObject*> tradelines;
     while (query.next())
     {
@@ -435,6 +454,32 @@ QList<QObject*> sqlquerymodel::getTradelines(const QString& ftrid)
 
         return tradelines;
 }
+
+QList<QObject*> sqlquerymodel::getStoreTradelines(const QString& ftrid)
+{
+    QSqlQuery query;
+    QString querystr="select st.iteid,st.price,st.primaryqty,st.discount,st.discountpercent,st.linevalue,st.vatamount,st.vatid "\
+            "from storetradelines st where st.ftrid="+ftrid;
+    query.exec(querystr);
+    qDebug()<<querystr;
+    QList<QObject*> tradelines;
+    while (query.next())
+    {
+        storetradeline *tradeline=new storetradeline;
+        tradeline->setIteid(query.value(0).toString());
+        tradeline->setPrice(query.value(1).toString());
+        tradeline->setPrimaryqty(query.value(2).toString());
+        tradeline->setDiscount(query.value(3).toString());
+        tradeline->setDiscountpercent(query.value(4).toString());
+        tradeline->setLinevalue(query.value(5).toString());
+        tradeline->setVatamount(query.value(6).toString());
+        tradeline->setVatid(query.value(7).toString());
+        tradelines.append(tradeline);
+    }
+
+        return tradelines;
+}
+
 
 QList<QObject*> sqlquerymodel::getInvoices()
 {
@@ -676,5 +721,18 @@ float sqlquerymodel::getVatPercent(QString vatid,QString vatstatusid)
     query.next();
     return query.value(0).toFloat();
 
+}
+
+QStringList sqlquerymodel::getcompanydata()
+{
+    QSqlQuery query;
+    QString querystr="select name,occupation,address,city,afm,doy,tel1,tel2 from companydata";
+    query.exec(querystr);
+    query.next();
+    QStringList companydata;
+    companydata<<query.value(0).toString()<<query.value(1).toString()<<query.value(2).toString()\
+              <<query.value(3).toString()<<query.value(4).toString()<<query.value(5).toString()\
+             <<query.value(6).toString()<<query.value(7).toString();
+    return companydata;
 }
 

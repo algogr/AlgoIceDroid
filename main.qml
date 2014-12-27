@@ -4,6 +4,7 @@ import QtQuick.Controls 1.0
 
 import QtBluetooth 5.0
 import Btmanage 1.0
+import QBluetoothSocket 1.0
 
 
 ApplicationWindow {
@@ -30,6 +31,8 @@ ApplicationWindow {
     property string salesmanid
     property string selecteditem
 
+    property alias bt: btmgr
+
 
 
     BluetoothDiscoveryModel {
@@ -41,7 +44,7 @@ ApplicationWindow {
         onDeviceDiscovered: {
                       console.log("New device: " + device)
 
-                      btmgr.connecttoprinter(device)
+                      //btmgr.connecttoprinter(device)
         }
         onErrorChanged: {
                 switch (btModel.error) {
@@ -133,6 +136,7 @@ ApplicationWindow {
     onWindowStateChanged: {
         console.log("STATECHANGED")
     }
+
 
     Btmanage{
         id:btmgr

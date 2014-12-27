@@ -681,8 +681,8 @@ Rectangle {
                 anchors.fill: parent
                 onClicked: {
                         m1.visible=false
-                    //stackView.push(Qt.resolvedUrl("Invoice.qml"))
 
+                        fintrade.print(mainwindow.btmgr.socket)
                         }
 
                 }

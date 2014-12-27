@@ -1,5 +1,5 @@
 #include "fintrade.h"
-#include "sqlquerymodel.h"
+//#include "sqlquerymodel.h"
 
 fintrade::fintrade(QObject *parent) :
     QObject(parent)
@@ -16,6 +16,11 @@ QString fintrade::id()
 QString fintrade::ftrdate()
 {
     return mftrdate;
+}
+
+QString fintrade::ftrtime()
+{
+    return mftrtime;
 }
 
 QString fintrade::dsrid()
@@ -73,6 +78,11 @@ QString fintrade::cash()
     return mcash;
 }
 
+QList<QObject*> fintrade::lines()
+{
+    return mlines;
+}
+
 void fintrade::setId(QString id)
 {
     mid=id;
@@ -81,6 +91,11 @@ void fintrade::setId(QString id)
 void fintrade::setFtrdate(QString ftrdate)
 {
     mftrdate=ftrdate;
+}
+
+void fintrade::setFtrtime(QString ftrtime)
+{
+    mftrtime=ftrtime;
 }
 
 void fintrade::setDsrid(QString dsrid)
@@ -138,9 +153,22 @@ void fintrade::setCash(QString cash)
     mcash=cash;
 }
 
+void fintrade::setLines(const QList<QObject*> &lines)
+{
+    /*
+    for (int i=0;i<tradelines.size();i++)
+    {
+        mtradelines.append(dynamic_cast<storetradeline*>(tradelines.at(i)));
+    }
+    */
+    mlines=lines;
+    qDebug()<<mlines;
+}
+
 QString fintrade::insert_db()
 {
     QString a=sqlquerymodel::insert_invoice(this);
+    setId(a);
     return a;
 
 }
@@ -155,6 +183,68 @@ QString fintrade::last_no(QString type)
 {
     QString lastno=sqlquerymodel::get_docseries_lastno(type);
     return lastno;
+}
+
+void fintrade::print(QBluetoothSocket *socket)
+{
+    if(mid!="")
+    {
+
+        Document *doc=new Document(0,socket);
+        qDebug()<<"SOCKET:"<<socket;
+        QVariant name=sqlquerymodel::getCustomerField(this->cusid(),"name");
+        qDebug()<<"NAME:"<<name;
+        doc->setcustomername(sqlquerymodel::getCustomerField(this->cusid(),"name").toString());
+        doc->setcustomeroccupation(sqlquerymodel::getCustomerField(this->cusid(),"occupation").toString());
+        doc->setcustomeraddress(sqlquerymodel::getCustomerField(this->cusid(),"address").toString());
+        doc->setcustomercity(sqlquerymodel::getCustomerField(this->cusid(),"city").toString());
+        doc->setcustomerafm(sqlquerymodel::getCustomerField(this->cusid(),"afm").toString());
+        doc->setcustomerdoy(sqlquerymodel::getCustomerField(this->cusid(),"doy").toString());
+        QString type;
+        switch (this->dsrid().toInt())
+        {
+            case 1:
+            type="ΤΙΜΟΛΟΓΙΟ ΠΩΛΗΣΗΣ";
+            break;
+            case 2:
+            type="ΠΙΣΤΩΤΙΚΟ ΤΙΜΟΛΟΓΙΟ";
+            break;
+            case 3:
+            type="ΔΕΛΤΙΟ ΑΠΟΣΤΟΛΗΣ";
+            break;
+            case 4:
+            type="ΔΕΛΤΙΟ ΕΠΙΣΤΡΟΦΗΣ";
+            break;
+
+        }
+
+        doc->setdocumenttype(type);
+
+        doc->setdocumentnumber(this->dsrnumber());
+        doc->setdocumentdate(this->ftrdate());
+        doc->setdocumenttime(this->ftrtime());
+        doc->settvalue(this->netvalue());
+        doc->settvat(this->vatamount());
+        doc->settotal(this->totamount());
+        doc->captions<<"ΕΙΔΟΣ"<<"ΜΜ"<<"ΠΟΣΟΤΗΤΑ"<<"ΤΙΜΗ"<<"ΑΞΙΑ"<<"ΦΠΑ%";
+        for(int i=0;i<mlines.size();i++)
+        {
+
+            storetradeline *line=dynamic_cast<storetradeline*>(mlines.at(i));
+
+            QStringList docline;
+
+            docline<<sqlquerymodel::getItemField(line->iteid(),"description").toString()<<\
+                     sqlquerymodel::getItemField(line->iteid(),"unit").toString()<<\
+                     line->primaryqty()<<line->price()<<line->linevalue()<<line->vatid();
+
+            doc->lines.append(docline);
+
+
+        }
+        qDebug()<<"EDV";
+        doc->printdocument();
+    }
 }
 
 

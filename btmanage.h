@@ -7,13 +7,16 @@
 class btmanage : public QObject
 {
     Q_OBJECT
+    Q_PROPERTY(QBluetoothSocket* socket READ socket WRITE setSocket)
 private:
-    QBluetoothSocket *socket ;
+
 
 public:
     explicit btmanage(QObject *parent = 0);
     Q_INVOKABLE void connecttoprinter(const QString &device);
-
+    Q_INVOKABLE QBluetoothSocket* socket();
+    Q_INVOKABLE void setSocket(QBluetoothSocket* socket);
+    QBluetoothSocket *msocket ;
 
 signals:
 

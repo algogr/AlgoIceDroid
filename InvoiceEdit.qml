@@ -1,6 +1,8 @@
 import QtQuick 2.0
 import SqlQueryModel 1.0
 import FinTrade 1.0
+import Btmanage 1.0
+import QBluetoothSocket 1.0
 import StoreTradeline 1.0
 import QtQuick.Controls 1.0
 import QtQuick.Dialogs 1.0
@@ -584,7 +586,25 @@ Rectangle {
                 anchors.fill: parent
                 onClicked: {
                         m1.visible=false
-                    //stackView.push(Qt.resolvedUrl("Invoice.qml"))
+                        fintrade.setId(invoiceedit.ftrid)
+                        fintrade.setCusid(model.getFintradeField(invoiceedit.ftrid,"cusid"))
+                        fintrade.setDsrid(model.getFintradeField(invoiceedit.ftrid,"dsrid"))
+                        fintrade.setDsrnumber(model.getFintradeField(invoiceedit.ftrid,"dsrnumber"))
+                        var ftrdate=model.getFintradeField(invoiceedit.ftrid,"ftrdate")
+                        var i=ftrdate.indexOf("@")
+                        var fdate=ftrdate.substring(0,i)
+                        var ftime=ftrdate.substring(i+1)
+                        //console.log(fdate)
+                        //console.log(ftime)
+                        fintrade.setFtrdate(fdate)
+                        fintrade.setFtrtime(ftime)
+                        fintrade.setLines(model.getStoreTradelines(invoiceedit.ftrid))
+                        console.log(model.getStoreTradelines(invoiceedit.ftrid))
+                        fintrade.setNetvalue(model.getFintradeField(invoiceedit.ftrid,"netvalue"))
+                        fintrade.setVatamount(model.getFintradeField(invoiceedit.ftrid,"vatamount"))
+                        fintrade.setTotamount(model.getFintradeField(invoiceedit.ftrid,"totamount"))
+
+                        fintrade.print(mainwindow.bt.socket)
 
                         }
 
@@ -720,7 +740,6 @@ Rectangle {
              }
         }
     }
-
 
 
 

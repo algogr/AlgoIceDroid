@@ -52,6 +52,7 @@ int main(int argc, char *argv[])
     qmlRegisterType<storetradeline>("StoreTradeline", 1, 0, "StoreTradeline");
     qmlRegisterType<Customer>("Customer", 1, 0, "Customer");
     qmlRegisterType<btmanage>("Btmanage", 1, 0, "Btmanage");
+    qmlRegisterType<QBluetoothSocket>("QBluetoothSocket", 1, 0, "QBluetoothSocket");
     //QQmlApplicationEngine engine(QUrl("qrc:///main.qml"));
     engine.load(QUrl(QStringLiteral("qrc:///main.qml")));
     //QQuickWindow *window = qobject_cast<QQuickWindow *>(engine.rootObjects().first());
