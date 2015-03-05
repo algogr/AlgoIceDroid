@@ -27,7 +27,7 @@ Rectangle {
             onClicked: selectdoy()
             function selectdoy(){
                 model1.updateCustomerField(selected,"doyid",modelData.erpid)
-                stavkView.pop();
+                stackView.pop();
                 //mainwindow.selectedroute=modelData.id
                 //stackView.push(Qt.resolvedUrl("CustomerList.qml"));
 

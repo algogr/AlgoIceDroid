@@ -14,8 +14,8 @@ Rectangle {
     property string updatefield
     property alias amodel:listview.model
 
-    //TODO: When insert new customer set routeid=selectedrouteid
-    //TODO: Timologisi vat vatstatus
+
+
 
 
     //anchors.fill: parent

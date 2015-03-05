@@ -18,6 +18,8 @@ public:
     QString companytel2();
     QString companyaddress();
     QString companycity();
+    QString companyemail();
+    QString companywebsite();
     QString customername();
     QString documenttype();
     QString documentnumber();
@@ -28,6 +30,7 @@ public:
     QString customerdoy();
     QString customeraddress();
     QString customercity();
+    QString deliveryaddress();
     QString tvalue();
     QString tvat();
     QString total();
@@ -39,6 +42,8 @@ public:
     void setcompanytel2(QString tel2);
     void setcompanyaddress(QString address);
     void setcompanycity(QString city);
+    void setcompanyemail(QString email);
+    void setcompanywebsite(QString website);
     void setdocumenttype(QString documenttype);
     void setdocumentnumber(QString documentnumber);
     void setdocumentdate(QString documentdate);
@@ -49,6 +54,7 @@ public:
     void setcustomerdoy(QString doy);
     void setcustomeraddress(QString address);
     void setcustomercity(QString city);
+    void setdeliveryaddress(QString deliveryaddress);
     void settvalue(QString value);
     void settvat(QString vat);
     void settotal(QString total);
@@ -64,8 +70,9 @@ signals:
 public slots:
 
 private:
-    QString mcompanyname,mcompanyoccupation,mcompanyafm,mcompanydoy,mcompanytel1,mcompanytel2,mcompanyaddress,mcompanycity;
-    QString mcustomername,mcustomeroccupation,mcustomerafm,mcustomerdoy,mcustomeraddress,mcustomercity;
+    QString mcompanyname,mcompanyoccupation,mcompanyafm,mcompanydoy,mcompanytel1,mcompanytel2,mcompanyaddress,mcompanycity,\
+    mcompanyemail,mcompanywebsite;
+    QString mcustomername,mcustomeroccupation,mcustomerafm,mcustomerdoy,mcustomeraddress,mcustomercity,mdeliveryaddress;
     QString mtvalue,mtvat,mtotal;
     QString mdocumenttype,mdocumentnumber,mdocumentdate,mdocumenttime;
 

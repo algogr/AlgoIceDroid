@@ -200,6 +200,7 @@ void fintrade::print(QBluetoothSocket *socket)
         doc->setcustomercity(sqlquerymodel::getCustomerField(this->cusid(),"city").toString());
         doc->setcustomerafm(sqlquerymodel::getCustomerField(this->cusid(),"afm").toString());
         doc->setcustomerdoy(sqlquerymodel::getCustomerField(this->cusid(),"doy").toString());
+
         QString type;
         switch (this->dsrid().toInt())
         {
@@ -223,6 +224,10 @@ void fintrade::print(QBluetoothSocket *socket)
         doc->setdocumentnumber(this->dsrnumber());
         doc->setdocumentdate(this->ftrdate());
         doc->setdocumenttime(this->ftrtime());
+        if(this->deliveryaddress()=="")
+            doc->setdeliveryaddress(doc->customeraddress());
+        else
+            doc->setdeliveryaddress(this->deliveryaddress());
         doc->settvalue(this->netvalue());
         doc->settvat(this->vatamount());
         doc->settotal(this->totamount());

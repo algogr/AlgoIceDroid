@@ -64,6 +64,7 @@ public:
     Q_INVOKABLE void setErpupd(QString erpupd);
     Q_INVOKABLE void insert();
 signals:
+    void newcustomer();
 
 protected:
     QString mid,mname,maddress,mdistrict,mtitle,mafm,mdoyid,merpid,moccupation,mtel1,mtel2,mfax,memail,mvatstatusid,\

@@ -89,7 +89,7 @@ ApplicationWindow {
             }
             ListElement {
                 title: "Βοηθητικές Εργασίες"
-                //page: "Customers.qml"
+                page: "Comm.qml"
             }
                     }
 

@@ -33,5 +33,6 @@
         <file>EntityInsertDelegate.qml</file>
         <file>CustomerNew.qml</file>
         <file>CustomerBalance.qml</file>
+        <file>Comm.qml</file>
     </qresource>
 </RCC>

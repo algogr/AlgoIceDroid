@@ -12,13 +12,14 @@ sqlquerymodel::sqlquerymodel(QObject *parent) :
 bool sqlquerymodel::opendb()
 
 {
+    /*
     QFile dfile("assets:/db/algoicedroid.db");
             if (dfile.exists())
             {
                 dfile.copy("./algoicedroid.db");
                 QFile::setPermissions("./algoicedroid.db",QFile::WriteOwner | QFile::ReadOwner);
             }
-
+*/
     mydb = QSqlDatabase::addDatabase("QSQLITE");
     bool open;
     // Adjust for Windows, OSX or Symbian deploy
@@ -38,14 +39,21 @@ bool sqlquerymodel::opendb()
     return open;
 }
 
+void sqlquerymodel::closedb()
+{
+    mydb.close();
+
+}
+
 QVariant sqlquerymodel::getCustomerField(const QString& cusid,const QString& fieldname)
 {
     QSqlQuery query;
-    QString querystr="SELECT *,r.description as route,dy.description as doy,v.description as vatstatus\
-            from customer c,route r,doy dy,vatstatus v,\
-            custfindata cf where c.routeid=r.erpid and c.id=cf.cusid \
+    QString querystr="SELECT *,ifnull((select balance from custfindata cf where cf.cusid=c.id ),0) as balance,r.description \
+            as route,dy.description as doy,v.description as vatstatus\
+            from customer c,route r,doy dy,vatstatus v\
+             where c.routeid=r.erpid  \
             and c.doyid=dy.erpid  and c.vatstatusid=v.codeid and c.id="+cusid;
-    //qDebug()<<querystr;
+    qDebug()<<querystr;
     query.exec(querystr);
     QSqlRecord rec = query.record();
     //qDebug() << "Number of columns: " << rec.count();
@@ -60,7 +68,7 @@ QVariant sqlquerymodel::getCustomerField(const QString& cusid,const QString& fie
 
     query.next();
     QVariant value = query.value(fieldname);
-    //qDebug()<<"descr:"<<value;
+    qDebug()<<"descr:"<<value;
     return value;
 
 }
@@ -143,7 +151,29 @@ QList <QObject*>  sqlquerymodel::getCustomerListbyRoute(const QString& routeid)
 {
     //opendb();
     QSqlQuery query;
-    QString querystr="select c.id,c.name,c.title from customer c where c.routeid="+routeid;
+    QString querystr="select c.erpid,c.name,c.title from customer c where c.routeid="+routeid+" order by c.name";
+    query.exec(querystr);
+    QList <QObject*> customers;
+    while(query.next())
+    {
+        Customer* customer=new Customer();
+        customer->setId(query.value(0).toString());
+        customer->setName(query.value(1).toString());
+        customer->setTitle(query.value(2).toString());
+        customers.append(customer);
+
+    }
+    return customers;
+
+}
+
+QList <QObject*>  sqlquerymodel::getCustomerListbyRoute(const QString& routeid,const QString& phrase)
+{
+    //opendb();
+    QSqlQuery query;
+    QString querystr="select c.erpid,c.name,c.title from customer c where c.routeid="+routeid+\
+            " and c.name like '%"+phrase+"%'  order by c.name";
+    qDebug()<<querystr;
     query.exec(querystr);
     QList <QObject*> customers;
     while(query.next())
@@ -185,7 +215,7 @@ QList <QObject*> sqlquerymodel::CustomerData()
     QList <QString> titles;
     titles << "Επωνυμία:"<<"Τίτλος"<<"Καθεστώς ΦΠΑ:"<<"Διεύθυνση:"<<"Περιοχή:"<<"Πόλη:"<<"ΑΦΜ:"<<"Επάγγελμα:"<<"ΔΟΥ:"<<"Τηλ.1:"<<\
               "Τηλ.2:"<<"Fax:"<<"Email:"<<"Παρατήρησεις:";
-    qDebug()<<titles.size()<<titles;
+    //qDebug()<<titles.size()<<titles;
     QList <QString> fieldnames;
     fieldnames<<"name"<<"title"<<"vatstatus"<<"address"<<"district"<<"city"<<"afm"<<"occupation"<<"doy"<<"tel1"<<"tel2"<<"fax"<<\
                 "email"<<"comments";
@@ -204,7 +234,7 @@ QList <QObject*> sqlquerymodel::CustomerData()
         custdata.append(field);
     }
 
-    qDebug()<<"CUSTDATA:"<<custdata;
+    //qDebug()<<"CUSTDATA:"<<custdata;
     return custdata;
 
 
@@ -272,8 +302,10 @@ QList<QObject*> sqlquerymodel::getItemList()
 {
     opendb();
     QSqlQuery query;
-    QString querystr="select m.id,m.code,m.description,m.price,m.vatid,m.maxdiscount,ifnull(sf.startqty,0)"\
-            ",ifnull(sf.startqty,0)-ifnull(sf.qty,0) from material m,storefindata sf where sf.iteid=m.id";
+    QString querystr="select m.id,m.code,m.description,m.price,m.vatid,m.maxdiscount,ifnull(sf.startqty,0),\
+            ifnull(sf.startqty,0)-ifnull((select sum(st.primaryqty*doc.quantmode) from fintrade f,storetradelines st,\
+            docseries doc where f.id=st.ftrid and doc.codeid=f.dsrid and st.iteid=m.id),0)\
+             from material m left outer join storefindata sf on sf.iteid=m.id";
     query.exec(querystr);
     qDebug()<<querystr;
     QList <QObject*> items;
@@ -636,15 +668,22 @@ void sqlquerymodel::updateCashtrnField(const QString& cashtrnid,const QString& f
 
 void sqlquerymodel::insert_customer(Customer *customer)
 {
+
     QSqlQuery query;
-    QString querystr="INSERT INTO customer (name,title,address,district,city,afm,occupation,tel1,tel2,fax,email,comments,doyid,\
-            vatstatusid,routeid,erpupd) VALUES('"\
+    QString querystr="select max(id) from customer";
+    query.exec(querystr);
+    query.next();
+    QVariant maxid=query.value(0).toInt()+1;
+
+    querystr="INSERT INTO customer (name,title,address,district,city,afm,occupation,tel1,tel2,fax,email,comments,doyid,\
+            vatstatusid,routeid,erpupd,id,erpid) VALUES('"\
             +customer->name()+"','"+customer->title()+"','"+customer->address()+"','"+customer->district()+"','"+customer->city()+"','"\
             +customer->afm()+"','"+customer->occupation()+"','"+customer->tel1()+"','"+customer->tel2()+"','"+customer->fax()+"','"\
             +customer->email()+"','"+customer->comments()+"','"+customer->doyid()+"','"+customer->vatstatusid()+"','"\
-            +customer->routeid()+"',0)";
+            +customer->routeid()+"',0,"+maxid.toString()+","+maxid.toString()+")";
     query.exec(querystr);
     qDebug()<<querystr;
+
 }
 
 QList<QObject*> sqlquerymodel::getDoyList()
@@ -726,13 +765,13 @@ float sqlquerymodel::getVatPercent(QString vatid,QString vatstatusid)
 QStringList sqlquerymodel::getcompanydata()
 {
     QSqlQuery query;
-    QString querystr="select name,occupation,address,city,afm,doy,tel1,tel2 from companydata";
+    QString querystr="select name,occupation,address,city,afm,doy,tel1,tel2,email,site from companydata";
     query.exec(querystr);
     query.next();
     QStringList companydata;
     companydata<<query.value(0).toString()<<query.value(1).toString()<<query.value(2).toString()\
               <<query.value(3).toString()<<query.value(4).toString()<<query.value(5).toString()\
-             <<query.value(6).toString()<<query.value(7).toString();
+             <<query.value(6).toString()<<query.value(7).toString()<<query.value(8).toString()<<query.value(9).toString();
     return companydata;
 }
 

@@ -26,7 +26,7 @@ Rectangle {
         anchors.left: parent.left
         //border.width: 1
         //border.color: mainwindow.fgcolor
-        //TODO: Improve RadioButtonStyles
+
 
             RowLayout{
                 id:test
@@ -253,6 +253,7 @@ Rectangle {
             visible:true
             anchors.fill: parent
             cursorVisible: true
+
             //textFormat: TextEdit.PlainText
             cursorPosition: 35
             focus: true

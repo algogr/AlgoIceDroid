@@ -17,6 +17,7 @@ Document::Document(QObject *parent,QBluetoothSocket *socket) :
     setcompanydoy(companydata.at(5));
     setcompanytel1(companydata.at(6));
     setcompanytel2(companydata.at(7));
+    setcompanyemail(companydata.at(8));
 
 
 }
@@ -59,6 +60,16 @@ QString Document::companyaddress()
 QString Document::companycity()
 {
     return mcompanycity;
+}
+
+QString Document::companyemail()
+{
+    return mcompanyemail;
+}
+
+QString Document::companywebsite()
+{
+    return mcompanywebsite;
 }
 
 QString Document::documenttype()
@@ -109,6 +120,11 @@ QString Document::customeraddress()
 QString Document::customercity()
 {
     return mcustomercity;
+}
+
+QString Document::deliveryaddress()
+{
+    return mdeliveryaddress;
 }
 
 QString Document::tvalue()
@@ -167,6 +183,16 @@ void Document::setcompanycity(QString city)
     mcompanycity=city;
 }
 
+void Document::setcompanyemail(QString email)
+{
+    mcompanyemail=email;
+}
+
+void Document::setcompanywebsite(QString website)
+{
+    mcompanywebsite=website;
+}
+
 void Document::setdocumenttype(QString documenttype)
 {
     mdocumenttype=documenttype;
@@ -215,6 +241,11 @@ void Document::setcustomeraddress(QString address)
 void Document::setcustomercity(QString city)
 {
     mcustomercity=city;
+}
+
+void Document::setdeliveryaddress(QString deliveryaddress)
+{
+    mdeliveryaddress=deliveryaddress;
 }
 
 void Document::settvalue(QString value)
@@ -425,38 +456,41 @@ void Document::printdocument()
     send("! U1 setvar \"device.languages\" \"zpl\"");
     send("^XA");
     send("^MMC,Y");
-    send("^MNN^LL950");
+    send("^MNN^LL1000");
     send("^CWT,E:TT0003M_.TTF");
     send("^CFT,30,30");
-    send("^FO175,50^CI28^ATN,36,20^FH^FD"+companyname()+"^FS");
-    send("^FO200,100^CI28^ATN,36,20^FH^FD"+companyoccupation()+"^FS");
-    send("^FO185,150^CI28^ATN,36,20^FH^FD"+companyaddress()+" "+companycity()+"^FS");
-    send("^FO125,200^CI28^ATN,36,20^FH^FDΑΦΜ:"+companyafm()+" - "+companydoy()+"^FS");
-    send("^FO125,250^CI28^ATN,36,20^FH^FDΤΗΛ:"+companytel1()+" - "+companytel2()+"^FS");
-    send("^FO0,300^GB598,0,8^fs");
+    send("^FO175,100^CI28^ATN,36,20^FH^FD"+companyname()+"^FS");
+    send("^FO200,150^CI28^ATN,36,20^FH^FD"+companyoccupation()+"^FS");
+    send("^FO185,200^CI28^ATN,36,20^FH^FD"+companyaddress()+" "+companycity()+"^FS");
+    send("^FO125,250^CI28^ATN,36,20^FH^FDΑΦΜ:"+companyafm()+" - ΔΟΥ:"+companydoy()+"^FS");
+    send("^FO125,300^CI28^ATN,36,20^FH^FDΤΗΛ:"+companytel1()+" - "+companytel2()+"^FS");
+    send("^FO125,350^CI28^ATN,36,20^FH^FDEMAIL:"+companyemail()+"^FS");
+    send("^FO0,400^GB598,0,8^fs");
     //INVOICE DATA
-    send("^FO0,330^CI28^ATN,27,15^FH^FDΤ"+documenttype()+"^FS");
-    send("^FO250,330^CI28^ATN,27,15^FH^FD"+documentnumber()+"^FS");
-    send("^FO400,330^CI28^ATN,27,15^FH^FD"+documentdate()+"^FS");
-    send("^FO500,330^CI28^ATN,27,15^FH^FD"+documenttime()+"^FS");
-    send("^FO0,360^GB598,0,8^fs");
+    send("^FO0,430^CI28^ATN,27,15^FH^FDΤ"+documenttype()+"^FS");
+    send("^FO250,430^CI28^ATN,27,15^FH^FD"+documentnumber()+"^FS");
+    send("^FO400,430^CI28^ATN,27,15^FH^FD"+documentdate()+"^FS");
+    send("^FO500,430^CI28^ATN,27,15^FH^FD"+documenttime()+"^FS");
+    send("^FO0,460^GB598,0,8^fs");
     //CUSTOMER DATA
-    send("^FO50,380^CI28^ATN,36,20^FH^FDΠΕΛΑΤΗΣ:^FS");
-    send("^FO150,380^CI28^ATN,36,20^FH^FD"+customername()+"^FS");
-    send("^FO150,420^CI28^ATN,36,20^FH^FD"+customeroccupation()+"^FS");
-    send("^FO50,460^CI28^ATN,36,20^FH^FD"+customeraddress()+"^FS");
-    send("^FO425,460^CI28^ATN,36,20^FH^FD"+customercity()+"^FS");
-    send("^FO100,500^CI28^ATN,36,20^FH^FDΑΦΜ:"+customerafm()+"^FS");
-    send("^FO350,500^CI28^ATN,36,20^FH^FDΔΟΥ:"+customerdoy()+"^FS");
-    send("^FO0,540^GB598,0,8^fs");
+    //send("^FO50,480^CI28^ATN,36,20^FH^FDΠΕΛΑΤΗΣ:^FS");
+    send("^FO050,480^CI28^ATN,36,20^FH^FD"+customername()+"^FS");
+    send("^FO050,520^CI28^ATN,36,20^FH^FD"+customeroccupation()+"^FS");
+    send("^FO50,560^CI28^ATN,36,20^FH^FD"+customeraddress()+"^FS");
+    send("^FO425,560^CI28^ATN,36,20^FH^FD"+customercity()+"^FS");
+    send("^FO050,600^CI28^ATN,36,20^FH^FDΑΦΜ:"+customerafm()+"^FS");
+    send("^FO250,600^CI28^ATN,36,20^FH^FDΔΟΥ:"+customerdoy()+"^FS");
+    send("^FO50,640^CI28^ATN,27,15^FH^FDΔΙΕΥΘ.ΠΑΡΑΔΟΣΗΣ:^FS");
+    send("^FO200,640^CI28^ATN,27,15^FH^FD"+deliveryaddress()+"^FS");
+    send("^FO0,680^GB598,0,8^fs");
     //DETAILS HEADER
-    send("^FO0,560^CI28^ATN,27,15^FH^FD"+captions.at(0)+"^FS");
-    send("^FO250,560^CI28^ATN,27,15^FH^FD"+captions.at(1)+"^FS");
-    send("^FO300,560^CI28^ATN,27,15^FH^FD"+captions.at(2)+"^FS");
-    send("^FO400,560^CI28^ATN,27,15^FH^FD"+captions.at(3)+"^FS");
-    send("^FO450,560^CI28^ATN,27,15^FH^FD"+captions.at(4)+"^FS");
-    send("^FO525,560^CI28^ATN,27,15^FH^FD"+captions.at(5)+"^FS");
-    send("^FO0,590^GB598,0,8^FS");
+    send("^FO0,700^CI28^ATN,27,15^FH^FD"+captions.at(0)+"^FS");
+    send("^FO250,700^CI28^ATN,27,15^FH^FD"+captions.at(1)+"^FS");
+    send("^FO300,700^CI28^ATN,27,15^FH^FD"+captions.at(2)+"^FS");
+    send("^FO400,700^CI28^ATN,27,15^FH^FD"+captions.at(3)+"^FS");
+    send("^FO450,700^CI28^ATN,27,15^FH^FD"+captions.at(4)+"^FS");
+    send("^FO525,700^CI28^ATN,27,15^FH^FD"+captions.at(5)+"^FS");
+    send("^FO0,730^GB598,0,8^FS");
     //DETAILS
     QVariant globaly;
     for(int i=0;i<lines.size();i++)
@@ -464,7 +498,7 @@ void Document::printdocument()
         qDebug()<<"i:"<<i;
         QStringList line=lines.at(i);
         qDebug()<<"VGIKA:"<<line;
-        QVariant y=610+30*i;
+        QVariant y=750+30*i;
 
         send("^FO0,"+y.toString()+"^CI28^ATN,27,15^FH^FD"+line.at(0)+"^FS");
         send("^FO250,"+y.toString()+"^CI28^ATN,27,15^FH^FD"+line.at(1)+"^FS");

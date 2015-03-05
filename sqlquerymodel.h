@@ -27,9 +27,11 @@ class sqlquerymodel : public QObject
 public:
     explicit sqlquerymodel(QObject *parent = 0);
     Q_INVOKABLE bool opendb();
+    Q_INVOKABLE void closedb();
     Q_INVOKABLE static QVariant getCustomerField(const QString& cusid,const QString& fieldname);
     Q_INVOKABLE static QVariant getFintradeField(const QString& ftrid,const QString& fieldname);
     Q_INVOKABLE static QList <QObject*> getCustomerListbyRoute(const QString& routeid);
+    Q_INVOKABLE static QList <QObject*> getCustomerListbyRoute(const QString& routeid,const QString& phrase);
     Q_INVOKABLE QList <QObject*> getRouteList();
     Q_INVOKABLE static QList <QObject*> CustomerData();
     Q_INVOKABLE static QList <QObject*> CustomerData(const QString& cusid);

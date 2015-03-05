@@ -18,9 +18,14 @@ void btmanage::connecttoprinter(const QString &device)
     //di.se
     QList<QBluetoothUuid> list= di.serviceUuids();
     qDebug()<<"PHASE 1:"<<list;
+    QString settingsFile = (QDir::currentPath()+ "/settings.ini");
+    QSettings *settings =new QSettings(settingsFile,QSettings::IniFormat);
 
-    msocket->connectToService(QBluetoothAddress("AC:3F:A4:1D:BC:4A"),QBluetoothUuid(QString("00001101-0000-1000-8000-00805F9B34FB")),QIODevice::ReadWrite);
+    QString address=settings->value("printerMACaddress").toString();
+    qDebug()<<"SETTINGS"<<address;
+    msocket->connectToService(QBluetoothAddress(address),QBluetoothUuid(QString("00001101-0000-1000-8000-00805F9B34FB")),QIODevice::ReadWrite);
     qDebug()<<"PHASE 2";
+    delete settings;
 }
 
 

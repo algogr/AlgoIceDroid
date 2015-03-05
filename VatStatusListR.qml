@@ -27,7 +27,7 @@ Rectangle {
             onClicked: selectvs()
             function selectvs(){
                 model1.updateCustomerField(selected,"vatstatusid",modelData.codeid)
-                stavkView.pop();
+                stackView.pop();
                 //mainwindow.selectedroute=modelData.id
                 //stackView.push(Qt.resolvedUrl("CustomerList.qml"));
 

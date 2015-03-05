@@ -14,6 +14,7 @@ Rectangle {
         //value: "0.00"
         alignment:TextInput.AlignRight
         onCancelclicked: stackView.pop()
+
         onOkclicked: ok()
         function ok()
         {

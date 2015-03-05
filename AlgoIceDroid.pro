@@ -14,7 +14,8 @@ SOURCES += main.cpp \
     route.cpp \
     vatstatus.cpp \
     btmanage.cpp \
-    document.cpp
+    document.cpp \
+    httpcomm.cpp
 
 RESOURCES += qml.qrc \
     resources.qrc
@@ -37,7 +38,8 @@ HEADERS += \
     route.h \
     vatstatus.h \
     btmanage.h \
-    document.h
+    document.h \
+    httpcomm.h
 
 OTHER_FILES += \
     android/version.xml \

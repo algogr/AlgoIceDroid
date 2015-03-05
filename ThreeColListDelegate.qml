@@ -24,11 +24,13 @@ Item {
     Text {
         id: textitem
         //color: mainwindow.fgcolor
-        font.pixelSize: parent.width/25
+        font.pixelSize: parent.width/30
         width:parent.width/2
         text: modelData
+        elide: Text.ElideRight
         anchors.verticalCenter: parent.verticalCenter
         anchors.left: parent.left
+        anchors.right: textitem1.left
         //anchors.right: textitem1.left
         anchors.leftMargin: 30
     }
@@ -36,7 +38,7 @@ Item {
     Text {
         id: textitem1
         //color: mainwindow.fgcolor
-        font.pixelSize: parent.width/25
+        font.pixelSize: parent.width/30
         width:parent.width/5
         text: modelData
         ///horizontalAlignment: Text.AlignRight
@@ -50,7 +52,7 @@ Item {
     Text {
         id: textitem2
         //color: mainwindow.fgcolor
-        font.pixelSize: parent.width/25
+        font.pixelSize: parent.width/30
         width:parent.width/5
         text: modelData
         //horizontalAlignment: Text.AlignRight

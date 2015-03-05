@@ -189,4 +189,5 @@ void Customer::setErpupd(QString erpupd)
 void Customer::insert()
 {
     sqlquerymodel::insert_customer(this);
+    emit newcustomer();
 }

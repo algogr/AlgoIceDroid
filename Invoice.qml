@@ -6,6 +6,7 @@ import QtQuick.Controls 1.0
 import QtQuick.Dialogs 1.0
 import QtQuick.Layouts 1.0
 import QtQuick.Controls.Styles 1.0
+import Btmanage 1.0
 
 
 
@@ -23,8 +24,9 @@ Rectangle {
     property string comments
     property string shipaddress
     property string ftrid
+    property int rbfontsize: 15
     property string payment: "1" //0-Epi Pistosei,1-Metrhtois
-    property int invoicetype: 1 //1-Timologio,2-Pistotiko,3-DA,4-DA
+    property int invoicetype: 1 //1-Timologio,2-Pistotiko,3-DA,4-DA,5-PAG
     signal fintrade_inserted(string ftrid)
     signal fintradedelete(string ftrid)
 
@@ -121,7 +123,7 @@ Rectangle {
         height: parent.height/15
         color: mainwindow.bgcolor
         anchors.top:customer.bottom
-        //TODO: Improve RadioButtonStyles
+
             
             RowLayout{
                 id:test
@@ -156,7 +158,7 @@ Rectangle {
                                         anchors.top:parent.top
                                         //implicitWidth: invoicetype.width/4
                                         //implicitHeight: 35
-                                        width: invoicetype.width/4
+                                        width: invoicetype.width/6
                                         //height: invoicetype.height
                                         height:16
                                         radius:39
@@ -164,7 +166,7 @@ Rectangle {
                                             text:"Tιμολόγιο"
                                             anchors.fill: parent
                                             color:"white"
-                                            font.pixelSize: 14
+                                            font.pixelSize: rbfontsize
                                             font.weight: Font.Bold
                                         }
 
@@ -213,7 +215,7 @@ Rectangle {
                                         anchors.top:parent.top
                                         //implicitWidth: invoicetype.width/4
                                         //implicitHeight: 35
-                                        width: invoicetype.width/4
+                                        width: invoicetype.width/6
                                         //height: invoicetype.height
                                         height:16
                                         radius:39
@@ -221,7 +223,7 @@ Rectangle {
                                             text:"Πιστωτικό"
                                             anchors.fill: parent
                                             color:"white"
-                                            font.pixelSize: 14
+                                            font.pixelSize: rbfontsize
                                             font.weight: Font.Bold
                                         }
 
@@ -267,9 +269,9 @@ Rectangle {
                                         color:"black"
 
                                         anchors.top:parent.top
-                                        //implicitWidth: invoicetype.width/4
+                                        //implicitWidth: invoicetype.width/5
                                         //implicitHeight: 35
-                                        width: invoicetype.width/4
+                                        width: invoicetype.width/6
                                         //height: invoicetype.height
                                         height:16
                                         radius:39
@@ -277,7 +279,7 @@ Rectangle {
                                             text:"Δελτίο Αποστολής"
                                             anchors.fill: parent
                                             color:"white"
-                                            font.pixelSize: 14
+                                            font.pixelSize: rbfontsize
                                             font.weight: Font.Bold
                                         }
 
@@ -325,7 +327,7 @@ Rectangle {
                                         anchors.top:parent.top
                                         //implicitWidth: invoicetype.width/4
                                         //implicitHeight: 35
-                                        width: invoicetype.width/4
+                                        width: invoicetype.width/6
                                         //height: invoicetype.height
                                         height:16
                                         radius:39
@@ -333,7 +335,7 @@ Rectangle {
                                             text:"Δελτίο Επιστροφής"
                                             anchors.fill: parent
                                             color:"white"
-                                            font.pixelSize: 14
+                                            font.pixelSize: rbfontsize
                                             font.weight: Font.Bold
                                         }
 
@@ -348,6 +350,63 @@ Rectangle {
                                 if (checked==true)
 
                                     invoice.invoicetype=4
+
+                            }
+
+                        }
+
+                        RadioButton {
+
+                            style: RadioButtonStyle {
+
+
+                                    indicator: Rectangle {
+                                            //implicitWidth: 16
+                                            //implicitHeight: 16
+                                            anchors.top:parent.top
+
+                                            width:16
+                                            height: 16
+                                            radius: 39
+                                            border.color: control.activeFocus ? "black" : "grey"
+                                            border.width: 1
+                                            Rectangle {
+                                                anchors.fill: parent
+                                                visible: control.checked
+                                                color: "black"
+                                                radius: 9
+                                                anchors.margins: 3
+                                            }
+                                    }
+                                    label: Rectangle{
+                                        color:"black"
+
+                                        anchors.top:parent.top
+                                        //implicitWidth: invoicetype.width/4
+                                        //implicitHeight: 35
+                                        width: invoicetype.width/6
+                                        //height: invoicetype.height
+                                        height:16
+                                        radius:39
+                                        Text{
+                                            text:"Παραγγελία"
+                                            anchors.fill: parent
+                                            color:"white"
+                                            font.pixelSize: rbfontsize
+                                            font.weight: Font.Bold
+                                        }
+
+                                    }
+                            }
+
+                            checked: false
+                            exclusiveGroup: tabPositionGroup
+                            onCheckedChanged: setinvtype()
+                            function setinvtype()
+                            {
+                                if (checked==true)
+
+                                    invoice.invoicetype=5
 
                             }
 
@@ -403,6 +462,8 @@ Rectangle {
         delegate: TradeLinesDelegate{
             id:dlg
             item:modelData.description
+            price:modelData.price
+            invoicetype: invoice.invoicetype
 
         }
 
@@ -624,7 +685,7 @@ Rectangle {
             color:mainwindow.bgcolor
             anchors.left: parent.left
             height:parent.height
-            width:parent.width/3
+            width:parent.width/2
             border.color: mainwindow.fgcolor
             MouseArea{
                 anchors.fill: parent
@@ -633,6 +694,8 @@ Rectangle {
                    m1.visible=false
                    b1.visible=false
                    b1.enabled=false
+                   b2.visible=true
+                   b2.enabled=true
                 }
             }
             Text{
@@ -672,17 +735,35 @@ Rectangle {
             id:b2
 
             color:mainwindow.bgcolor
-
-            anchors.left: b1.right
+            anchors.right: b3.left
+            //anchors.left: b1.right
             height:parent.height
-            width:parent.width/3
+            width:parent.width/2
+            visible:false
             border.color: mainwindow.fgcolor
             MouseArea{
                 anchors.fill: parent
                 onClicked: {
                         m1.visible=false
+                    btmgr.connecttoprinter("paparia")
+                    fintrade.setId(invoice.ftrid)
+                    fintrade.setCusid(model.getFintradeField(invoice.ftrid,"cusid"))
+                    fintrade.setDsrid(model.getFintradeField(invoice.ftrid,"dsrid"))
+                    fintrade.setDsrnumber(model.getFintradeField(invoice.ftrid,"dsrnumber"))
+                    var ftrdate=model.getFintradeField(invoice.ftrid,"ftrdate")
+                    var i=ftrdate.indexOf("@")
+                    var fdate=ftrdate.substring(0,i)
+                    var ftime=ftrdate.substring(i+1)
+                    //console.log(fdate)
+                    //console.log(ftime)
+                    fintrade.setFtrdate(fdate)
+                    fintrade.setFtrtime(ftime)
+                    fintrade.setLines(model.getStoreTradelines(invoice.ftrid))
+                    fintrade.setNetvalue(model.getFintradeField(invoice.ftrid,"netvalue"))
+                    fintrade.setVatamount(model.getFintradeField(invoice.ftrid,"vatamount"))
+                    fintrade.setTotamount(model.getFintradeField(invoice.ftrid,"totamount"))
 
-                        fintrade.print(mainwindow.btmgr.socket)
+                    fintrade.print(mainwindow.bt.socket)
                         }
 
                 }
@@ -728,7 +809,7 @@ Rectangle {
 
             anchors.right: parent.right
             height:parent.height
-            width:parent.width/3
+            width:parent.width/2
             border.color: mainwindow.fgcolor
             MouseArea{
                 anchors.fill: parent
@@ -784,6 +865,10 @@ Rectangle {
       model.opendb();
 
     }
+    }
+
+    Btmanage{
+        id:btmgr
     }
 
 

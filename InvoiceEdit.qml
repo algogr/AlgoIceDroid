@@ -24,6 +24,7 @@ Rectangle {
     //property alias cusid
     property string comments
     property string shipaddress
+    property int rbfontsize: 15
     property string ftrid
     property int invoicetype: 1 //1-Timologio,2-Pistotiko,3-DA,4-DA
     signal fintrade_inserted(string ftrid)
@@ -105,7 +106,7 @@ Rectangle {
         height: parent.height/15
         color: mainwindow.bgcolor
         anchors.top:customer.bottom
-        //TODO: Improve RadioButtonStyles
+
 
             RowLayout{
                 id:test
@@ -140,7 +141,7 @@ Rectangle {
                                         anchors.top:parent.top
                                         //implicitWidth: invoicetype.width/4
                                         //implicitHeight: 35
-                                        width: invoicetype.width/4
+                                        width: invoicetype.width/6
                                         //height: invoicetype.height
                                         height:16
                                         radius:39
@@ -148,7 +149,7 @@ Rectangle {
                                             text:"Tιμολόγιο"
                                             anchors.fill: parent
                                             color:"white"
-                                            font.pixelSize: 14
+                                            font.pixelSize: rbfontsize
                                             font.weight: Font.Bold
                                         }
 
@@ -197,7 +198,7 @@ Rectangle {
                                         anchors.top:parent.top
                                         //implicitWidth: invoicetype.width/4
                                         //implicitHeight: 35
-                                        width: invoicetype.width/4
+                                        width: invoicetype.width/6
                                         //height: invoicetype.height
                                         height:16
                                         radius:39
@@ -205,7 +206,7 @@ Rectangle {
                                             text:"Πιστωτικό"
                                             anchors.fill: parent
                                             color:"white"
-                                            font.pixelSize: 14
+                                            font.pixelSize: rbfontsize
                                             font.weight: Font.Bold
                                         }
 
@@ -253,7 +254,7 @@ Rectangle {
                                         anchors.top:parent.top
                                         //implicitWidth: invoicetype.width/4
                                         //implicitHeight: 35
-                                        width: invoicetype.width/4
+                                        width: invoicetype.width/6
                                         //height: invoicetype.height
                                         height:16
                                         radius:39
@@ -261,7 +262,7 @@ Rectangle {
                                             text:"Δελτίο Αποστολής"
                                             anchors.fill: parent
                                             color:"white"
-                                            font.pixelSize: 14
+                                            font.pixelSize: rbfontsize
                                             font.weight: Font.Bold
                                         }
 
@@ -309,7 +310,7 @@ Rectangle {
                                         anchors.top:parent.top
                                         //implicitWidth: invoicetype.width/4
                                         //implicitHeight: 35
-                                        width: invoicetype.width/4
+                                        width: invoicetype.width/6
                                         //height: invoicetype.height
                                         height:16
                                         radius:39
@@ -317,7 +318,7 @@ Rectangle {
                                             text:"Δελτίο Επιστροφής"
                                             anchors.fill: parent
                                             color:"white"
-                                            font.pixelSize: 14
+                                            font.pixelSize: rbfontsize
                                             font.weight: Font.Bold
                                         }
 
@@ -332,6 +333,64 @@ Rectangle {
                                 if (checked==true)
 
                                     invoiceedit.invoicetype=4
+
+                            }
+
+                        }
+
+                        RadioButton {
+                            id:btn5
+
+                            style: RadioButtonStyle {
+
+
+                                    indicator: Rectangle {
+                                            //implicitWidth: 16
+                                            //implicitHeight: 16
+                                            anchors.top:parent.top
+
+                                            width:16
+                                            height: 16
+                                            radius: 39
+                                            border.color: control.activeFocus ? "black" : "grey"
+                                            border.width: 1
+                                            Rectangle {
+                                                anchors.fill: parent
+                                                visible: control.checked
+                                                color: "black"
+                                                radius: 9
+                                                anchors.margins: 3
+                                            }
+                                    }
+                                    label: Rectangle{
+                                        color:"black"
+
+                                        anchors.top:parent.top
+                                        //implicitWidth: invoicetype.width/4
+                                        //implicitHeight: 35
+                                        width: invoicetype.width/6
+                                        //height: invoicetype.height
+                                        height:16
+                                        radius:39
+                                        Text{
+                                            text:"Παραγγελία"
+                                            anchors.fill: parent
+                                            color:"white"
+                                            font.pixelSize: rbfontsize
+                                            font.weight: Font.Bold
+                                        }
+
+                                    }
+                            }
+
+                            checked: false
+                            exclusiveGroup: tabPositionGroup
+                            onCheckedChanged: setinvtype()
+                            function setinvtype()
+                            {
+                                if (checked==true)
+
+                                    invoiceedit.invoicetype=5
 
                             }
 
@@ -718,6 +777,7 @@ Rectangle {
       get_type()
         function get_type()
         {
+            console.log(model.getFintradeField(invoiceedit.ftrid,"dsrid"))
 
             switch (model.getFintradeField(invoiceedit.ftrid,"dsrid"))
             {
@@ -735,6 +795,11 @@ Rectangle {
                     break;
                 case 4:
                     btn4.checked=true;
+                    break;
+
+                case 5:
+                    btn5.checked=true;
+
 
 
              }

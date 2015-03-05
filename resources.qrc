@@ -17,5 +17,6 @@
         <file>images/general/minus.png</file>
         <file>images/general/plus.png</file>
         <file>images/general/print.png</file>
+        <file>images/general/home.png</file>
     </qresource>
 </RCC>
