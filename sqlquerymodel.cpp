@@ -281,7 +281,7 @@ void sqlquerymodel::updateCustomerField(const QString& cusid,const QString& fiel
     QString querystr="update customer set "+fieldname+"='"+value+"' where id="+cusid;
     qDebug()<<querystr;
     query.exec(querystr);
-    querystr="update customer set erpupd=0 where id="+cusid;
+    querystr="update customer set erpupd=2 where id="+cusid;
     query.exec(querystr);
 }
 
@@ -430,6 +430,16 @@ void sqlquerymodel::deleteDocument(const QString& ftrid)
 
 
     }
+    querystr="INSERT INTO fintrade_deleted (id,ftrdate,dsrid,dsrnumber,cusid,salesmanid,comments,deliveryaddress,erpupd,netvalue,\
+            vatamount,totamount,cash) select id,ftrdate,dsrid,dsrnumber,cusid,salesmanid,comments,deliveryaddress,erpupd,netvalue,\
+            vatamount,totamount,cash from fintrade where id="+ftrid;
+    qDebug()<<querystr;
+    query.exec(querystr);
+    querystr="INSERT INTO storetradelines_deleted (id,iteid,ftrid,primaryqty,price,discount,discountpercent,linevalue,vatamount,vatid)\
+            SELECT id,iteid,ftrid,primaryqty,price,discount,discountpercent,linevalue,vatamount,vatid from storetradelines where ftrid=\
+            "+ftrid;
+    qDebug()<<querystr;
+    query.exec(querystr);
     querystr="DELETE from storetradelines where ftrid='"+ftrid+"'";
     query.exec(querystr);
     qDebug()<<querystr;
@@ -790,5 +800,16 @@ QString sqlquerymodel::getsalesmanid()
     return query.value(0).toString();
 
 
+}
+
+bool sqlquerymodel::check_afm(QString afm)
+{
+    QSqlQuery query;
+    QString querystr="select name from customer where afm='"+afm+"'";
+    query.exec(querystr);
+    if(query.next())
+        return true;
+    else
+        return false;
 }
 

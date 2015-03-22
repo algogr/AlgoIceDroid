@@ -2,7 +2,7 @@ import QtQuick 2.1
 import SqlQueryModel 1.0
 import Customer 1.0
 import QtQuick.Controls 1.0
-import QtQuick.Dialogs 1.0
+import QtQuick.Dialogs 1.1
 
 
 
@@ -144,9 +144,37 @@ Rectangle {
                     onClicked: {
 
                         m1.visible=false
+                        if (check_afm()===true)
+                        {
+                            messageDialog.visible=true
+                        }
+                        else
+                        {
                         customernew.insert_customer()
                         stackView.pop()
+                        }
 1                    }
+                }
+                MessageDialog {
+
+                    id: messageDialog
+                    //property bool error
+                    title: "Υπάρχει άλλος πελάτης με το ίδιο ΑΦΜ!"
+
+                    text: "Να καταχωρηθεί η εγγραφή;"
+                    visible: false
+                    standardButtons: StandardButton.Ok | StandardButton.Cancel
+                    onAccepted: {
+                        customernew.insert_customer()
+                        messageDialog.close()
+                        stackView.pop()
+                    }
+                    onRejected:
+                    {
+                        messageDialog.close()
+                    }
+
+                    //Component.onCompleted: visible = true
                 }
                 Text{
                     id:t1
@@ -296,6 +324,12 @@ Rectangle {
         customerobject.setRouteid(mainwindow.selectedroute)
         customerobject.insert()
 
+    }
+
+    function check_afm()
+    {
+        var found=model.check_afm(customernew.afm)
+        return found;
     }
 
 }

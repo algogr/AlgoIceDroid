@@ -63,6 +63,7 @@ public:
     Q_INVOKABLE void setRouteid(QString routeid);
     Q_INVOKABLE void setErpupd(QString erpupd);
     Q_INVOKABLE void insert();
+
 signals:
     void newcustomer();
 

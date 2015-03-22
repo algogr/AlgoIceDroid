@@ -39,17 +39,18 @@ Item {
         anchors.left: textitem.right
         border.width: 10
         border.color: mainwindow.bgcolor
+
         //anchors.right: img.left
         color:mainwindow.bgcolor
         anchors.leftMargin: 10
     TextEdit {
         id: texteditvalue
         anchors.leftMargin: 15
+        wrapMode:Text.NoWrap
         //color: mainwindow.fgcolor
         font.pixelSize: parent.width/15
          anchors.fill: parent
         verticalAlignment: Text.AlignVCenter
-        wrapMode: Text.WordWrap
         onTextChanged: text_values()
         function text_values()
         {

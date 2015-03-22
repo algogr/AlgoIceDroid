@@ -71,9 +71,6 @@ Rectangle{
         onTextChanged: evaluate()
         function evaluate()
         {
-            var cursor = cursorPosition;
-            price.text = price.text.substring(0, cursorPosition)+price.text.substring(cursorPosition+1, price.text.length);
-            cursorPosition = cursor;
             if (qty.text=="")
 
                 return;
@@ -224,9 +221,7 @@ Rectangle{
             onTextChanged: evaluate()
             function evaluate()
             {
-                var cursor = cursorPosition;
-                price.text = price.text.substring(0, cursorPosition)+price.text.substring(cursorPosition+1, price.text.length);
-                cursorPosition = cursor;
+
                 if (qty.text=="")
 
                     return;

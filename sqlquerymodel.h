@@ -66,6 +66,7 @@ public:
     static void insert_customer(Customer* customer);
     static QString  getsalesmanid();
     static QStringList getcompanydata();
+    Q_INVOKABLE static bool check_afm(QString afm);
 signals:
 
 public slots:

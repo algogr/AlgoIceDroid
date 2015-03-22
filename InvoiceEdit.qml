@@ -5,10 +5,9 @@ import Btmanage 1.0
 import QBluetoothSocket 1.0
 import StoreTradeline 1.0
 import QtQuick.Controls 1.0
-import QtQuick.Dialogs 1.0
 import QtQuick.Layouts 1.0
 import QtQuick.Controls.Styles 1.0
-
+import QtQuick.Dialogs 1.1
 
 
 
@@ -716,13 +715,35 @@ Rectangle {
                 anchors.fill: parent
                 onClicked: {
                     m1.visible=false
-                    invoiceedit.deleteftr()
+                    messageDialog.visible=true
+                    //invoiceedit.deleteftr()
 
-                    stackView.pop(mainwindow)
+                    //stackView.pop(mainwindow)
 
                         }
 
                 }
+            MessageDialog {
+
+                id: messageDialog
+                //property bool error
+                title: "Διαγραφή Παραστατικών"
+
+                text: "Είστε σίγουρος πως θέλετε να διαγραφεί το παραστατικό;"
+                visible: false
+                standardButtons: StandardButton.Ok | StandardButton.Cancel
+                onAccepted: {
+                    invoiceedit.deleteftr()
+                    messageDialog.close()
+                    stackView.pop(mainwindow)
+                }
+                onRejected:
+                {
+                    messageDialog.close()
+                }
+
+                //Component.onCompleted: visible = true
+            }
 
             Text{
                 id:t3
