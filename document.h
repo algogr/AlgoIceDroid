@@ -25,6 +25,7 @@ public:
     QString documentnumber();
     QString documentdate();
     QString documenttime();
+    QString documentseries();
     QString customeroccupation();
     QString customerafm();
     QString customerdoy();
@@ -48,6 +49,7 @@ public:
     void setdocumentnumber(QString documentnumber);
     void setdocumentdate(QString documentdate);
     void setdocumenttime(QString documenttime);
+    void setdocumentseries(QString documentseries);
     void setcustomername(QString name);
     void setcustomeroccupation(QString occupation);
     void setcustomerafm(QString afm);
@@ -74,7 +76,7 @@ private:
     mcompanyemail,mcompanywebsite;
     QString mcustomername,mcustomeroccupation,mcustomerafm,mcustomerdoy,mcustomeraddress,mcustomercity,mdeliveryaddress;
     QString mtvalue,mtvat,mtotal;
-    QString mdocumenttype,mdocumentnumber,mdocumentdate,mdocumenttime;
+    QString mdocumenttype,mdocumentnumber,mdocumentdate,mdocumenttime,mdocumentseries;
 
 
 };

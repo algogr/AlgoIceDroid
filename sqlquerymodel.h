@@ -64,6 +64,7 @@ public:
     static QString get_docseries_lastno(const QString& type);
     static void deleteDocument(const QString& ftrid);
     static void insert_customer(Customer* customer);
+    static QString  getsalesmanid();
     static QStringList getcompanydata();
 signals:
 

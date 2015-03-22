@@ -14,8 +14,8 @@ Rectangle {
 
     property string updatefield
     property alias amodel:listview.model
-    property string selecteddoy
-    property string selectedvatstatus
+    property string selecteddoy:"ΚΑΒΑΛΑΣ"
+    property string selectedvatstatus:"ΚΑΝΟΝΙΚΟ"
     property string name
     property string title
     property string address

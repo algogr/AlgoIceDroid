@@ -107,6 +107,7 @@ void HttpComm::download()
     QUrl url("http://"+server+"/upload/algoicedroid.db");
     request.setUrl(url);
     reply=manager->get(request);
+    delete settings;
 }
 
 void HttpComm::download_ini()
@@ -118,6 +119,7 @@ void HttpComm::download_ini()
     QUrl url("http://"+server+"/upload/settings.ini");
     request.setUrl(url);
     reply=manager->get(request);
+    delete settings;
 }
 
 
@@ -165,4 +167,49 @@ void HttpComm::replyFinished(QNetworkReply *reply)
     else
             emit reply_finished(true);
     reply->deleteLater();
+}
+
+QList<QObject*> HttpComm::getparameters()
+{
+    QString settingsFile = (QDir::currentPath()+ "/settings.ini");
+    QSettings *settings =new QSettings(settingsFile,QSettings::IniFormat);
+    QString server=settings->value("serverAddress").toString();
+    QString printer=settings->value("printerMACaddress").toString().right(5);
+    QList<QObject*> parameters;
+    EntityDisplay* serverE=new EntityDisplay;
+    serverE->setTitle("serverAddress");
+    serverE->setValue(server);
+    parameters.append(serverE);
+    EntityDisplay* printerE=new EntityDisplay;
+    printerE->setTitle("printerMACaddress");
+    printerE->setValue(printer);
+    parameters.append(printerE);
+    delete settings;
+    return parameters;
+
+}
+
+void HttpComm::setparameters(const QString &name, const QString &value)
+{
+    qDebug()<<"NAME:"<<name;
+    QByteArray byteArray = name.toUtf8();
+    const char* param = byteArray.constData();
+
+    //const char* param=name.toStdString().c_str();
+    qDebug()<<"PARAMETER:"<<param;
+    QString settingsFile = (QDir::currentPath()+ "/settings.ini");
+    QSettings *settings =new QSettings(settingsFile,QSettings::IniFormat);
+    if (name=="printerMACaddress")
+    {
+        QString oldvalue=settings->value(param).toString();
+        qDebug()<<"OLD VALUE:"<<oldvalue;
+        QString newvalue=oldvalue.left(12)+value;
+        settings->setValue(param,newvalue);
+    }
+    else
+        settings->setValue(param,value);
+    settings->sync();
+    qDebug()<<"TELOS";
+    delete (settings);
+
 }

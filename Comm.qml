@@ -35,6 +35,13 @@ Rectangle {
             params:""
         }
 
+        ListElement {
+            title: "Edit Ρυθμίσεων Tablet"
+            page: "Parameters.qml"
+            params:""
+        }
+
+
 
                 }
 
@@ -70,6 +77,11 @@ Rectangle {
                             {
 
                                 httpcomm.download_ini()
+                            }
+
+                            if (page=="Parameters.qml")
+                            {
+                                stackView.push(Qt.resolvedUrl(page))
                             }
 
 

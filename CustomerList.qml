@@ -46,6 +46,7 @@ Rectangle {
             onClicked: selectcustomer()
             function selectcustomer(){
                 mainwindow.selectedcustomer=modelData.id
+                console.log("ID:"+modelData.id);
                 stackView.push(Qt.resolvedUrl("Customer.qml"));
 
             }

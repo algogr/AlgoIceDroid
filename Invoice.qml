@@ -25,6 +25,8 @@ Rectangle {
     property string shipaddress
     property string ftrid
     property int rbfontsize: 15
+    property int rbwidth: 25
+    property int rbheight: 25
     property string payment: "1" //0-Epi Pistosei,1-Metrhtois
     property int invoicetype: 1 //1-Timologio,2-Pistotiko,3-DA,4-DA,5-PAG
     signal fintrade_inserted(string ftrid)
@@ -120,14 +122,16 @@ Rectangle {
     Rectangle{
         id: invoicetype
         width: parent.width
-        height: parent.height/15
+        height: parent.height/12
         color: mainwindow.bgcolor
-        anchors.top:customer.bottom
-
+        anchors.top: customer.bottom
+        //anchors.bottom:tabv1.top
             
             RowLayout{
                 id:test
-                anchors.bottom: parent.bottom
+                anchors.verticalCenter: parent.verticalCenter
+                //anchors.bottom: parent.bottom
+                //anchors.top:parent.bottom
                 ExclusiveGroup { id: tabPositionGroup }
                         RadioButton {
 
@@ -139,16 +143,17 @@ Rectangle {
                                             //implicitHeight: 16
                                             anchors.top:parent.top
 
-                                            width:16
-                                            height: 16
-                                            radius: 39
+                                            width:rbwidth
+                                            height: rbheight
+                                            radius: 35
                                             border.color: control.activeFocus ? "black" : "grey"
                                             border.width: 1
                                             Rectangle {
                                                 anchors.fill: parent
+                                                border.width: 5
                                                 visible: control.checked
                                                 color: "black"
-                                                radius: 9
+                                                radius: 5
                                                 anchors.margins: 3
                                             }
                                     }
@@ -158,7 +163,7 @@ Rectangle {
                                         anchors.top:parent.top
                                         //implicitWidth: invoicetype.width/4
                                         //implicitHeight: 35
-                                        width: invoicetype.width/6
+                                        width: invoicetype.width/7
                                         //height: invoicetype.height
                                         height:16
                                         radius:39
@@ -196,9 +201,9 @@ Rectangle {
                                             //implicitHeight: 16
                                             anchors.top:parent.top
 
-                                            width:16
-                                            height: 16
-                                            radius: 39
+                                            width:rbwidth
+                                            height: rbheight
+                                            radius: 35
                                             border.color: control.activeFocus ? "black" : "grey"
                                             border.width: 1
                                             Rectangle {
@@ -252,9 +257,9 @@ Rectangle {
                                             //implicitHeight: 16
                                             anchors.top:parent.top
 
-                                            width:16
-                                            height: 16
-                                            radius: 39
+                                            width:rbwidth
+                                            height: rbheight
+                                            radius: 35
                                             border.color: control.activeFocus ? "black" : "grey"
                                             border.width: 1
                                             Rectangle {
@@ -308,9 +313,9 @@ Rectangle {
                                             //implicitHeight: 16
                                             anchors.top:parent.top
 
-                                            width:16
-                                            height: 16
-                                            radius: 39
+                                            width:rbwidth
+                                            height: rbheight
+                                            radius: 35
                                             border.color: control.activeFocus ? "black" : "grey"
                                             border.width: 1
                                             Rectangle {
@@ -365,9 +370,9 @@ Rectangle {
                                             //implicitHeight: 16
                                             anchors.top:parent.top
 
-                                            width:16
-                                            height: 16
-                                            radius: 39
+                                            width:rbwidth
+                                            height: rbheight
+                                            radius: 35
                                             border.color: control.activeFocus ? "black" : "grey"
                                             border.width: 1
                                             Rectangle {

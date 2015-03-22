@@ -436,6 +436,11 @@ void sqlquerymodel::deleteDocument(const QString& ftrid)
     querystr="DELETE from fintrade where id="+ftrid;
     query.exec(querystr);
     qDebug()<<querystr;
+    querystr="DELETE from cashtrn where ftrid="+ftrid;
+    query.exec(querystr);
+    qDebug()<<querystr;
+
+
 
 
 }
@@ -740,6 +745,7 @@ QString sqlquerymodel::getVatStatusbyDescription(QString vatstatus)
 {
     QSqlQuery query;
     QString querystr="select codeid from vatstatus where description='"+vatstatus+"'";
+    qDebug()<<querystr;
     query.exec(querystr);
     query.next();
     return query.value(0).toString();
@@ -773,5 +779,16 @@ QStringList sqlquerymodel::getcompanydata()
               <<query.value(3).toString()<<query.value(4).toString()<<query.value(5).toString()\
              <<query.value(6).toString()<<query.value(7).toString()<<query.value(8).toString()<<query.value(9).toString();
     return companydata;
+}
+
+QString sqlquerymodel::getsalesmanid()
+{
+    QSqlQuery query;
+    QString querystr="select salesmanid from tabletinfo";
+    query.exec(querystr);
+    query.next();
+    return query.value(0).toString();
+
+
 }
 

@@ -92,6 +92,11 @@ QString Document::documenttime()
     return mdocumenttime;
 }
 
+QString Document::documentseries()
+{
+    return mdocumentseries;
+}
+
 QString Document::customername()
 {
     return mcustomername;
@@ -211,6 +216,11 @@ void Document::setdocumentdate(QString documentdate)
 void Document::setdocumenttime(QString documenttime)
 {
     mdocumenttime=documenttime;
+}
+
+void Document::setdocumentseries(QString documentseries)
+{
+    mdocumentseries=documentseries;
 }
 
 void Document::setcustomername(QString name)
@@ -467,8 +477,9 @@ void Document::printdocument()
     send("^FO125,350^CI28^ATN,36,20^FH^FDEMAIL:"+companyemail()+"^FS");
     send("^FO0,400^GB598,0,8^fs");
     //INVOICE DATA
-    send("^FO0,430^CI28^ATN,27,15^FH^FDΤ"+documenttype()+"^FS");
-    send("^FO250,430^CI28^ATN,27,15^FH^FD"+documentnumber()+"^FS");
+    send("^FO0,430^CI28^ATN,27,15^FH^FD"+documenttype()+"^FS");
+    send("^FO200,430^CI28^ATN,27,15^FH^FDΣΕΙΡΑ: "+documentseries()+"^FS");
+    send("^FO300,430^CI28^ATN,27,15^FH^FDΑΡ.: "+documentnumber()+"^FS");
     send("^FO400,430^CI28^ATN,27,15^FH^FD"+documentdate()+"^FS");
     send("^FO500,430^CI28^ATN,27,15^FH^FD"+documenttime()+"^FS");
     send("^FO0,460^GB598,0,8^fs");

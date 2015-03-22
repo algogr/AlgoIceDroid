@@ -2,7 +2,7 @@ import QtQuick 2.1
 
 Rectangle {
     id: root
-    height: parent.height/20
+    height: parent.height/15
     anchors.bottom: parent.bottom
     width: parent.width
     color: mainwindow.bgcolor

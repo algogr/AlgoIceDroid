@@ -71,6 +71,9 @@ Rectangle{
         onTextChanged: evaluate()
         function evaluate()
         {
+            var cursor = cursorPosition;
+            price.text = price.text.substring(0, cursorPosition)+price.text.substring(cursorPosition+1, price.text.length);
+            cursorPosition = cursor;
             if (qty.text=="")
 
                 return;
@@ -221,6 +224,9 @@ Rectangle{
             onTextChanged: evaluate()
             function evaluate()
             {
+                var cursor = cursorPosition;
+                price.text = price.text.substring(0, cursorPosition)+price.text.substring(cursorPosition+1, price.text.length);
+                cursorPosition = cursor;
                 if (qty.text=="")
 
                     return;
@@ -275,6 +281,8 @@ function insertHandler(ftrid) {
     strmodel.setPrimaryqty(qty.text)
     strmodel.setLinevalue(root.previousnetvalue)
     strmodel.setVatamount(root.previousvatamount)
+    strmodel.setDiscount("0");
+    strmodel.setDiscountpercent("0")
     strmodel.setVatid(modelData.vatid)
     strmodel.insertDb();
     }

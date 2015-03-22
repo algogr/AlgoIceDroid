@@ -34,5 +34,7 @@
         <file>CustomerNew.qml</file>
         <file>CustomerBalance.qml</file>
         <file>Comm.qml</file>
+        <file>Parameters.qml</file>
+        <file>ParametersDelegate.qml</file>
     </qresource>
 </RCC>

@@ -224,6 +224,8 @@ void fintrade::print(QBluetoothSocket *socket)
         doc->setdocumentnumber(this->dsrnumber());
         doc->setdocumentdate(this->ftrdate());
         doc->setdocumenttime(this->ftrtime());
+        doc->setdocumentseries(sqlquerymodel::getsalesmanid());
+        qDebug()<<"SERIES:"<<doc->documentseries();
         if(this->deliveryaddress()=="")
             doc->setdeliveryaddress(doc->customeraddress());
         else
