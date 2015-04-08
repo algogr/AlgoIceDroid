@@ -40,6 +40,7 @@ void HttpComm::upload()
     //data.append("testuploads.php\r\n");   //our script's name, as I understood. Please, correct me if I'm wrong
     data.append("--" + bound + "\r\n");   //according to rfc 1867
     QFile file(path);
+
         if (!file.open(QIODevice::ReadOnly))
         {
             qDebug()<<"NO FILE";
@@ -100,6 +101,8 @@ void HttpComm::upload_ini()
 
 void HttpComm::download()
 {
+    QFile file("./algoicedroid.db");
+    file.copy("./algoicedroid.db.bak");
     QString settingsFile = (QDir::currentPath()+ "/settings.ini");
     QSettings *settings =new QSettings(settingsFile,QSettings::IniFormat);
     QString server=settings->value("serverAddress").toString();
@@ -212,4 +215,12 @@ void HttpComm::setparameters(const QString &name, const QString &value)
     qDebug()<<"TELOS";
     delete (settings);
 
+}
+
+void HttpComm::restoredb()
+{
+    QFile file("./algoicedroid.db.bak");
+    QFile file1("./algoicedroid.db");
+    file1.remove();
+    file.copy("./algoicedroid.db");
 }

@@ -91,6 +91,10 @@ ApplicationWindow {
                 title: "Βοηθητικές Εργασίες"
                 page: "Comm.qml"
             }
+            ListElement {
+                title: "Εργασίες Διαχειριστή"
+                page: "Comm1.qml"
+            }
                     }
 
 }

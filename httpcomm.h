@@ -16,6 +16,7 @@ public:
     Q_INVOKABLE void download();
     Q_INVOKABLE void upload_ini();
     Q_INVOKABLE void download_ini();
+    Q_INVOKABLE void restoredb();
     Q_INVOKABLE QList <QObject*> getparameters();
     Q_INVOKABLE void setparameters(const QString &name,const QString &value);
 

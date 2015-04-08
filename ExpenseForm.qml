@@ -11,7 +11,7 @@ Rectangle {
     width: parent.width
     height: parent.height
     color: mainwindow.bgcolor
-    property string expensetype
+    property string expensetype:'1'
     property string cashtrnid
     property bool updatemode:false
 

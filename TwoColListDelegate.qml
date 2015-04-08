@@ -23,6 +23,7 @@ Item {
         font.pixelSize: parent.width/32
         width:parent.width/2
         text: modelData
+        elide: Text.ElideRight
         anchors.verticalCenter: parent.verticalCenter
         anchors.left: parent.left
         //anchors.right: textitem1.left

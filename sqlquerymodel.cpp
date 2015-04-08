@@ -172,7 +172,7 @@ QList <QObject*>  sqlquerymodel::getCustomerListbyRoute(const QString& routeid,c
     //opendb();
     QSqlQuery query;
     QString querystr="select c.erpid,c.name,c.title from customer c where c.routeid="+routeid+\
-            " and c.name like '%"+phrase+"%'  order by c.name";
+            " and ((c.name like '%"+phrase+"%') or (c.title like '%"+phrase+"%')) order by c.name";
     qDebug()<<querystr;
     query.exec(querystr);
     QList <QObject*> customers;
@@ -281,8 +281,14 @@ void sqlquerymodel::updateCustomerField(const QString& cusid,const QString& fiel
     QString querystr="update customer set "+fieldname+"='"+value+"' where id="+cusid;
     qDebug()<<querystr;
     query.exec(querystr);
-    querystr="update customer set erpupd=2 where id="+cusid;
+    querystr="select erpupd from customer where id="+cusid;
     query.exec(querystr);
+    query.next();
+    if(query.value(0).toInt()!=0)
+    {
+        querystr="update customer set erpupd=2 where id="+cusid;
+        query.exec(querystr);
+    }
 }
 
 void sqlquerymodel::updateCustomerBalance(const QString& cusid,const QString& amount)
@@ -380,8 +386,12 @@ QString sqlquerymodel::insert_invoice(fintrade *fin)
     qDebug()<<"ID:"<<l;
     if (fin->cash()=="1")
     {
+        QString tamount=fin->totamount();
+        if(fin->dsrid()=="2")
+            tamount="-"+tamount;
+
         QString customer=sqlquerymodel::getCustomerField(fin->cusid(),"name").toString();
-        querystr="INSERT INTO cashtrn (trndate,trntype,amount,justification,trncategory,ftrid,perid) VALUES (date('now'),1,"+fin->totamount()+",'"\
+        querystr="INSERT INTO cashtrn (trndate,trntype,amount,justification,trncategory,ftrid,perid) VALUES (date('now'),1,"+tamount+",'"\
                     +customer+"',"+"1"+","+l+","+fin->cusid()+")";
         query.exec(querystr);
         qDebug()<<querystr;

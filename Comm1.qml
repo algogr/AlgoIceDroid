@@ -12,18 +12,29 @@ Rectangle {
 
 
         ListElement {
-            title: "Upload Βάσης δεδομένων"
-            color:"green"
-            page: "upload"
+            title: "Upload Ρυθμίσεων Tablet"
+            page: "upload_ini"
 
         }
 
         ListElement {
-            title: "Download βάσης δεδομένων"
-            color:"red"
-            page: "download"
+            title: "Download Ρυθμίσεων Tablet"
+            page: "download_ini"
             params:""
         }
+
+        ListElement {
+            title: "Edit Ρυθμίσεων Tablet"
+            page: "Parameters.qml"
+            params:""
+        }
+
+        ListElement {
+            title: "Επαναφορά database"
+            page: "restore"
+            params:""
+        }
+
 
 
 
@@ -35,8 +46,8 @@ Rectangle {
                     delegate: SimpleListDelegate {
                         name: title
                         imgvisible: false
-                        //color: mainwindow.fgcolor
-                        color: index % 2 == 0 ? "green" : "red"
+                        color: mainwindow.fgcolor
+                        //color: index % 2 == 0 ? "green" : "red"
                         onClicked:
                         {
                             //model.closedb();
@@ -63,6 +74,13 @@ Rectangle {
 
                                 httpcomm.download_ini()
                             }
+
+                            if (page=="restore")
+                            {
+
+                                httpcomm.restoredb()
+                            }
+
 
                             if (page=="Parameters.qml")
                             {

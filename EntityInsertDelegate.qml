@@ -56,7 +56,7 @@ Item {
         font.pixelSize: parent.width/15
          anchors.fill: parent
         verticalAlignment: Text.AlignVCenter
-        wrapMode: Text.WordWrap
+        wrapMode: Text.NoWrap
         onTextChanged: text_values()
 
 
