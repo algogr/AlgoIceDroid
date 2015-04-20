@@ -80,18 +80,33 @@ Rectangle {
         Text{
             text:"Πελάτης:"
             height: parent.height
-            width:parent.width/3
+            width:parent.width/5
             color: mainwindow.captionfgcolor
             font.pixelSize: parent.width/32
         }
 
         Text{
             height: parent.height
-            width:parent.width*2/3
+            width:parent.width*3/5
             color: mainwindow.captionfgcolor
             font.pixelSize: parent.width/32
-            anchors.right: parent.right
+            anchors.right: datet.left
             text: model.getCustomerField(model.getFintradeField(invoiceedit.ftrid,"cusid"),"name")
+            elide: Text.ElideRight
+        }
+
+        Text{
+            id:datet
+            height: parent.height
+            width:parent.width/5
+            color: mainwindow.fgcolor
+            font.pixelSize: parent.width/32
+            anchors.right: parent.right
+            text: {
+                var pos=model.getFintradeField(invoiceedit.ftrid,"ftrdate").lastIndexOf("@");
+                model.getFintradeField(invoiceedit.ftrid,"ftrdate").slice(0,pos-1);
+            }
+            horizontalAlignment: Text.AlignRight
         }
 
 
@@ -444,6 +459,8 @@ Rectangle {
             id:dlg
             item:modelData.role1
             qty:modelData.role3
+            price: modelData.role2
+            linevalue: modelData.role6
 
         }
 

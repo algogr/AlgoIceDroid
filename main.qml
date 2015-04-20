@@ -30,6 +30,7 @@ ApplicationWindow {
     property string selectedcustomer
     property string salesmanid
     property string selecteditem
+    property int rectanglesize:300
 
     property alias bt: btmgr
 
@@ -69,6 +70,8 @@ ApplicationWindow {
             //if(event.key == Qt.Key_Back)
             console.log(event.key)
         }
+        //************************GRID REPLACEMENT*******************
+        /*
         ListModel {
             id: pageModel
 
@@ -96,7 +99,7 @@ ApplicationWindow {
                 page: "Comm1.qml"
             }
                     }
-
+*/
 }
 
     StackView {
@@ -106,6 +109,8 @@ ApplicationWindow {
         initialItem: Item {
             width: parent.width
             height: parent.height
+            //********GRID REPLACEMENT******************************************************
+            /*
             ListView {
                 model: pageModel
                 anchors.fill: parent
@@ -120,6 +125,225 @@ ApplicationWindow {
                     }
                 }
             }
+            */
+            Grid{
+                anchors.fill: parent
+                spacing:2
+                columns:Math.floor(parent.width/mainwindow.rectanglesize)
+                Rectangle
+                {
+                    width: mainwindow.rectanglesize
+                    height:mainwindow.rectanglesize
+                    border.color: mainwindow.fgcolor
+                    color:mainwindow.bgcolor
+                    border.width: 2
+
+                    Image{
+                        width: parent.width
+                        height: parent.height*8/10
+                        anchors.top: parent.top
+                        source:"images/general/sales.png"
+                    }
+
+                    MouseArea{
+                        anchors.fill: parent
+                        onClicked: {
+                            stackView.push(Qt.resolvedUrl("RouteList.qml"))
+                        }
+
+
+
+                    }
+                    Text
+                    {
+                        width:parent.width
+                        height: parent*2/10
+
+                        anchors.bottom: parent.bottom
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        //anchors.verticalCenter: parent.verticalCenter
+                        //anchors.baseline: parent.baseline
+                        text:"Πωλήσεις"
+                        color:mainwindow.fgcolor
+                        font.pixelSize: 20
+                        horizontalAlignment: Text.AlignHCenter
+
+                    }
+
+                }
+
+
+                Rectangle
+                {
+                    width: mainwindow.rectanglesize
+                    height:mainwindow.rectanglesize
+                    border.color: mainwindow.fgcolor
+                    color:mainwindow.bgcolor
+                    border.width: 2
+
+                    Image{
+                        width: parent.width
+                        height: parent.height*8/10
+                        anchors.top: parent.top
+                        source:"images/general/cash.png"
+                    }
+
+                    MouseArea{
+                        anchors.fill: parent
+                        onClicked: {
+                            stackView.push(Qt.resolvedUrl("Cash.qml"))
+                        }
+
+
+
+                    }
+                    Text
+                    {
+                        width:parent.width
+                        height: parent*2/10
+
+                        anchors.bottom: parent.bottom
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        //anchors.verticalCenter: parent.verticalCenter
+                        //anchors.baseline: parent.baseline
+                        text:"Ταμείο"
+                        color:mainwindow.fgcolor
+                        font.pixelSize: 20
+                        horizontalAlignment: Text.AlignHCenter
+
+                    }
+
+                }
+
+                Rectangle
+                {
+                    width: mainwindow.rectanglesize
+                    height:mainwindow.rectanglesize
+                    border.color: mainwindow.fgcolor
+                    color:mainwindow.bgcolor
+                    border.width: 2
+
+                    Image{
+                        width: parent.width
+                        height: parent.height*8/10
+                        anchors.top: parent.top
+                        source:"images/general/reports.png"
+                    }
+
+                    MouseArea{
+                        anchors.fill: parent
+                        onClicked: {
+                            stackView.push(Qt.resolvedUrl("Reports.qml"))
+                        }
+
+
+
+                    }
+                    Text
+                    {
+                        width:parent.width
+                        height: parent*2/10
+
+                        anchors.bottom: parent.bottom
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        //anchors.verticalCenter: parent.verticalCenter
+                        //anchors.baseline: parent.baseline
+                        text:"Αναφορές"
+                        color:mainwindow.fgcolor
+                        font.pixelSize: 20
+                        horizontalAlignment: Text.AlignHCenter
+
+                    }
+
+                }
+
+                Rectangle
+                {
+                    width: mainwindow.rectanglesize
+                    height:mainwindow.rectanglesize
+                    border.color: mainwindow.fgcolor
+                    color:mainwindow.bgcolor
+                    border.width: 2
+
+                    Image{
+                        width: parent.width
+                        height: parent.height*8/10
+                        anchors.top: parent.top
+                        source:"images/general/up_down.png"
+                    }
+
+                    MouseArea{
+                        anchors.fill: parent
+                        onClicked: {
+                            stackView.push(Qt.resolvedUrl("CommR.qml"))
+                        }
+
+
+
+                    }
+                    Text
+                    {
+                        width:parent.width
+                        height: parent*2/10
+
+                        anchors.bottom: parent.bottom
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        //anchors.verticalCenter: parent.verticalCenter
+                        //anchors.baseline: parent.baseline
+                        text:"Επικοινωνία"
+                        color:mainwindow.fgcolor
+                        font.pixelSize: 20
+                        horizontalAlignment: Text.AlignHCenter
+
+                    }
+
+                }
+
+                Rectangle
+                {
+                    width: mainwindow.rectanglesize
+                    height:mainwindow.rectanglesize
+                    border.color: mainwindow.fgcolor
+                    color:mainwindow.bgcolor
+                    border.width: 2
+
+                    Image{
+                        width: parent.width
+                        height: parent.height*8/10
+                        anchors.top: parent.top
+                        source:"images/general/configuration.png"
+                    }
+
+                    MouseArea{
+                        anchors.fill: parent
+                        onClicked: {
+                            stackView.push(Qt.resolvedUrl("CommR1.qml"))
+                        }
+
+
+
+                    }
+                    Text
+                    {
+                        width:parent.width
+                        height: parent*2/10
+
+                        anchors.bottom: parent.bottom
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        //anchors.verticalCenter: parent.verticalCenter
+                        //anchors.baseline: parent.baseline
+                        text:"Εργασίες διαχειριστή"
+                        color:mainwindow.fgcolor
+                        font.pixelSize: 20
+                        horizontalAlignment: Text.AlignHCenter
+
+                    }
+
+                }
+
+
+            }
+
         }
     }
     onClosing: {

@@ -12,6 +12,7 @@ property alias item: itemdescr.text
 property alias price: price.text
 property string previousnetvalue
 property string previousvatamount
+property string vtcid
 property int invoicetype
 Rectangle{
 
@@ -98,7 +99,7 @@ Rectangle{
 
             root.previousnetvalue= (parseFloat(price.text)*parseInt(qty.text)).toFixed(2)
             root.previousvatamount=(parseFloat(price.text)*parseInt(qty.text)*parseFloat(vatpercent)/100).toFixed(2)
-
+            root.vtcid=vatpercent
             strmodel.getptr();
 
 
@@ -241,7 +242,7 @@ Rectangle{
                 invoice.netvalue= (parseFloat(invoice.netvalue,10)-parseFloat(root.previousnetvalue,10)+(parseFloat(price.text)*parseInt(qty.text))).toFixed(2)
                 invoice.vatamount= (parseFloat(invoice.vatamount,10)-parseFloat(root.previousvatamount,10)+(parseFloat(price.text)*parseInt(qty.text)*parseFloat(vatpercent)/100)).toFixed(2)
                 invoice.totalvalue=(parseFloat(invoice.netvalue,10)+parseFloat(invoice.vatamount,10)).toFixed(2)
-
+                root.vtcid=vatpercent
                 root.previousnetvalue= (parseFloat(price.text)*parseInt(qty.text)).toFixed(2)
                 root.previousvatamount=(parseFloat(price.text)*parseInt(qty.text)*parseFloat(vatpercent)/100).toFixed(2)
                 strmodel.getptr();
@@ -276,9 +277,17 @@ function insertHandler(ftrid) {
     strmodel.setPrimaryqty(qty.text)
     strmodel.setLinevalue(root.previousnetvalue)
     strmodel.setVatamount(root.previousvatamount)
+
     strmodel.setDiscount("0");
     strmodel.setDiscountpercent("0")
-    strmodel.setVatid(modelData.vatid)
+    //strmodel.setVatid(modelData.vatid)
+    if(root.vtcid=='0')
+    {
+        strmodel.setVatid('99');
+    }
+    else{
+    strmodel.setVatid(root.vtcid)
+    }
     strmodel.insertDb();
     }
 

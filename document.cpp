@@ -466,7 +466,7 @@ void Document::printdocument()
     send("! U1 setvar \"device.languages\" \"zpl\"");
     send("^XA");
     send("^MMC,Y");
-    send("^MNN^LL1000");
+    send("^MNN^LL1200");
     send("^CWT,E:TT0003M_.TTF");
     send("^CFT,30,30");
     send("^FO175,100^CI28^ATN,36,20^FH^FD"+companyname()+"^FS");
@@ -536,9 +536,12 @@ void Document::printdocument()
     send("^FO500,"+globaly.toString()+"^CI28^ATN,36,20^FH^FD"+tvat()+"^FS");
 
     globaly=globaly.toInt()+40;
+    send("^FO0,"+globaly.toString()+"^GB598,0,8^FS");
 
-    send("^FO250,"+globaly.toString()+"^CI28^ATN,36,20^FH^FDΠΛΗΡΩΤΕΟ:^FS");
-    send("^FO500,"+globaly.toString()+"^CI28^ATN,36,20^FH^FD"+total()+"^FS");
+    globaly=globaly.toInt()+40;
+
+    send("^FO250,"+globaly.toString()+"^CI28^ATN,54,20^FH^FDΠΛΗΡΩΤΕΟ:^FS");
+    send("^FO500,"+globaly.toString()+"^CI28^ATN,54,20^FH^FD"+total()+"^FS");
 
     /*
     send("^FΟ250,"+globaly.toString()+"^CI28^ATN,36,20^FH^FDΠΛΗΡΩΤΕΟ:^FS");

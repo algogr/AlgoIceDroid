@@ -37,5 +37,7 @@
         <file>Parameters.qml</file>
         <file>ParametersDelegate.qml</file>
         <file>Comm1.qml</file>
+        <file>CommR.qml</file>
+        <file>CommR1.qml</file>
     </qresource>
 </RCC>

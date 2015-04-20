@@ -102,6 +102,8 @@ void HttpComm::upload_ini()
 void HttpComm::download()
 {
     QFile file("./algoicedroid.db");
+    QFile file1("./algoicedroid.db.bak");
+    file1.remove();
     file.copy("./algoicedroid.db.bak");
     QString settingsFile = (QDir::currentPath()+ "/settings.ini");
     QSettings *settings =new QSettings(settingsFile,QSettings::IniFormat);

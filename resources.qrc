@@ -18,5 +18,22 @@
         <file>images/general/plus.png</file>
         <file>images/general/print.png</file>
         <file>images/general/home.png</file>
+        <file>images/general/arrow_down.png</file>
+        <file>images/general/arrow_up.png</file>
+        <file>images/general/ini_arrow_down.png</file>
+        <file>images/general/ini_arrow_up.png</file>
+        <file>images/general/ini_edit.png</file>
+        <file>images/general/restore_database.png</file>
+        <file>images/general/configuration.png</file>
+        <file>images/general/reports.png</file>
+        <file>images/general/sales.png</file>
+        <file>images/general/up_down.png</file>
+        <file>images/general/cash.png</file>
+        <file>images/general/cashregister.png</file>
+        <file>images/general/cash_report.png</file>
+        <file>images/general/expense.png</file>
+        <file>images/general/inventory.png</file>
+        <file>images/general/invoice_list.png</file>
+        <file>images/general/ypoloipa.png</file>
     </qresource>
 </RCC>
