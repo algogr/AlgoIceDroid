@@ -127,7 +127,9 @@ ApplicationWindow {
             }
             */
             Grid{
-                anchors.fill: parent
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.verticalCenter: parent.verticalCenter
+                //anchors.fill: parent
                 spacing:2
                 columns:Math.floor(parent.width/mainwindow.rectanglesize)
                 Rectangle
@@ -137,6 +139,7 @@ ApplicationWindow {
                     border.color: mainwindow.fgcolor
                     color:mainwindow.bgcolor
                     border.width: 2
+                    radius:20
 
                     Image{
                         width: parent.width
@@ -180,6 +183,7 @@ ApplicationWindow {
                     border.color: mainwindow.fgcolor
                     color:mainwindow.bgcolor
                     border.width: 2
+                    radius:20
 
                     Image{
                         width: parent.width
@@ -222,6 +226,7 @@ ApplicationWindow {
                     border.color: mainwindow.fgcolor
                     color:mainwindow.bgcolor
                     border.width: 2
+                    radius:20
 
                     Image{
                         width: parent.width
@@ -264,6 +269,8 @@ ApplicationWindow {
                     border.color: mainwindow.fgcolor
                     color:mainwindow.bgcolor
                     border.width: 2
+                    radius:20
+
 
                     Image{
                         width: parent.width
@@ -306,6 +313,7 @@ ApplicationWindow {
                     border.color: mainwindow.fgcolor
                     color:mainwindow.bgcolor
                     border.width: 2
+                    radius:20
 
                     Image{
                         width: parent.width

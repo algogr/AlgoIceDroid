@@ -6,7 +6,9 @@ import StoreTradeline 1.0
 Item {
 id: root
 width: parent.width
-height: 58
+height: 78
+
+
 
 property alias item: itemdescr.text
 property alias price: price.text
@@ -27,6 +29,7 @@ Rectangle{
 
     Text {
         id: itemdescr
+
         font.pixelSize: parent.width/32
         width:parent.width*2/3
         //text: modelData
@@ -41,6 +44,7 @@ Rectangle{
 
         anchors.top: parent.top
         height:parent.height
+
 
 
           //anchors.right: parent.right

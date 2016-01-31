@@ -304,14 +304,15 @@ void sqlquerymodel::updateCustomerBalance(const QString& cusid,const QString& am
     qDebug()<<querystr;
 }
 
-QList<QObject*> sqlquerymodel::getItemList()
+QList<QObject*> sqlquerymodel::getItemList(QString cusid)
 {
     opendb();
     QSqlQuery query;
-    QString querystr="select m.id,m.code,m.description,m.price,m.vatid,m.maxdiscount,ifnull(sf.startqty,0),\
-            ifnull(sf.startqty,0)-ifnull((select sum(st.primaryqty*doc.quantmode) from fintrade f,storetradelines st,\
-            docseries doc where f.id=st.ftrid and doc.codeid=f.dsrid and st.iteid=m.id),0)\
-             from material m left outer join storefindata sf on sf.iteid=m.id";
+    QString querystr="select m.id,m.code,m.description,case when exists (select * from customerprices where iteid=m.id \
+    and cusid="+cusid+") then (select price from customerprices where iteid=m.id and cusid="+cusid+") else m.price end  as price,\
+    m.vatid,m.maxdiscount,ifnull(sf.startqty,0),ifnull(sf.startqty,0)-ifnull((select sum(st.primaryqty*doc.quantmode) \
+    from fintrade f,storetradelines st,docseries doc where f.id=st.ftrid and doc.codeid=f.dsrid and st.iteid=m.id),0)\
+                         from material m left outer join storefindata sf on sf.iteid=m.id";
     query.exec(querystr);
     qDebug()<<querystr;
     QList <QObject*> items;

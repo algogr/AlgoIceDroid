@@ -8,7 +8,9 @@ Rectangle {
     color: mainwindow.bgcolor
 
     Grid{
-        anchors.fill: parent
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.verticalCenter: parent.verticalCenter
+        //anchors.fill: parent
         spacing:2
         columns:parent.width/mainwindow.rectanglesize
         Rectangle
@@ -18,6 +20,7 @@ Rectangle {
             border.color: mainwindow.fgcolor
             color:mainwindow.bgcolor
             border.width: 2
+            radius:20
 
             Image{
                 width: parent.width
@@ -60,6 +63,7 @@ Rectangle {
             border.color: mainwindow.fgcolor
             color:mainwindow.bgcolor
             border.width: 2
+            radius:20
 
             Image{
                 width: parent.width

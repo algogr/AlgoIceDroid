@@ -25,8 +25,8 @@ Rectangle {
     property string shipaddress
     property string ftrid
     property int rbfontsize: 15
-    property int rbwidth: 25
-    property int rbheight: 25
+    property int rbwidth: 30
+    property int rbheight: 30
     property string payment: "1" //0-Epi Pistosei,1-Metrhtois
     property int invoicetype: 1 //1-Timologio,2-Pistotiko,3-DA,4-DA,5-PAG
     signal fintrade_inserted(string ftrid)
@@ -153,7 +153,7 @@ Rectangle {
                                                 border.width: 5
                                                 visible: control.checked
                                                 color: "black"
-                                                radius: 5
+                                                radius: 9
                                                 anchors.margins: 3
                                             }
                                     }
@@ -459,11 +459,12 @@ Rectangle {
 
     ListView{
         id: tradelines
-        model: model1.getItemList()
+        model: model1.getItemList(mainwindow.selectedcustomer)
         //width:parent.width
         //height:parent.height*13/15
         //anchors.top:customer.bottom
         anchors.fill: parent
+        anchors.topMargin: 30
         delegate: TradeLinesDelegate{
             id:dlg
             item:modelData.description

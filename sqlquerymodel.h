@@ -37,7 +37,7 @@ public:
     Q_INVOKABLE static QList <QObject*> CustomerData(const QString& cusid);
     Q_INVOKABLE static void updateCustomerField(const QString& cusid,const QString& fieldname,const QString& value);
     Q_INVOKABLE static void updateCustomerBalance(const QString& cusid,const QString& amount);
-    Q_INVOKABLE QList <QObject*> getItemList();
+    Q_INVOKABLE QList <QObject*> getItemList(QString cuscode="0");
     Q_INVOKABLE static QVariant getItemField(const QString& iteid,const QString& fieldname);
     Q_INVOKABLE static QList <QObject*> getItemTrans(const QString& iteid);
     Q_INVOKABLE static QList <QObject*> getTradelines(const QString& ftrid);
